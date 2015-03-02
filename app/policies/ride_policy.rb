@@ -32,6 +32,6 @@ class RidePolicy < ApplicationPolicy
   end
 
   def permitted_attributes
-    [:distance, :started_at, :ended_at, :description]
+    [:distance, :started_at, :ended_at]
   end
 end

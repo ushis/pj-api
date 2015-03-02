@@ -1,4 +1,6 @@
 class PositionPolicy < ApplicationPolicy
+  class Scope < ApplicationPolicy::Scope
+  end
 
   def show?
     user.owns_or_borrows?(record.car)
@@ -21,6 +23,6 @@ class PositionPolicy < ApplicationPolicy
   end
 
   def permitted_attributes
-    [:latitude, :longitude, :created_at, :updated_at]
+    [:latitude, :longitude]
   end
 end
