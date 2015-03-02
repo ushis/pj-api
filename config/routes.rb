@@ -1,0 +1,24 @@
+Rails.application.routes.draw do
+  match '*path', controller: :application, action: :options, via: :options
+
+  namespace :v1 do
+    resource :session, only: [:create]
+    resource :profile, only: [:show, :create, :update, :destroy]
+    resources :users,  only: [:index, :show]
+
+    resources :cars, only: [:index, :show, :create, :update, :destroy] do
+      resource  :position,      only: [:show, :create, :update, :destroy]
+      resources :comments,      only: [:index, :show, :create, :update, :destroy]
+      resources :ownerships,    only: [:index, :show, :create, :destroy]
+      resources :borrowerships, only: [:index, :show, :create, :destroy]
+
+      resources :rides, only: [:index, :show, :create, :update, :destroy] do
+        resources :comments, only: [:index, :show, :create, :update, :destroy]
+      end
+
+      resources :reservations, only: [:index, :show, :create, :update, :destroy] do
+        resources :comments, only: [:index, :show, :create, :update, :destroy]
+      end
+    end
+  end
+end

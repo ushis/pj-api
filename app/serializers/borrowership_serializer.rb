@@ -1,0 +1,2 @@
+class BorrowershipSerializer < RelationshipSerializer
+end

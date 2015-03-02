@@ -1,0 +1,71 @@
+class V1::BorrowershipsController < V1::ApplicationController
+  before_action :find_car
+  before_action :find_borrowership, only: [:show, :destroy]
+
+  # GET /v1/cars/:car_id/borrowerships
+  def index
+    @borrowerships = policy_scope(@car.borrowerships)
+      .search(params[:q])
+      .order('users.username')
+      .page(params[:page])
+      .per(params[:per_page])
+
+    render json: @borrowerships, meta: index_meta_data
+  end
+
+  # GET /v1/cars/:car_id/borrowerships/:id
+  def show
+    render json: @borrowership
+  end
+
+  # POST /v1/cars/:car_id/borrowerships
+  def create
+    @borrowership = @car.borrowerships.build(borrowership_params)
+    authorize @borrowership
+
+    if @borrowership.save
+      render json: @borrowership, status: :created
+    else
+      render_error :unprocessable_entity, @borrowership.errors
+    end
+  end
+
+  # DELETE /v1/cars/:car_id/borrowerships/:id
+  def destroy
+    if @borrowership.destroy
+      head :no_content
+    else
+      render_error :unprocessable_entity, @borrowership.errors
+    end
+  end
+
+  private
+
+  # Finds thew requested car
+  def find_car
+    @car = Car.find(params[:car_id])
+  end
+
+  # Finds the requested borrowership
+  def find_borrowership
+    @borrowership = @car.borrowerships.find(params[:id])
+    authorize @borrowership
+  end
+
+  # Returns the permitted borrowership attributes
+  def borrowership_params
+    params
+      .require(:borrowership)
+      .permit(*policy(@borrowership || Borrowership.new).permitted_attributes)
+  end
+
+  # Returns the meta data for the index request
+  def index_meta_data
+    {
+      q: params[:q],
+      page: @borrowerships.current_page,
+      per_page: @borrowerships.limit_value,
+      total_pages: @borrowerships.total_pages
+    }
+  end
+end
