@@ -15,12 +15,12 @@ class RidePolicy < ApplicationPolicy
 
   def update?
     user.owns?(record.car) ||
-      (user == record.user && user.owns_or_borrows?(record.car))
+      (user == record.user && user.borrows?(record.car))
   end
 
   def destroy?
     user.owns?(record.car) ||
-      (user == record.user && user.owns_or_borrows?(record.car))
+      (user == record.user && user.borrows?(record.car))
   end
 
   def accessible_associations
