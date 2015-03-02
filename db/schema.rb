@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150301210040) do
+ActiveRecord::Schema.define(version: 20150228173556) do
 
   create_table "cars", force: :cascade do |t|
     t.string   "name",       null: false
@@ -33,18 +33,6 @@ ActiveRecord::Schema.define(version: 20150301210040) do
   add_index "comments", ["commentable_id"], name: "index_comments_on_commentable_id"
   add_index "comments", ["type"], name: "index_comments_on_type"
   add_index "comments", ["user_id"], name: "index_comments_on_user_id"
-
-  create_table "invitations", force: :cascade do |t|
-    t.integer  "car_id",     null: false
-    t.string   "type",       null: false
-    t.string   "email",      null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "invitations", ["car_id", "email"], name: "index_invitations_on_car_id_and_email", unique: true
-  add_index "invitations", ["car_id"], name: "index_invitations_on_car_id"
-  add_index "invitations", ["type"], name: "index_invitations_on_type"
 
   create_table "positions", force: :cascade do |t|
     t.integer  "car_id",     null: false
