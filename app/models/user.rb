@@ -30,7 +30,7 @@ class User < ActiveRecord::Base
   before_validation -> (u) { u.username = u.username.to_s.strip.downcase }
   before_validation -> (u) { u.email = u.email.to_s.strip }
 
-  scope :exclude, -> (*users) { where.not(id: users) }
+  scope :exclude, -> (*users) { users.empty? ? all : where.not(id: users) }
 
   # Finds a user by username/email
   def self.find_by_username_or_email(username_or_email)
