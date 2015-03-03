@@ -1,6 +1,6 @@
 language: ruby
 rvm:
   - 2.1.5
-  - 2.2.0
+  - 2.2.1
 env:
   - JWT_KEY=74050cdbe796acd46a76cc2bc8545bcf69a73033af003b27e29480812a87a98a
