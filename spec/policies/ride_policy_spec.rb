@@ -9,7 +9,7 @@ describe RidePolicy do
 
       subject { RidePolicy::Scope.new(user, scope).resolve }
 
-      let(:user) { create(:user, :with_owned_cars, :with_borrowed_cars) }
+      let(:user) { create(:user, :with_owned_and_borrowed_cars) }
 
       let(:scope) { Ride.all }
 
@@ -20,7 +20,7 @@ describe RidePolicy do
   describe '#show?' do
     subject { RidePolicy.new(user, record).show? }
 
-    let(:user) { create(:user, :with_owned_cars, :with_borrowed_cars) }
+    let(:user) { create(:user, :with_owned_and_borrowed_cars) }
 
     let(:record) { create(:ride, car: car) }
 
@@ -40,7 +40,7 @@ describe RidePolicy do
   describe '#create?' do
     subject { RidePolicy.new(user, record).create? }
 
-    let(:user) { create(:user, :with_owned_cars, :with_borrowed_cars) }
+    let(:user) { create(:user, :with_owned_and_borrowed_cars) }
 
     let(:record) { build(:ride, car: car) }
 
@@ -60,7 +60,7 @@ describe RidePolicy do
   describe '#update?' do
     subject { RidePolicy.new(user, record).update? }
 
-    let(:user) { create(:user, :with_owned_cars, :with_borrowed_cars) }
+    let(:user) { create(:user, :with_owned_and_borrowed_cars) }
 
     let(:record) { create(:ride, car: car) }
 
@@ -92,7 +92,7 @@ describe RidePolicy do
   describe '#destroy?' do
     subject { RidePolicy.new(user, record).destroy? }
 
-    let(:user) { create(:user, :with_owned_cars, :with_borrowed_cars) }
+    let(:user) { create(:user, :with_owned_and_borrowed_cars) }
 
     let(:record) { create(:ride, car: car) }
 

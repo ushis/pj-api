@@ -9,7 +9,7 @@ describe BorrowershipPolicy do
 
       subject { BorrowershipPolicy::Scope.new(user, scope).resolve }
 
-      let(:user) { create(:user, :with_owned_cars, :with_borrowed_cars) }
+      let(:user) { create(:user, :with_owned_and_borrowed_cars) }
 
       let(:scope) { Borrowership.all }
 
@@ -32,7 +32,7 @@ describe BorrowershipPolicy do
   describe '#show?' do
     subject { BorrowershipPolicy.new(user, record).show? }
 
-    let(:user) { create(:user, :with_owned_cars, :with_borrowed_cars) }
+    let(:user) { create(:user, :with_owned_and_borrowed_cars) }
 
     context 'as unrelated user' do
       let(:record) { create(:borrowership) }
@@ -50,7 +50,7 @@ describe BorrowershipPolicy do
   describe '#create?' do
     subject { BorrowershipPolicy.new(user, record).create? }
 
-    let(:user) { create(:user, :with_owned_cars, :with_borrowed_cars) }
+    let(:user) { create(:user, :with_owned_and_borrowed_cars) }
 
     context 'as unrelated user' do
       let(:record) { build(:borrowership) }
@@ -84,7 +84,7 @@ describe BorrowershipPolicy do
   describe '#destroy?' do
     subject { BorrowershipPolicy.new(user, record).destroy? }
 
-    let(:user) { create(:user, :with_owned_cars, :with_borrowed_cars) }
+    let(:user) { create(:user, :with_owned_and_borrowed_cars) }
 
     context 'as unrelated user' do
       let(:record) { create(:borrowership) }

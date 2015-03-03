@@ -9,7 +9,7 @@ describe CarCommentPolicy do
 
       subject { CarCommentPolicy::Scope.new(user, scope).resolve }
 
-      let(:user) { create(:user, :with_owned_cars, :with_borrowed_cars) }
+      let(:user) { create(:user, :with_owned_and_borrowed_cars) }
 
       let(:car) { user.cars.sample }
 
@@ -22,7 +22,7 @@ describe CarCommentPolicy do
   describe '#show?' do
     subject { CarCommentPolicy.new(user, record).show? }
 
-    let(:user) { create(:user, :with_owned_cars, :with_borrowed_cars) }
+    let(:user) { create(:user, :with_owned_and_borrowed_cars) }
 
     context 'as unrelated user' do
       let(:record) { create(:car_comment) }
@@ -40,7 +40,7 @@ describe CarCommentPolicy do
   describe '#create?' do
     subject { CarCommentPolicy.new(user, record).create? }
 
-    let(:user) { create(:user, :with_owned_cars, :with_borrowed_cars) }
+    let(:user) { create(:user, :with_owned_and_borrowed_cars) }
 
     context 'as unrelated user' do
       let(:record) { build(:car_comment) }
@@ -58,7 +58,7 @@ describe CarCommentPolicy do
   describe '#update?' do
     subject { CarCommentPolicy.new(user, record).update? }
 
-    let(:user) { create(:user, :with_owned_cars, :with_borrowed_cars) }
+    let(:user) { create(:user, :with_owned_and_borrowed_cars) }
 
     context 'as unrelated user' do
       let(:record) { create(:car_comment) }
@@ -98,7 +98,7 @@ describe CarCommentPolicy do
   describe '#destroy?' do
     subject { CarCommentPolicy.new(user, record).destroy? }
 
-    let(:user) { create(:user, :with_owned_cars, :with_borrowed_cars) }
+    let(:user) { create(:user, :with_owned_and_borrowed_cars) }
 
     context 'as unrelated user' do
       let(:record) { create(:car_comment) }

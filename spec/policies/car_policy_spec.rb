@@ -7,7 +7,7 @@ describe CarPolicy do
 
       subject { CarPolicy::Scope.new(user, scope).resolve }
 
-      let(:user) { create(:user, :with_owned_cars, :with_borrowed_cars) }
+      let(:user) { create(:user, :with_owned_and_borrowed_cars) }
 
       let(:scope) { Car.all }
 
@@ -18,7 +18,7 @@ describe CarPolicy do
   describe '#show?' do
     subject { CarPolicy.new(user, record).show? }
 
-    let(:user) { create(:user, :with_owned_cars, :with_borrowed_cars) }
+    let(:user) { create(:user, :with_owned_and_borrowed_cars) }
 
     context 'as unrelated user' do
       let(:record) { create(:car) }
@@ -60,7 +60,7 @@ describe CarPolicy do
   describe 'update?' do
     subject { CarPolicy.new(user, record).update? }
 
-    let(:user) { create(:user, :with_owned_cars, :with_borrowed_cars) }
+    let(:user) { create(:user, :with_owned_and_borrowed_cars) }
 
     context 'as unrelated user' do
       let(:record) { create(:car) }
@@ -84,7 +84,7 @@ describe CarPolicy do
   describe 'update?' do
     subject { CarPolicy.new(user, record).destroy? }
 
-    let(:user) { create(:user, :with_owned_cars, :with_borrowed_cars) }
+    let(:user) { create(:user, :with_owned_and_borrowed_cars) }
 
     context 'as unrelated user' do
       let(:record) { create(:car) }

@@ -9,7 +9,7 @@ describe OwnershipPolicy do
 
       subject { OwnershipPolicy::Scope.new(user, scope).resolve }
 
-      let(:user) { create(:user, :with_owned_cars, :with_borrowed_cars) }
+      let(:user) { create(:user, :with_owned_and_borrowed_cars) }
 
       let(:scope) { Ownership.all }
 
@@ -32,7 +32,7 @@ describe OwnershipPolicy do
   describe '#show?' do
     subject { OwnershipPolicy.new(user, record).show? }
 
-    let(:user) { create(:user, :with_owned_cars, :with_borrowed_cars) }
+    let(:user) { create(:user, :with_owned_and_borrowed_cars) }
 
     context 'as unrelated user' do
       let(:record) { create(:ownership) }
@@ -50,7 +50,7 @@ describe OwnershipPolicy do
   describe '#create?' do
     subject { OwnershipPolicy.new(user, record).create? }
 
-    let(:user) { create(:user, :with_owned_cars, :with_borrowed_cars) }
+    let(:user) { create(:user, :with_owned_and_borrowed_cars) }
 
     context 'as unrelated user' do
       let(:record) { build(:ownership) }
@@ -84,7 +84,7 @@ describe OwnershipPolicy do
   describe '#destroy?' do
     subject { OwnershipPolicy.new(user, record).destroy? }
 
-    let(:user) { create(:user, :with_owned_cars, :with_borrowed_cars) }
+    let(:user) { create(:user, :with_owned_and_borrowed_cars) }
 
     context 'as unrelated user' do
       let(:record) { create(:ownership) }

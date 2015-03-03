@@ -9,7 +9,7 @@ describe ReservationCommentPolicy do
 
       subject { ReservationCommentPolicy::Scope.new(user, scope).resolve }
 
-      let(:user) { create(:user, :with_owned_cars, :with_borrowed_cars) }
+      let(:user) { create(:user, :with_owned_and_borrowed_cars) }
 
       let(:car) { user.cars.sample }
 
@@ -24,7 +24,7 @@ describe ReservationCommentPolicy do
   describe '#show?' do
     subject { ReservationCommentPolicy.new(user, record).show? }
 
-    let(:user) { create(:user, :with_owned_cars, :with_borrowed_cars) }
+    let(:user) { create(:user, :with_owned_and_borrowed_cars) }
 
     context 'as unrelated user' do
       let(:record) { create(:reservation_comment) }
@@ -44,7 +44,7 @@ describe ReservationCommentPolicy do
   describe '#create?' do
     subject { ReservationCommentPolicy.new(user, record).create? }
 
-    let(:user) { create(:user, :with_owned_cars, :with_borrowed_cars) }
+    let(:user) { create(:user, :with_owned_and_borrowed_cars) }
 
     context 'as unrelated user' do
       let(:record) { build(:reservation_comment) }
@@ -64,7 +64,7 @@ describe ReservationCommentPolicy do
   describe '#update?' do
     subject { ReservationCommentPolicy.new(user, record).update? }
 
-    let(:user) { create(:user, :with_owned_cars, :with_borrowed_cars) }
+    let(:user) { create(:user, :with_owned_and_borrowed_cars) }
 
     context 'as unrelated user' do
       let(:record) { create(:reservation_comment) }
@@ -106,7 +106,7 @@ describe ReservationCommentPolicy do
   describe '#destroy?' do
     subject { ReservationCommentPolicy.new(user, record).destroy? }
 
-    let(:user) { create(:user, :with_owned_cars, :with_borrowed_cars) }
+    let(:user) { create(:user, :with_owned_and_borrowed_cars) }
 
     context 'as unrelated user' do
       let(:record) { create(:reservation_comment) }

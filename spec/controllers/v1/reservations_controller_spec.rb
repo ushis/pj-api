@@ -21,7 +21,7 @@ describe V1::ReservationsController do
     context 'as logged in user' do
       let(:token) { user.access_token }
 
-      let(:user) { create(:user, :with_owned_cars, :with_borrowed_cars) }
+      let(:user) { create(:user, :with_owned_and_borrowed_cars) }
 
       context 'with invalid car id' do
         let(:car_id) { 0 }
@@ -72,7 +72,7 @@ describe V1::ReservationsController do
     context 'as logged in user' do
       let(:token) { user.access_token }
 
-      let(:user) { create(:user, :with_owned_cars, :with_borrowed_cars) }
+      let(:user) { create(:user, :with_owned_and_borrowed_cars) }
 
       context 'with invalid car id' do
         let(:car_id) { 0 }
@@ -122,7 +122,7 @@ describe V1::ReservationsController do
     context 'as logged in user' do
       let(:token) { user.access_token }
 
-      let(:user) { create(:user, :with_owned_cars, :with_borrowed_cars) }
+      let(:user) { create(:user, :with_owned_and_borrowed_cars) }
 
       context 'with invalid car id' do
         let(:car_id) { 0 }
@@ -252,7 +252,7 @@ describe V1::ReservationsController do
     context 'as logged in user' do
       let(:token) { user.access_token }
 
-      let(:user) { create(:user, :with_owned_cars, :with_borrowed_cars) }
+      let(:user) { create(:user, :with_owned_and_borrowed_cars) }
 
       context 'with invalid car id' do
         let(:car_id) { 0 }
@@ -376,7 +376,7 @@ describe V1::ReservationsController do
     context 'as logged in user' do
       let(:token) { user.access_token }
 
-      let(:user) { create(:user, :with_owned_cars, :with_borrowed_cars) }
+      let(:user) { create(:user, :with_owned_and_borrowed_cars) }
 
       context 'with invalid car id' do
         let(:car_id) { 0 }

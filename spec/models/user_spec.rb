@@ -268,7 +268,7 @@ describe User do
   describe '#owns_or_borrows?' do
     subject { user.owns_or_borrows?(car) }
 
-    let(:user) { create(:user, :with_owned_cars, :with_borrowed_cars) }
+    let(:user) { create(:user, :with_owned_and_borrowed_cars) }
 
     let!(:unrelated) { create_list(:car, 2) }
 
@@ -294,7 +294,7 @@ describe User do
   describe '#owns?' do
     subject { user.owns?(car) }
 
-    let(:user) { create(:user, :with_owned_cars, :with_borrowed_cars) }
+    let(:user) { create(:user, :with_owned_and_borrowed_cars) }
 
     let!(:unrelated) { create_list(:car, 2) }
 
@@ -320,7 +320,7 @@ describe User do
   describe '#borrows?' do
     subject { user.borrows?(car) }
 
-    let(:user) { create(:user, :with_owned_cars, :with_borrowed_cars) }
+    let(:user) { create(:user, :with_owned_and_borrowed_cars) }
 
     let!(:unrelated) { create_list(:car, 2) }
 

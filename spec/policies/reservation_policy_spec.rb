@@ -9,7 +9,7 @@ describe ReservationPolicy do
 
       subject { ReservationPolicy::Scope.new(user, scope).resolve }
 
-      let(:user) { create(:user, :with_owned_cars, :with_borrowed_cars) }
+      let(:user) { create(:user, :with_owned_and_borrowed_cars) }
 
       let(:scope) { Reservation.all }
 
@@ -20,7 +20,7 @@ describe ReservationPolicy do
   describe '#show?' do
     subject { ReservationPolicy.new(user, record).show? }
 
-    let(:user) { create(:user, :with_owned_cars, :with_borrowed_cars) }
+    let(:user) { create(:user, :with_owned_and_borrowed_cars) }
 
     let(:record) { create(:reservation, car: car) }
 
@@ -40,7 +40,7 @@ describe ReservationPolicy do
   describe '#create?' do
     subject { ReservationPolicy.new(user, record).create? }
 
-    let(:user) { create(:user, :with_owned_cars, :with_borrowed_cars) }
+    let(:user) { create(:user, :with_owned_and_borrowed_cars) }
 
     let(:record) { build(:reservation, car: car) }
 
@@ -60,7 +60,7 @@ describe ReservationPolicy do
   describe '#update?' do
     subject { ReservationPolicy.new(user, record).update? }
 
-    let(:user) { create(:user, :with_owned_cars, :with_borrowed_cars) }
+    let(:user) { create(:user, :with_owned_and_borrowed_cars) }
 
     let(:record) { create(:reservation, car: car) }
 
@@ -92,7 +92,7 @@ describe ReservationPolicy do
   describe '#destroy?' do
     subject { ReservationPolicy.new(user, record).destroy? }
 
-    let(:user) { create(:user, :with_owned_cars, :with_borrowed_cars) }
+    let(:user) { create(:user, :with_owned_and_borrowed_cars) }
 
     let(:record) { create(:reservation, car: car) }
 
