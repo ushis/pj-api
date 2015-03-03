@@ -2,9 +2,9 @@ Rails.application.routes.draw do
   match '*path', controller: :application, action: :options, via: :options
 
   namespace :v1 do
-    resource :session, only: [:create]
-    resource :profile, only: [:show, :create, :update, :destroy]
-    resources :users,  only: [:index, :show]
+    resource  :profile,  only: [:show, :create, :update, :destroy]
+    resources :sessions, only: [:create]
+    resources :users,    only: [:index, :show]
 
     resources :cars, only: [:index, :show, :create, :update, :destroy] do
       resource  :position,      only: [:show, :create, :update, :destroy]
