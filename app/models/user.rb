@@ -21,7 +21,9 @@ class User < ActiveRecord::Base
   validates :email,    presence: true, uniqueness: true,
     length: {maximum: 255}, format: /.+@.+/
 
-  validates :password, presence: true, on: :create
+  validates :password, presence: true,
+    if: -> (u) { !u.password_digest.present? }
+
   validates :password, confirmation: true
 
   validates :password_confirmation, presence: true,
