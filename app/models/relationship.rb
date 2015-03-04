@@ -8,6 +8,6 @@ class Relationship < ActiveRecord::Base
 
   # Searches relationships by (partial) username
   def self.search(q)
-    joins(:user).where('users.username LIKE ?', "%#{q}%")
+    q.blank? ? all : joins(:user).where('users.username LIKE ?', "%#{q}%")
   end
 end

@@ -39,7 +39,7 @@ class User < ActiveRecord::Base
 
   # Searches users by (partial) username
   def self.search(q)
-    where('username LIKE ?', "%#{q}%")
+    q.blank? ? all : where('username LIKE ?', "%#{q}%")
   end
 
   # Returns true if the given is owned or borrowed by the user else false

@@ -20,7 +20,7 @@ class Car < ActiveRecord::Base
 
   # Searches cars by (partial) name
   def self.search(q)
-    where('name LIKE ?', "%#{q}%")
+    q.blank? ? all : where('name LIKE ?', "%#{q}%")
   end
 
   # Returns the cars position or raises ActiveRecord::RecordNotFound
