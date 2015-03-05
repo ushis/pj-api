@@ -63,7 +63,7 @@ describe V1::CarsController do
         it { is_expected.to respond_with(:success) }
 
         it 'responds with the car' do
-          expect(json[:car]).to eq(car_json(car))
+          expect(json[:car]).to eq(car_json(car.reload))
         end
       end
 
@@ -73,7 +73,7 @@ describe V1::CarsController do
         it { is_expected.to respond_with(:success) }
 
         it 'responds with the car' do
-          expect(json[:car]).to eq(car_json(car))
+          expect(json[:car]).to eq(car_json(car.reload))
         end
       end
     end

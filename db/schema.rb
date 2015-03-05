@@ -14,9 +14,11 @@
 ActiveRecord::Schema.define(version: 20150228173556) do
 
   create_table "cars", force: :cascade do |t|
-    t.string   "name",                    null: false
-    t.integer  "mileage",     default: 0, null: false
-    t.integer  "rides_count", default: 0, null: false
+    t.string   "name",                        null: false
+    t.integer  "mileage",         default: 0, null: false
+    t.integer  "rides_count",     default: 0, null: false
+    t.integer  "owners_count",    default: 0, null: false
+    t.integer  "borrowers_count", default: 0, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

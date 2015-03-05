@@ -2,8 +2,8 @@ class Car < ActiveRecord::Base
   has_many :rides,         inverse_of: :car, dependent: :destroy
   has_many :reservations,  inverse_of: :car, dependent: :destroy
   has_many :relationships, inverse_of: :car, dependent: :destroy
-  has_many :ownerships,    inverse_of: :car
-  has_many :borrowerships, inverse_of: :car
+  has_many :ownerships,    inverse_of: :car, counter_cache: :owners_count
+  has_many :borrowerships, inverse_of: :car, counter_cache: :borrowers_count
   has_many :users,         through: :relationships, source: :user
   has_many :owners,        through: :ownerships,    source: :user
   has_many :borrowers,     through: :borrowerships, source: :user
