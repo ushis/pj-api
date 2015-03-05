@@ -1,7 +1,6 @@
 class Ride < ActiveRecord::Base
   belongs_to :user, inverse_of: :rides
-  belongs_to :car,  inverse_of: :rides, required: true
-
+  belongs_to :car,  inverse_of: :rides, counter_cache: true, required: true
 
   has_many :comments,
     inverse_of: :ride,
@@ -15,6 +14,10 @@ class Ride < ActiveRecord::Base
 
   validate :ensure_startet_at_is_before_ended_at
 
+  after_save :update_car_mileage
+
+  after_destroy :update_car_mileage
+
   private
 
   # Validates that started_at is before ended_at
@@ -22,5 +25,10 @@ class Ride < ActiveRecord::Base
     if started_at && ended_at && started_at >= ended_at
       errors.add(:ended_at, :is_before_startet_at)
     end
+  end
+
+  # After save/destroy callback to update the cars mileage
+  def update_car_mileage
+    car.update_mileage
   end
 end

@@ -41,6 +41,8 @@ module ApiHelper
     {
       id: car.id,
       name: car.name,
+      mileage: car.mileage,
+      rides_count: car.rides_count,
       position: car.position.present? ? position_json(car.position) : nil,
       created_at: car.created_at.as_json,
       updated_at: car.updated_at.as_json

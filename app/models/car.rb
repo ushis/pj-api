@@ -28,4 +28,9 @@ class Car < ActiveRecord::Base
     position || raise(ActiveRecord::RecordNotFound,
                         "Couldn't find Position for Car with 'id'=#{id}")
   end
+
+  # Updates the cars mileage
+  def update_mileage
+    update_attribute(:mileage, rides.sum(:distance))
+  end
 end

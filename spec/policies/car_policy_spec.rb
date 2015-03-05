@@ -122,7 +122,9 @@ describe CarPolicy do
 
     let(:record) { nil }
 
-    it { is_expected.to match_array([:id, :name, :created_at, :updated_at]) }
+    let(:attrs) { %i(id name mileage rides_count created_at updated_at) }
+
+    it { is_expected.to match_array(attrs) }
   end
 
   describe 'permitted_attributes' do

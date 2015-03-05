@@ -26,7 +26,7 @@ class CarPolicy < ApplicationPolicy
   end
 
   def accessible_attributes
-    [:id, :name, :created_at, :updated_at]
+    [:id, :name, :mileage, :rides_count, :created_at, :updated_at]
   end
 
   def permitted_attributes

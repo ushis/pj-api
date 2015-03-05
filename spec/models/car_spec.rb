@@ -37,4 +37,30 @@ describe Car do
       it { is_expected.to eq(car.position) }
     end
   end
+
+  describe '#update_mileage' do
+    before { car.update_attribute(:mileage, 0) }
+
+    context 'with no rides' do
+      let(:car) { create(:car) }
+
+      it 'does nothing' do
+        expect { car.update_mileage }.to_not change { car.mileage }
+      end
+    end
+
+    context 'with rides' do
+      let(:car) { create(:car, :with_rides) }
+
+      let(:mileage) { car.rides.pluck(:distance).reduce(:+) }
+
+      it 'updates the cars mileage' do
+        expect {
+          car.update_mileage
+        }.to change {
+          car.mileage
+        }.from(0).to(mileage)
+      end
+    end
+  end
 end

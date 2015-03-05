@@ -3,7 +3,7 @@ require 'rails_helper'
 describe Ride do
   describe 'associations' do
     it { is_expected.to belong_to(:user).inverse_of(:rides) }
-    it { is_expected.to belong_to(:car).inverse_of(:rides) }
+    it { is_expected.to belong_to(:car).inverse_of(:rides).counter_cache(true) }
 
     it { is_expected.to have_many(:comments).dependent(:destroy) }
   end
@@ -50,6 +50,34 @@ describe Ride do
         it 'has an error' do
           expect(subject.errors[:ended_at]).to be_present
         end
+      end
+    end
+  end
+
+  describe 'after_save callbacks' do
+    describe ':update_car_mileage' do
+      let(:ride) { build(:ride, car: car) }
+
+      let(:car) { create(:car, :with_rides) }
+
+      it 'updates the cars mileage' do
+        expect { ride.save }.to change { car.reload.mileage }.by(ride.distance)
+      end
+    end
+  end
+
+  describe 'after_destroy callbacks' do
+    describe ':update_car_mileage' do
+      let(:ride) { car.rides.sample }
+
+      let(:car) { create(:car, :with_rides) }
+
+      it 'updates the cars mileage' do
+        expect {
+          ride.destroy
+        }.to change {
+          car.reload.mileage
+        }.by(-1 * ride.distance)
       end
     end
   end
