@@ -20,6 +20,54 @@ describe Car do
     it { is_expected.to validate_length_of(:name).is_at_most(255) }
   end
 
+  describe '#owned_by?' do
+    subject { car.owned_by?(user) }
+
+    let(:user) { create(:user, :with_owned_and_borrowed_cars) }
+
+    context 'the car is not related to the user' do
+      let(:car) { create(:car) }
+
+      it { is_expected.to be false }
+    end
+
+    context 'the car is borrowed by the user' do
+      let(:car) { user.borrowed_cars.sample }
+
+      it { is_expected.to be false }
+    end
+
+    context 'the car is owned by the user' do
+      let(:car) { user.owned_cars.sample }
+
+      it { is_expected.to be true }
+    end
+  end
+
+  describe '#borrowed_by?' do
+    subject { car.borrowed_by?(user) }
+
+    let(:user) { create(:user, :with_owned_and_borrowed_cars) }
+
+    context 'the car is not related to the user' do
+      let(:car) { create(:car) }
+
+      it { is_expected.to be false }
+    end
+
+    context 'the car is borrowed by the user' do
+      let(:car) { user.borrowed_cars.sample }
+
+      it { is_expected.to be true }
+    end
+
+    context 'the car is owned by the user' do
+      let(:car) { user.owned_cars.sample }
+
+      it { is_expected.to be false }
+    end
+  end
+
   describe '#position!' do
     context 'with no position' do
       let(:car) { build(:car) }

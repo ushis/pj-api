@@ -4,7 +4,7 @@ class V1::CarsController < V1::ApplicationController
   # GET /v1/cars
   def index
     @cars = policy_scope(current_user.cars)
-      .includes(:position)
+      .includes(:position, :owners)
       .search(params[:q])
       .order(:name)
       .page(params[:page])

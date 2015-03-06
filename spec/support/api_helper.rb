@@ -1,7 +1,15 @@
 module ApiHelper
+  attr_reader :token
 
   def set_auth_header(token)
-    request.headers['Authorization'] = "Bearer #{token}" if token.present?
+    if token.present?
+      @token = token
+      request.headers['Authorization'] = "Bearer #{token}"
+    end
+  end
+
+  def current_user
+    @current_user ||= User.find_by_access_token(token)
   end
 
   def json
@@ -47,7 +55,10 @@ module ApiHelper
       borrowers_count: car.borrowers_count,
       position: car.position.present? ? position_json(car.position) : nil,
       created_at: car.created_at.as_json,
-      updated_at: car.updated_at.as_json
+      updated_at: car.updated_at.as_json,
+      current_user: {
+        owner: car.owned_by?(current_user)
+      }
     }
   end
 

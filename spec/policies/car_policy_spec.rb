@@ -123,8 +123,11 @@ describe CarPolicy do
     let(:record) { nil }
 
     let(:attrs) do
-      %i(id name mileage rides_count owners_count borrowers_count
-          created_at updated_at)
+      %i(
+          id name mileage current_user
+          rides_count owners_count borrowers_count
+          created_at updated_at
+        )
     end
 
     it { is_expected.to match_array(attrs) }

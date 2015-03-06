@@ -23,6 +23,16 @@ class Car < ActiveRecord::Base
     q.blank? ? all : where('name LIKE ?', "%#{q}%")
   end
 
+  # Returns true if the given user owns the car else false
+  def owned_by?(user)
+    owners.include?(user)
+  end
+
+  # Returns true if the given user borrowes the car else false
+  def borrowed_by?(user)
+    borrowers.include?(user)
+  end
+
   # Returns the cars position or raises ActiveRecord::RecordNotFound
   def position!
     position || raise(ActiveRecord::RecordNotFound,
