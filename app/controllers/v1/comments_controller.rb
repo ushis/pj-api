@@ -8,6 +8,7 @@ class V1::CommentsController < V1::ApplicationController
   # GET /v1/cars/:car_id/reservations/:reservation_id/comments
   def index
     @comments = policy_scope(@parent.comments)
+      .includes(:user)
       .order(:created_at)
       .page(params[:page])
       .per(params[:per_page])
