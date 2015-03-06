@@ -5,6 +5,7 @@ class V1::OwnershipsController < V1::ApplicationController
   # GET /v1/cars/:car_id/ownerships
   def index
     @ownerships = policy_scope(@car.ownerships)
+      .includes(:user)
       .search(params[:q])
       .order('users.username')
       .page(params[:page])
