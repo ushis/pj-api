@@ -6,7 +6,7 @@ class V1::RidesController < V1::ApplicationController
   def index
     @rides = policy_scope(@car.rides)
       .includes(:user)
-      .order(:started_at)
+      .order_by(params[:order_by], params[:order])
       .page(params[:page])
       .per(params[:per_page])
 
@@ -76,6 +76,8 @@ class V1::RidesController < V1::ApplicationController
   # Returns the meta data for the index request
   def index_meta_data
     {
+      order: params[:order],
+      order_by: params[:order_by],
       page: @rides.current_page,
       per_page: @rides.limit_value,
       total_pages: @rides.total_pages

@@ -1,4 +1,6 @@
 class Ride < ActiveRecord::Base
+  include OrderBy
+
   belongs_to :user, inverse_of: :rides
   belongs_to :car,  inverse_of: :rides, counter_cache: true, required: true
 
@@ -17,6 +19,8 @@ class Ride < ActiveRecord::Base
   after_save :update_car_mileage
 
   after_destroy :update_car_mileage
+
+  order_by_attributes :id, :distance, :started_at, :ended_at, :created_at
 
   private
 

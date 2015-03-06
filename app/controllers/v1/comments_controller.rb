@@ -9,7 +9,7 @@ class V1::CommentsController < V1::ApplicationController
   def index
     @comments = policy_scope(@parent.comments)
       .includes(:user)
-      .order(:created_at)
+      .order_by(params[:order_by], params[:order])
       .page(params[:page])
       .per(params[:per_page])
 
@@ -98,6 +98,8 @@ class V1::CommentsController < V1::ApplicationController
   # Returns the meta data for the index request
   def index_meta_data
     {
+      order: params[:order],
+      order_by: params[:order_by],
       page: @comments.current_page,
       per_page: @comments.limit_value,
       total_pages: @comments.total_pages
