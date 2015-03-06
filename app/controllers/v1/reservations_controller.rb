@@ -5,6 +5,7 @@ class V1::ReservationsController < V1::ApplicationController
   # GET /v1/cars/:car_id/reservations
   def index
     @reservations = policy_scope(@car.reservations)
+      .includes(:user)
       .order(:starts_at)
       .page(params[:page])
       .per(params[:per_page])

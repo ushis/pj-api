@@ -5,6 +5,7 @@ class V1::RidesController < V1::ApplicationController
   # GET /v1/cars/:car_id/rides
   def index
     @rides = policy_scope(@car.rides)
+      .includes(:user)
       .order(:started_at)
       .page(params[:page])
       .per(params[:per_page])
