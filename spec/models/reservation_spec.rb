@@ -52,4 +52,57 @@ describe Reservation do
       end
     end
   end
+
+  describe '.order_by_attribute_values' do
+    subject { Reservation.order_by_attribute_values }
+
+    let(:attrs) { %w(id starts_at ends_at created_at).to_set }
+
+    it { is_expected.to eq(attrs) }
+  end
+
+  describe '.order_by' do
+    let!(:reservations) { create_list(:reservation, 3) }
+
+    subject { Reservation.order_by(attr, direction) }
+
+    let(:result) do
+      reservations.sort do |a, b|
+        if direction == :desc
+          b.send(attr) <=> a.send(attr)
+        else
+          a.send(attr) <=> b.send(attr)
+        end
+      end
+    end
+
+    [:id, :starts_at, :ends_at, :created_at].each do |attribute|
+      context "attr is #{attribute}" do
+        let(:attr) { attribute }
+
+        context 'direction is asc' do
+          let(:direction) { :asc }
+
+          it { is_expected.to eq(result) }
+        end
+
+        context 'direction is asc' do
+          let(:direction) { :desc }
+
+          it { is_expected.to eq(result) }
+        end
+      end
+    end
+
+    context 'attr is something else' do
+      let(:attr) { :updated_at }
+
+      let(:direction) { :asc }
+
+      it 'does nothing' do
+        expect(subject.order_values).to be_empty
+      end
+    end
+  end
+
 end

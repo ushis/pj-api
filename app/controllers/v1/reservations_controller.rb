@@ -6,11 +6,11 @@ class V1::ReservationsController < V1::ApplicationController
   def index
     @reservations = @car.reservations
       .includes(:user)
-      .order(:starts_at)
+      .order(params[:order_by], params[:order])
       .page(params[:page])
       .per(params[:per_page])
 
-    render json: @reservations
+    render json: @reservations, meta: index_meta_data
   end
 
   # PATCH /v1/cars/:car_id/reservations/:id
@@ -76,6 +76,8 @@ class V1::ReservationsController < V1::ApplicationController
   # Returns the meta data for the index request
   def index_meta_data
     {
+      order: params[:order],
+      order_by: params[:order_by],
       page: @reservations.current_page,
       per_page: @reservations.limit_value,
       total_pages: @reservations.total_pages

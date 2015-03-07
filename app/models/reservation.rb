@@ -1,4 +1,6 @@
 class Reservation < ActiveRecord::Base
+  include OrderBy
+
   belongs_to :user, inverse_of: :reservations, required: true
   belongs_to :car,  inverse_of: :reservations, required: true
 
@@ -12,6 +14,8 @@ class Reservation < ActiveRecord::Base
   validates :ends_at,   presence: true
 
   validate :ensure_starts_at_is_before_ends_at
+
+  order_by_attributes :id, :starts_at, :ends_at, :created_at
 
   private
 
