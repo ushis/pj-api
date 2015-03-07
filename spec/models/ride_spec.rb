@@ -85,15 +85,7 @@ describe Ride do
   describe '.order_by_attribute_values' do
     subject { Ride.order_by_attribute_values }
 
-    let(:attrs) do
-      {
-        'id' => :id,
-        'distance' => :distance,
-        'started_at' => :started_at,
-        'ended_at' => :ended_at,
-        'created_at' => :created_at
-      }
-    end
+    let(:attrs) { %w(id distance started_at ended_at created_at).to_set }
 
     it { is_expected.to eq(attrs) }
   end

@@ -23,15 +23,7 @@ describe Car do
   describe '.order_by_attribute_values' do
     subject { Car.order_by_attribute_values }
 
-    let(:attrs) do
-      {
-        'id' => :id,
-        'name' => :name,
-        'created_at' => :created_at
-      }
-    end
-
-    it { is_expected.to eq(attrs) }
+    it { is_expected.to eq(%w(id name created_at).to_set) }
   end
 
   describe '.order_by' do

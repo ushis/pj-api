@@ -15,7 +15,7 @@ describe CarComment do
   describe '.order_by_attribute_values' do
     subject { CarComment.order_by_attribute_values }
 
-    it { is_expected.to eq('id' => :id, 'created_at' => :created_at) }
+    it { is_expected.to eq(%w(id created_at).to_set) }
   end
 
   describe '.order_by' do

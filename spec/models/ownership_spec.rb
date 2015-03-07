@@ -48,15 +48,7 @@ describe Ownership do
   describe '.order_by_attribute_values' do
     subject { Ownership.order_by_attribute_values }
 
-    let(:attrs) do
-      {
-        'id' => :id,
-        'created_at' => :created_at,
-        'user.username' => [:user, :username]
-      }
-    end
-
-    it { is_expected.to eq(attrs) }
+    it { is_expected.to eq(%w(id created_at).to_set) }
   end
 
   describe '.order_by' do
@@ -92,32 +84,6 @@ describe Ownership do
       end
     end
 
-    context "attr is user.username" do
-      let(:attr) { 'user.username' }
-
-      let(:result) do
-        ownerships.sort do |a, b|
-          if direction == :desc
-            b.user.username <=> a.user.username
-          else
-            a.user.username <=> b.user.username
-          end
-        end
-      end
-
-      context 'direction is asc' do
-        let(:direction) { :asc }
-
-        it { is_expected.to eq(result) }
-      end
-
-      context 'direction is asc' do
-        let(:direction) { :desc }
-
-        it { is_expected.to eq(result) }
-      end
-    end
-
     context 'attr is something else' do
       let(:attr) { :updated_at }
 
@@ -128,5 +94,4 @@ describe Ownership do
       end
     end
   end
-
 end
