@@ -30,11 +30,7 @@ describe V1::OwnershipsController do
       end
 
       context 'who is not related to the car' do
-        it { is_expected.to respond_with(:success) }
-
-        it 'responds with nothing' do
-          expect(json[:ownerships]).to be_empty
-        end
+        it { is_expected.to respond_with(:not_found) }
       end
 
       context 'who borrows the car' do
@@ -98,7 +94,7 @@ describe V1::OwnershipsController do
       end
 
       context 'who is not related to the car' do
-        it { is_expected.to respond_with(:forbidden) }
+        it { is_expected.to respond_with(:not_found) }
       end
 
       context 'who is related to the car' do
@@ -144,15 +140,9 @@ describe V1::OwnershipsController do
       end
 
       context 'who is not related to the car' do
-        let(:params) do
-          {
-            ownership: {
-              user_id: 0
-            }
-          }
-        end
+        let(:params) { {} }
 
-        it { is_expected.to respond_with(:forbidden) }
+        it { is_expected.to respond_with(:not_found) }
       end
 
       context 'who borrows the car' do
@@ -274,7 +264,7 @@ describe V1::OwnershipsController do
       end
 
       context 'who is not related to the car' do
-        it { is_expected.to respond_with(:forbidden) }
+        it { is_expected.to respond_with(:not_found) }
       end
 
       context 'who borrows the car' do

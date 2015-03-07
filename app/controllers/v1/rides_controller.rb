@@ -4,7 +4,7 @@ class V1::RidesController < V1::ApplicationController
 
   # GET /v1/cars/:car_id/rides
   def index
-    @rides = policy_scope(@car.rides)
+    @rides = @car.rides
       .includes(:user)
       .order_by(params[:order_by], params[:order])
       .page(params[:page])
@@ -52,7 +52,7 @@ class V1::RidesController < V1::ApplicationController
 
   # Finds the requested car
   def find_car
-    @car = Car.find(params[:car_id])
+    @car = current_user.cars.find(params[:car_id])
   end
 
   # Finds the requested ride

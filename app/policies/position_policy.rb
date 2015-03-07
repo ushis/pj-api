@@ -1,6 +1,4 @@
 class PositionPolicy < ApplicationPolicy
-  class Scope < ApplicationPolicy::Scope
-  end
 
   def show?
     user.owns_or_borrows?(record.car)

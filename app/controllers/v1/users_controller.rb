@@ -3,7 +3,7 @@ class V1::UsersController < V1::ApplicationController
 
   # GET /v1/users
   def index
-    @users = policy_scope(User)
+    @users = User
       .search(params[:q])
       .order(:username)
       .page(params[:page])

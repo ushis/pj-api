@@ -4,7 +4,7 @@ class V1::OwnershipsController < V1::ApplicationController
 
   # GET /v1/cars/:car_id/ownerships
   def index
-    @ownerships = policy_scope(@car.ownerships)
+    @ownerships = @car.ownerships
       .includes(:user)
       .search(params[:q])
       .order_by(params[:order_by], params[:order])
@@ -44,7 +44,7 @@ class V1::OwnershipsController < V1::ApplicationController
 
   # Finds thew requested car
   def find_car
-    @car = Car.find(params[:car_id])
+    @car = current_user.cars.find(params[:car_id])
   end
 
   # Finds the requested ownership

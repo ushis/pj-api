@@ -1,22 +1,6 @@
 require 'rails_helper'
 
 describe ReservationPolicy do
-  describe ReservationPolicy::Scope do
-    describe '#resolve' do
-      let!(:related_reservations) { create_list(:reservation, 4, car: user.cars.sample) }
-
-      let!(:other_reservations) { create_list(:reservation, 2) }
-
-      subject { ReservationPolicy::Scope.new(user, scope).resolve }
-
-      let(:user) { create(:user, :with_owned_and_borrowed_cars) }
-
-      let(:scope) { Reservation.all }
-
-      it { is_expected.to match_array(related_reservations) }
-    end
-  end
-
   describe '#show?' do
     subject { ReservationPolicy.new(user, record).show? }
 

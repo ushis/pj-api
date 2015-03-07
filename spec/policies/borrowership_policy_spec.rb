@@ -1,34 +1,6 @@
 require 'rails_helper'
 
 describe BorrowershipPolicy do
-  describe BorrowershipPolicy::Scope do
-    describe '#resolve' do
-      let!(:related_borrowerships) { create_list(:borrowership, 2, car: car) }
-
-      let!(:unrelated_borrowerships) { create_list(:borrowership, 2) }
-
-      subject { BorrowershipPolicy::Scope.new(user, scope).resolve }
-
-      let(:user) { create(:user, :with_owned_and_borrowed_cars) }
-
-      let(:scope) { Borrowership.all }
-
-      context 'as unrelated user' do
-        let(:car) { create(:car) }
-
-        it { is_expected.to match_array(user.borrowerships) }
-      end
-
-      context 'as related user' do
-        let(:car) { user.borrowed_cars.sample }
-
-        let(:all) { related_borrowerships + user.borrowerships }
-
-        it { is_expected.to match_array(all) }
-      end
-    end
-  end
-
   describe '#show?' do
     subject { BorrowershipPolicy.new(user, record).show? }
 

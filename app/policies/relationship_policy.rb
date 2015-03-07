@@ -1,9 +1,4 @@
 class RelationshipPolicy < ApplicationPolicy
-  class Scope < ApplicationPolicy::Scope
-    def resolve
-      scope.joins(car: :users).where(users: {id: user})
-    end
-  end
 
   def show?
     user.owns_or_borrows?(record.car)

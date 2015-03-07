@@ -39,7 +39,7 @@ class V1::PositionsController < V1::ApplicationController
 
   # Finds the requested car
   def find_car
-    @car = Car.find(params[:car_id])
+    @car = current_user.cars.find(params[:car_id])
   end
 
   # Finds the requested position

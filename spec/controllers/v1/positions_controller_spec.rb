@@ -36,7 +36,7 @@ describe V1::PositionsController do
 
         before { send_request }
 
-        it { is_expected.to respond_with(:forbidden) }
+        it { is_expected.to respond_with(:not_found) }
       end
 
       context 'who is related to the car' do
@@ -99,7 +99,7 @@ describe V1::PositionsController do
         context 'who is not related to the car' do
           let(:params) { {} }
 
-          it { is_expected.to respond_with(:forbidden) }
+          it { is_expected.to respond_with(:not_found) }
         end
 
         context 'who is related to the car' do
@@ -211,7 +211,7 @@ describe V1::PositionsController do
 
         before { send_request }
 
-        it { is_expected.to respond_with(:forbidden) }
+        it { is_expected.to respond_with(:not_found) }
       end
 
       context 'who is related to the car' do

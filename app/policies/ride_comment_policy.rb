@@ -1,9 +1,4 @@
 class RideCommentPolicy < CommentPolicy
- class Scope < CommentPolicy::Scope
-    def resolve
-      scope.joins(ride: {car: :users}).where('users.id' => user)
-    end
-  end
 
   def show?
     user.owns_or_borrows?(record.ride.car)

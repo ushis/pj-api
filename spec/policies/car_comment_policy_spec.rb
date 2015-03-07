@@ -1,24 +1,6 @@
 require 'rails_helper'
 
 describe CarCommentPolicy do
-  describe CarCommentPolicy::Scope do
-    describe '#resolve' do
-      let!(:related_comments) { create_list(:car_comment, 2, car: car) }
-
-      let!(:unrelated_comments) { create_list(:car_comment, 2) }
-
-      subject { CarCommentPolicy::Scope.new(user, scope).resolve }
-
-      let(:user) { create(:user, :with_owned_and_borrowed_cars) }
-
-      let(:car) { user.cars.sample }
-
-      let(:scope) { CarComment.all }
-
-      it { is_expected.to match_array(related_comments) }
-    end
-  end
-
   describe '#show?' do
     subject { CarCommentPolicy.new(user, record).show? }
 

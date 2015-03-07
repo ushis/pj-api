@@ -54,7 +54,7 @@ describe V1::CarsController do
       end
 
       context 'who is not related to the car' do
-        it { is_expected.to respond_with(:forbidden) }
+        it { is_expected.to respond_with(:not_found) }
       end
 
       context 'who owns the car' do
@@ -180,7 +180,7 @@ describe V1::CarsController do
       context 'who is not related to the car' do
         let(:params) { {} }
 
-        it { is_expected.to respond_with(:forbidden) }
+        it { is_expected.to respond_with(:not_found) }
       end
 
       context 'who borrows the car' do
@@ -266,7 +266,7 @@ describe V1::CarsController do
       end
 
       context 'who is not related to the car' do
-        it { is_expected.to respond_with(:forbidden) }
+        it { is_expected.to respond_with(:not_found) }
       end
 
       context 'who borrows the car' do

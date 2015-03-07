@@ -4,7 +4,7 @@ class V1::ReservationsController < V1::ApplicationController
 
   # GET /v1/cars/:car_id/reservations
   def index
-    @reservations = policy_scope(@car.reservations)
+    @reservations = @car.reservations
       .includes(:user)
       .order(:starts_at)
       .page(params[:page])
@@ -52,7 +52,7 @@ class V1::ReservationsController < V1::ApplicationController
 
   # Finds the requested car
   def find_car
-    @car = Car.find(params[:car_id])
+    @car = current_user.cars.find(params[:car_id])
   end
 
   # Finds the requested reservation

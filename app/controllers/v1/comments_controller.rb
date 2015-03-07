@@ -7,7 +7,7 @@ class V1::CommentsController < V1::ApplicationController
   # GET /v1/cars/:car_id/rides/:ride_id/comments
   # GET /v1/cars/:car_id/reservations/:reservation_id/comments
   def index
-    @comments = policy_scope(@parent.comments)
+    @comments = @parent.comments
       .includes(:user)
       .order_by(params[:order_by], params[:order])
       .page(params[:page])
@@ -63,7 +63,7 @@ class V1::CommentsController < V1::ApplicationController
 
   # Finds the requested car
   def find_car
-    @car = Car.find(params[:car_id])
+    @car = current_user.cars.find(params[:car_id])
   end
 
   # Finds the requested parent record

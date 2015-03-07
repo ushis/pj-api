@@ -1,6 +1,4 @@
 class OwnershipPolicy < RelationshipPolicy
-  class Scope < RelationshipPolicy::Scope
-  end
 
   def create?
     user.owns?(record.car)

@@ -3,7 +3,7 @@ class V1::CarsController < V1::ApplicationController
 
   # GET /v1/cars
   def index
-    @cars = policy_scope(current_user.cars)
+    @cars = current_user.cars
       .includes(:position, :owners)
       .search(params[:q])
       .order_by(params[:order_by], params[:order])
@@ -52,7 +52,7 @@ class V1::CarsController < V1::ApplicationController
 
   # Finds the requested car
   def find_car
-    @car = Car.find(params[:id])
+    @car = current_user.cars.find(params[:id])
     authorize(@car)
   end
 

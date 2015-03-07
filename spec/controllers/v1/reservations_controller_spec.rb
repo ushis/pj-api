@@ -30,11 +30,7 @@ describe V1::ReservationsController do
       end
 
       context 'who is not related to the car' do
-        it { is_expected.to respond_with(:success) }
-
-        it 'responds with no reservations' do
-          expect(json[:reservations]).to be_empty
-        end
+        it { is_expected.to respond_with(:not_found) }
       end
 
       context 'who is releated to the car' do
@@ -87,7 +83,7 @@ describe V1::ReservationsController do
       end
 
       context 'who is not related to the car' do
-        it { is_expected.to respond_with(:forbidden) }
+        it { is_expected.to respond_with(:not_found) }
       end
 
       context 'who is related to the car' do
@@ -133,16 +129,9 @@ describe V1::ReservationsController do
       end
 
       context 'who is not related to the car' do
-        let(:params) do
-          {
-            reservation: {
-              starts_at: 3.days.from_now,
-              ends_at: 5.days.from_now
-            }
-          }
-        end
+        let(:params) { {} }
 
-        it { is_expected.to respond_with(:forbidden) }
+        it { is_expected.to respond_with(:not_found) }
       end
 
       context 'who is related to the car' do
@@ -273,7 +262,7 @@ describe V1::ReservationsController do
       context 'who is not related to the car' do
         let(:params) { {} }
 
-        it { is_expected.to respond_with(:forbidden) }
+        it { is_expected.to respond_with(:not_found) }
       end
 
       context 'who borrows the car' do
@@ -391,7 +380,7 @@ describe V1::ReservationsController do
       end
 
       context 'who is not related to the car' do
-        it { is_expected.to respond_with(:forbidden) }
+        it { is_expected.to respond_with(:not_found) }
       end
 
       context 'who borrows the car' do

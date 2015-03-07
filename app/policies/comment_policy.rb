@@ -1,6 +1,4 @@
 class CommentPolicy < ApplicationPolicy
-  class Scope < ApplicationPolicy::Scope
-  end
 
   def accessible_associations
     [:user]

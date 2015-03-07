@@ -1,34 +1,6 @@
 require 'rails_helper'
 
 describe OwnershipPolicy do
-  describe OwnershipPolicy::Scope do
-    describe '#resolve' do
-      let!(:related_ownerships) { create_list(:ownership, 2, car: car) }
-
-      let!(:unrelated_ownerships) { create_list(:ownership, 2) }
-
-      subject { OwnershipPolicy::Scope.new(user, scope).resolve }
-
-      let(:user) { create(:user, :with_owned_and_borrowed_cars) }
-
-      let(:scope) { Ownership.all }
-
-      context 'as unrelated user' do
-        let(:car) { create(:car) }
-
-        it { is_expected.to match_array(user.ownerships) }
-      end
-
-      context 'as related user' do
-        let(:car) { user.borrowed_cars.sample }
-
-        let(:all) { related_ownerships + user.ownerships }
-
-        it { is_expected.to match_array(all) }
-      end
-    end
-  end
-
   describe '#show?' do
     subject { OwnershipPolicy.new(user, record).show? }
 

@@ -1,20 +1,6 @@
 require 'rails_helper'
 
 describe UserPolicy do
-  describe UserPolicy::Scope do
-    describe '#resolve' do
-      let!(:users) { create_list(:user, 3) }
-
-      subject { UserPolicy::Scope.new(user, scope).resolve }
-
-      let(:user) { nil }
-
-      let(:scope) { User.all }
-
-      it { is_expected.to match_array(users) }
-    end
-  end
-
   describe '#show?' do
     subject { UserPolicy.new(user, record).show? }
 

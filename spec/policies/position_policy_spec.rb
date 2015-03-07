@@ -1,18 +1,6 @@
 require 'rails_helper'
 
 describe PositionPolicy do
-  describe PositionPolicy::Scope do
-    describe '#resolve' do
-      subject { PositionPolicy::Scope.new(user, scope).resolve }
-
-      let(:user) { create(:user) }
-
-      let(:scope) { Position.all }
-
-      it { is_expected.to be_a(ActiveRecord::NullRelation) }
-    end
-  end
-
   describe '#show?' do
     subject { PositionPolicy.new(user, record).show? }
 

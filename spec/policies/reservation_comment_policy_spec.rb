@@ -1,26 +1,6 @@
 require 'rails_helper'
 
 describe ReservationCommentPolicy do
-  describe ReservationCommentPolicy::Scope do
-    describe '#resolve' do
-      let!(:related_comments) { create_list(:reservation_comment, 2, reservation: reservation) }
-
-      let!(:unrelated_comments) { create_list(:reservation_comment, 2) }
-
-      subject { ReservationCommentPolicy::Scope.new(user, scope).resolve }
-
-      let(:user) { create(:user, :with_owned_and_borrowed_cars) }
-
-      let(:car) { user.cars.sample }
-
-      let(:reservation) { create(:reservation, car: car) }
-
-      let(:scope) { ReservationComment.all }
-
-      it { is_expected.to match_array(related_comments) }
-    end
-  end
-
   describe '#show?' do
     subject { ReservationCommentPolicy.new(user, record).show? }
 

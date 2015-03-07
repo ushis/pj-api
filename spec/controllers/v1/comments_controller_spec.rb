@@ -31,11 +31,7 @@ describe V1::CommentsController do
         end
 
         context 'who is not related to the car' do
-          it { is_expected.to respond_with(:success) }
-
-          it 'responds with an empty array' do
-            expect(json[:comments]).to be_empty
-          end
+          it { is_expected.to respond_with(:not_found) }
         end
 
         context 'who is related to the car' do
@@ -90,11 +86,7 @@ describe V1::CommentsController do
           end
 
           context 'who is not related to the car' do
-            it { is_expected.to respond_with(:success) }
-
-            it 'responds with an empty array' do
-              expect(json[:comments]).to be_empty
-            end
+            it { is_expected.to respond_with(:not_found) }
           end
 
           context 'who is related to the car' do
@@ -149,7 +141,7 @@ describe V1::CommentsController do
         end
 
         context 'who is not related to the car' do
-          it { is_expected.to respond_with(:forbidden) }
+          it { is_expected.to respond_with(:not_found) }
         end
 
         context 'who is related to the car' do
@@ -206,7 +198,7 @@ describe V1::CommentsController do
           end
 
           context 'who is not related to the car' do
-            it { is_expected.to respond_with(:forbidden) }
+            it { is_expected.to respond_with(:not_found) }
           end
 
           context 'who is related to the car' do
@@ -255,15 +247,9 @@ describe V1::CommentsController do
         end
 
         context 'who is not related to the car' do
-          let(:params) do
-            {
-              comment: {
-                comment: nil
-              }
-            }
-          end
+          let(:params) { {} }
 
-          it { is_expected.to respond_with(:forbidden) }
+          it { is_expected.to respond_with(:not_found) }
         end
 
         context 'who is related to the car' do
@@ -368,15 +354,9 @@ describe V1::CommentsController do
           end
 
           context 'who is not related to the car' do
-            let(:params) do
-              {
-                comment: {
-                  comment: nil
-                }
-              }
-            end
+            let(:params) { {} }
 
-            it { is_expected.to respond_with(:forbidden) }
+            it { is_expected.to respond_with(:not_found) }
           end
 
           context 'who is related to the car' do
@@ -479,20 +459,14 @@ describe V1::CommentsController do
         end
 
         context 'who is not related to the car' do
-          let(:params) do
-            {
-              comment: {
-                comment: nil
-              }
-            }
-          end
+          let(:params) { {} }
 
-          it { is_expected.to respond_with(:forbidden) }
+          it { is_expected.to respond_with(:not_found) }
 
           context 'and wrote the comment' do
             let(:comment) { create(:car_comment, car: car, user: user) }
 
-            it { is_expected.to respond_with(:forbidden) }
+            it { is_expected.to respond_with(:not_found) }
           end
         end
 
@@ -642,15 +616,9 @@ describe V1::CommentsController do
 
 
           context 'who is not related to the car' do
-            let(:params) do
-              {
-                comment: {
-                  comment: nil
-                }
-              }
-            end
+            let(:params) { {} }
 
-            it { is_expected.to respond_with(:forbidden) }
+            it { is_expected.to respond_with(:not_found) }
 
             context 'and wrote the comment' do
               let(:comment) do
@@ -660,7 +628,7 @@ describe V1::CommentsController do
                 })
               end
 
-              it { is_expected.to respond_with(:forbidden) }
+              it { is_expected.to respond_with(:not_found) }
             end
           end
 
@@ -793,12 +761,12 @@ describe V1::CommentsController do
         end
 
         context 'who is not related to the car' do
-          it { is_expected.to respond_with(:forbidden) }
+          it { is_expected.to respond_with(:not_found) }
 
           context 'and wrote the comment' do
             let(:comment) { create(:car_comment, car: car, user: user) }
 
-            it { is_expected.to respond_with(:forbidden) }
+            it { is_expected.to respond_with(:not_found) }
           end
         end
 
@@ -883,7 +851,7 @@ describe V1::CommentsController do
           end
 
           context 'who is not related to the car' do
-            it { is_expected.to respond_with(:forbidden) }
+            it { is_expected.to respond_with(:not_found) }
 
             context 'and wrote the comment' do
               let(:comment) do
@@ -893,7 +861,7 @@ describe V1::CommentsController do
                 })
               end
 
-              it { is_expected.to respond_with(:forbidden) }
+              it { is_expected.to respond_with(:not_found) }
             end
 
             context 'who is related to the car' do

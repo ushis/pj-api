@@ -1,20 +1,6 @@
 require 'rails_helper'
 
 describe CarPolicy do
-  describe CarPolicy::Scope do
-    describe '#resolve' do
-      let!(:cars) { create_list(:car, 2) }
-
-      subject { CarPolicy::Scope.new(user, scope).resolve }
-
-      let(:user) { create(:user, :with_owned_and_borrowed_cars) }
-
-      let(:scope) { Car.all }
-
-      it { is_expected.to match_array(user.cars) }
-    end
-  end
-
   describe '#show?' do
     subject { CarPolicy.new(user, record).show? }
 

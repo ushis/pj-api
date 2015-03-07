@@ -4,7 +4,7 @@ class V1::BorrowershipsController < V1::ApplicationController
 
   # GET /v1/cars/:car_id/borrowerships
   def index
-    @borrowerships = policy_scope(@car.borrowerships)
+    @borrowerships = @car.borrowerships
       .includes(:user)
       .search(params[:q])
       .order_by(params[:order_by], params[:order])
@@ -44,7 +44,7 @@ class V1::BorrowershipsController < V1::ApplicationController
 
   # Finds thew requested car
   def find_car
-    @car = Car.find(params[:car_id])
+    @car = current_user.cars.find(params[:car_id])
   end
 
   # Finds the requested borrowership

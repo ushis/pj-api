@@ -1,22 +1,6 @@
 require 'rails_helper'
 
 describe RidePolicy do
-  describe RidePolicy::Scope do
-    describe '#resolve' do
-      let!(:related_rides) { create_list(:ride, 4, car: user.cars.sample) }
-
-      let!(:other_rides) { create_list(:ride, 2) }
-
-      subject { RidePolicy::Scope.new(user, scope).resolve }
-
-      let(:user) { create(:user, :with_owned_and_borrowed_cars) }
-
-      let(:scope) { Ride.all }
-
-      it { is_expected.to match_array(related_rides) }
-    end
-  end
-
   describe '#show?' do
     subject { RidePolicy.new(user, record).show? }
 
