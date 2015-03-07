@@ -11,12 +11,20 @@ module OrderBy
     def order_by(attribute, direction=:asc)
       attribute = attribute.to_s
 
-      if order_by_attribute_values.key?(attribute)
-        attribute = order_by_attribute_values[attribute]
-        direction = normalize_order_direction(direction)
-        order(attribute => direction)
+      if !order_by_attribute_values.key?(attribute)
+        return all
+      end
+
+      attribute = order_by_attribute_values[attribute]
+      direction = normalize_order_direction(direction)
+
+      if attribute.is_a?(Array)
+        assoc = attribute[0]
+        attribute = attribute[1]
+        table_name = reflections[assoc.to_s].table_name
+        includes(assoc).order("#{table_name}.#{attribute} #{direction}")
       else
-        all
+        order(attribute => direction)
       end
     end
 
@@ -25,7 +33,9 @@ module OrderBy
     def order_by_attributes(*attributes)
       attributes.each do |attr|
         if attr.is_a?(Hash)
-          order_by_attribute_values.merge(attr.stringify_keys)
+          attr.each do |assoc, col|
+            order_by_attribute_values["#{assoc}.#{col}"] = [assoc, col]
+          end
         else
           order_by_attribute_values[attr.to_s] = attr
         end

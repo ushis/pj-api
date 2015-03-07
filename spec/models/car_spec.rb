@@ -20,6 +20,64 @@ describe Car do
     it { is_expected.to validate_length_of(:name).is_at_most(255) }
   end
 
+  describe '.order_by_attribute_values' do
+    subject { Car.order_by_attribute_values }
+
+    let(:attrs) do
+      {
+        'id' => :id,
+        'name' => :name,
+        'created_at' => :created_at
+      }
+    end
+
+    it { is_expected.to eq(attrs) }
+  end
+
+  describe '.order_by' do
+    let!(:cars) { create_list(:car, 3) }
+
+    subject { Car.order_by(attr, direction) }
+
+    let(:result) do
+      cars.sort do |a, b|
+        if direction == :desc
+          b.send(attr) <=> a.send(attr)
+        else
+          a.send(attr) <=> b.send(attr)
+        end
+      end
+    end
+
+    [:id, :name, :created_at].each do |attribute|
+      context "attr is #{attribute}" do
+        let(:attr) { attribute }
+
+        context 'direction is asc' do
+          let(:direction) { :asc }
+
+          it { is_expected.to eq(result) }
+        end
+
+        context 'direction is asc' do
+          let(:direction) { :desc }
+
+          it { is_expected.to eq(result) }
+        end
+      end
+    end
+
+    context 'attr is something else' do
+      let(:attr) { :updated_at }
+
+      let(:direction) { :asc }
+
+      it 'does nothing' do
+        expect(subject.order_values).to be_empty
+      end
+    end
+  end
+
   describe '#owned_by?' do
     subject { car.owned_by?(user) }
 

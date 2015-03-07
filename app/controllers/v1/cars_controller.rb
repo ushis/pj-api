@@ -6,7 +6,7 @@ class V1::CarsController < V1::ApplicationController
     @cars = policy_scope(current_user.cars)
       .includes(:position, :owners)
       .search(params[:q])
-      .order(:name)
+      .order_by(params[:order_by], params[:order])
       .page(params[:page])
       .per(params[:per_page])
 
@@ -67,6 +67,8 @@ class V1::CarsController < V1::ApplicationController
   def index_meta_data
     {
       q: params[:q],
+      order: params[:order],
+      order_by: params[:order_by],
       page: @cars.current_page,
       per_page: @cars.limit_value,
       total_pages: @cars.total_pages

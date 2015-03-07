@@ -1,10 +1,12 @@
 class Relationship < ActiveRecord::Base
-  attr_accessor :invitation
+  include OrderBy
 
   belongs_to :user, inverse_of: :relationships, required: true
   belongs_to :car,  inverse_of: :relationships, required: true
 
   validates :user_id, uniqueness: {scope: :car_id}
+
+  order_by_attributes :id, :created_at, user: :username
 
   # Searches relationships by (partial) username
   def self.search(q)

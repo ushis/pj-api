@@ -44,4 +44,89 @@ describe Ownership do
       let(:q) { 'is' }
     end
   end
+
+  describe '.order_by_attribute_values' do
+    subject { Ownership.order_by_attribute_values }
+
+    let(:attrs) do
+      {
+        'id' => :id,
+        'created_at' => :created_at,
+        'user.username' => [:user, :username]
+      }
+    end
+
+    it { is_expected.to eq(attrs) }
+  end
+
+  describe '.order_by' do
+    let!(:ownerships) { create_list(:ownership, 3) }
+
+    subject { Ownership.order_by(attr, direction) }
+
+    let(:result) do
+      ownerships.sort do |a, b|
+        if direction == :desc
+          b.send(attr) <=> a.send(attr)
+        else
+          a.send(attr) <=> b.send(attr)
+        end
+      end
+    end
+
+    [:id, :created_at].each do |attribute|
+      context "attr is #{attribute}" do
+        let(:attr) { attribute }
+
+        context 'direction is asc' do
+          let(:direction) { :asc }
+
+          it { is_expected.to eq(result) }
+        end
+
+        context 'direction is asc' do
+          let(:direction) { :desc }
+
+          it { is_expected.to eq(result) }
+        end
+      end
+    end
+
+    context "attr is user.username" do
+      let(:attr) { 'user.username' }
+
+      let(:result) do
+        ownerships.sort do |a, b|
+          if direction == :desc
+            b.user.username <=> a.user.username
+          else
+            a.user.username <=> b.user.username
+          end
+        end
+      end
+
+      context 'direction is asc' do
+        let(:direction) { :asc }
+
+        it { is_expected.to eq(result) }
+      end
+
+      context 'direction is asc' do
+        let(:direction) { :desc }
+
+        it { is_expected.to eq(result) }
+      end
+    end
+
+    context 'attr is something else' do
+      let(:attr) { :updated_at }
+
+      let(:direction) { :asc }
+
+      it 'does nothing' do
+        expect(subject.order_values).to be_empty
+      end
+    end
+  end
+
 end

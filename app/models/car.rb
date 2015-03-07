@@ -1,4 +1,6 @@
 class Car < ActiveRecord::Base
+  include OrderBy
+
   has_many :rides,         inverse_of: :car, dependent: :destroy
   has_many :reservations,  inverse_of: :car, dependent: :destroy
   has_many :relationships, inverse_of: :car, dependent: :destroy
@@ -17,6 +19,8 @@ class Car < ActiveRecord::Base
   has_one :position, inverse_of: :car, dependent: :destroy
 
   validates :name,   presence: true, length: {maximum: 255}
+
+  order_by_attributes :id, :name, :created_at
 
   # Searches cars by (partial) name
   def self.search(q)

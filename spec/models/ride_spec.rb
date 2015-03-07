@@ -99,12 +99,12 @@ describe Ride do
   end
 
   describe '.order_by' do
-    let!(:comments) { create_list(:ride, 3) }
+    let!(:rides) { create_list(:ride, 3) }
 
     subject { Ride.order_by(attr, direction) }
 
     let(:result) do
-      comments.sort do |a, b|
+      rides.sort do |a, b|
         if direction == :desc
           b.send(attr) <=> a.send(attr)
         else
