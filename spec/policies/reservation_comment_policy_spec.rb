@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe ReservationCommentPolicy do
+  it { is_expected.to be_a(ApplicationPolicy) }
+
   describe '#show?' do
     subject { ReservationCommentPolicy.new(user, record).show? }
 

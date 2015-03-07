@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe OwnershipPolicy do
+  it { is_expected.to be_a(ApplicationPolicy) }
+
   describe '#show?' do
     subject { OwnershipPolicy.new(user, record).show? }
 

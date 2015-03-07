@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe PositionPolicy do
+  it { is_expected.to be_a(ApplicationPolicy) }
+
   describe '#show?' do
     subject { PositionPolicy.new(user, record).show? }
 

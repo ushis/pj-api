@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe BorrowershipPolicy do
+  it { is_expected.to be_a(ApplicationPolicy) }
+
   describe '#show?' do
     subject { BorrowershipPolicy.new(user, record).show? }
 

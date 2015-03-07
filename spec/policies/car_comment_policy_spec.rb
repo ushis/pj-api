@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe CarCommentPolicy do
+  it { is_expected.to be_a(ApplicationPolicy) }
+
   describe '#show?' do
     subject { CarCommentPolicy.new(user, record).show? }
 

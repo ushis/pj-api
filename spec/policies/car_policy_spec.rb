@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe CarPolicy do
+  it { is_expected.to be_a(ApplicationPolicy) }
+
   describe '#show?' do
     subject { CarPolicy.new(user, record).show? }
 

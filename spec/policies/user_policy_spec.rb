@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe UserPolicy do
+  it { is_expected.to be_a(ApplicationPolicy) }
+
   describe '#show?' do
     subject { UserPolicy.new(user, record).show? }
 

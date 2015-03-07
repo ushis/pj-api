@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe ReservationPolicy do
+  it { is_expected.to be_a(ApplicationPolicy) }
+
   describe '#show?' do
     subject { ReservationPolicy.new(user, record).show? }
 
