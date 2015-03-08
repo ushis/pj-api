@@ -53,6 +53,7 @@ module ApiHelper
       rides_count: car.rides_count,
       owners_count: car.owners_count,
       borrowers_count: car.borrowers_count,
+      location: car.location.nil? ? nil : location_json(car.location),
       created_at: car.created_at.as_json,
       updated_at: car.updated_at.as_json,
       current_user: {

@@ -4,7 +4,7 @@ class V1::CarsController < V1::ApplicationController
   # GET /v1/cars
   def index
     @cars = current_user.cars
-      .includes(:owners)
+      .includes(:owners, location: :user)
       .search(params[:q])
       .order_by(params[:order_by], params[:order])
       .page(params[:page])
