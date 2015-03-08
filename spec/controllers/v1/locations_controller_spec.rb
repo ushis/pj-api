@@ -163,11 +163,15 @@ describe V1::LocationsController do
               expect(json[:location]).to eq(location_json(car.reload.location))
             end
 
-            it 'set the correct latitude' do
+            it 'sets the correct user' do
+              expect(car.reload.location.user).to eq(user)
+            end
+
+            it 'sets the correct latitude' do
               expect(car.reload.location.latitude).to eq(params[:location][:latitude])
             end
 
-            it 'set the correct longitude' do
+            it 'sets the correct longitude' do
               expect(car.reload.location.longitude).to eq(params[:location][:longitude])
             end
           end

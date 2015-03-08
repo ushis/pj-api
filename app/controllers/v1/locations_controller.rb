@@ -10,7 +10,7 @@ class V1::LocationsController < V1::ApplicationController
 
   # POST /v1/cars/:car_id/location
   def create
-    if @location.update(location_params)
+    if @location.update(location_params.merge(user: current_user))
       render json: @location, status: :created
     else
       render_error :unprocessable_entity, @location.errors
@@ -19,7 +19,7 @@ class V1::LocationsController < V1::ApplicationController
 
   # PATCH /v1/cars/:car_id/location
   def update
-    if @location.update(location_params)
+    if @location.update(location_params.merge(user: current_user))
       render json: @location
     else
       render_error :unprocessable_entity, @location.errors

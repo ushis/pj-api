@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
 
   has_secure_password validations: false
 
+  has_many :locations,     inverse_of: :user, dependent: :nullify
   has_many :comments,      inverse_of: :user, dependent: :nullify
   has_many :rides,         inverse_of: :user, dependent: :nullify
   has_many :reservations,  inverse_of: :user, dependent: :destroy

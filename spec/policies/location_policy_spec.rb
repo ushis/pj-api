@@ -82,7 +82,7 @@ describe LocationPolicy do
 
     let(:record) { nil }
 
-    it { is_expected.to be_empty }
+    it { is_expected.to match_array([:user]) }
   end
 
   describe 'accessible_attributes' do

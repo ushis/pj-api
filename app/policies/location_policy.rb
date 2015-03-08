@@ -16,6 +16,10 @@ class LocationPolicy < ApplicationPolicy
     user.owns_or_borrows?(record.car)
   end
 
+  def accessible_associations
+    [:user]
+  end
+
   def accessible_attributes
     [:latitude, :longitude, :created_at, :updated_at]
   end

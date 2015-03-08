@@ -16,10 +16,6 @@ class CarPolicy < ApplicationPolicy
     user.owns?(record)
   end
 
-  def accessible_associations
-    [:location]
-  end
-
   def accessible_attributes
     [
       :id, :name, :mileage, :current_user,

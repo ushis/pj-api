@@ -4,6 +4,7 @@ describe User do
   it { is_expected.to have_secure_password }
 
   describe 'associations' do
+    it { is_expected.to have_many(:locations).inverse_of(:user).dependent(:nullify) }
     it { is_expected.to have_many(:comments).inverse_of(:user).dependent(:nullify) }
     it { is_expected.to have_many(:rides).inverse_of(:user).dependent(:nullify) }
     it { is_expected.to have_many(:reservations).inverse_of(:user).dependent(:destroy) }

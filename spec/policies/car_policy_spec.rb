@@ -100,7 +100,7 @@ describe CarPolicy do
 
     let(:record) { nil }
 
-    it { is_expected.to match_array([:location]) }
+    it { is_expected.to be_empty }
   end
 
   describe 'accessible_attributes' do
