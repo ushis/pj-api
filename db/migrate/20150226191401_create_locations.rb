@@ -1,6 +1,6 @@
-class CreatePositions < ActiveRecord::Migration
+class CreateLocations < ActiveRecord::Migration
   def change
-    create_table :positions do |t|
+    create_table :locations do |t|
       t.belongs_to  :car,       null: false, index: true
       t.float       :latitude,  null: false
       t.float       :longitude, null: false

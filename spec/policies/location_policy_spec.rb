@@ -1,82 +1,82 @@
 require 'rails_helper'
 
-describe PositionPolicy do
+describe LocationPolicy do
   it { is_expected.to be_a(ApplicationPolicy) }
 
   describe '#show?' do
-    subject { PositionPolicy.new(user, record).show? }
+    subject { LocationPolicy.new(user, record).show? }
 
     let(:user) { create(:user, :with_owned_and_borrowed_cars) }
 
     context 'as unrelated user' do
-      let(:record) { create(:position) }
+      let(:record) { create(:location) }
 
       it { is_expected.to be false }
     end
 
     context 'as related user' do
-      let(:record) { create(:position, car: user.cars.sample) }
+      let(:record) { create(:location, car: user.cars.sample) }
 
       it { is_expected.to be true }
     end
   end
 
   describe '#create?' do
-    subject { PositionPolicy.new(user, record).create? }
+    subject { LocationPolicy.new(user, record).create? }
 
     let(:user) { create(:user, :with_owned_and_borrowed_cars) }
 
     context 'as unrelated user' do
-      let(:record) { build(:position) }
+      let(:record) { build(:location) }
 
       it { is_expected.to be false }
     end
 
     context 'as related user' do
-      let(:record) { build(:position, car: user.cars.sample) }
+      let(:record) { build(:location, car: user.cars.sample) }
 
       it { is_expected.to be true }
     end
   end
 
   describe '#update?' do
-    subject { PositionPolicy.new(user, record).update? }
+    subject { LocationPolicy.new(user, record).update? }
 
     let(:user) { create(:user, :with_owned_and_borrowed_cars) }
 
     context 'as unrelated user' do
-      let(:record) { create(:position) }
+      let(:record) { create(:location) }
 
       it { is_expected.to be false }
     end
 
     context 'as related user' do
-      let(:record) { create(:position, car: user.cars.sample) }
+      let(:record) { create(:location, car: user.cars.sample) }
 
       it { is_expected.to be true }
     end
   end
 
   describe '#destroy?' do
-    subject { PositionPolicy.new(user, record).destroy? }
+    subject { LocationPolicy.new(user, record).destroy? }
 
     let(:user) { create(:user, :with_owned_and_borrowed_cars) }
 
     context 'as unrelated user' do
-      let(:record) { create(:position) }
+      let(:record) { create(:location) }
 
       it { is_expected.to be false }
     end
 
     context 'as related user' do
-      let(:record) { create(:position, car: user.cars.sample) }
+      let(:record) { create(:location, car: user.cars.sample) }
 
       it { is_expected.to be true }
     end
   end
 
   describe 'accessible_associations' do
-    subject { PositionPolicy.new(user, record).accessible_associations }
+    subject { LocationPolicy.new(user, record).accessible_associations }
 
     let(:user) { nil }
 
@@ -86,7 +86,7 @@ describe PositionPolicy do
   end
 
   describe 'accessible_attributes' do
-    subject { PositionPolicy.new(user, record).accessible_attributes }
+    subject { LocationPolicy.new(user, record).accessible_attributes }
 
     let(:user) { nil }
 
@@ -98,7 +98,7 @@ describe PositionPolicy do
   end
 
   describe 'permitted_attributes' do
-    subject { PositionPolicy.new(user, record).permitted_attributes }
+    subject { LocationPolicy.new(user, record).permitted_attributes }
 
     let(:user) { nil }
 

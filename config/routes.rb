@@ -7,7 +7,7 @@ Rails.application.routes.draw do
     resources :users,    only: [:index, :show]
 
     resources :cars, only: [:index, :show, :create, :update, :destroy] do
-      resource  :position,      only: [:show, :create, :update, :destroy]
+      resource  :location,      only: [:show, :create, :update, :destroy]
       resources :comments,      only: [:index, :show, :create, :update, :destroy]
       resources :ownerships,    only: [:index, :show, :create, :destroy]
       resources :borrowerships, only: [:index, :show, :create, :destroy]

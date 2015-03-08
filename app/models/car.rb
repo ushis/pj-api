@@ -16,7 +16,7 @@ class Car < ActiveRecord::Base
     class_name: :CarComment,
     foreign_key: :commentable_id
 
-  has_one :position, inverse_of: :car, dependent: :destroy
+  has_one :location, inverse_of: :car, dependent: :destroy
 
   validates :name,   presence: true, length: {maximum: 255}
 
@@ -37,10 +37,10 @@ class Car < ActiveRecord::Base
     borrowers.include?(user)
   end
 
-  # Returns the cars position or raises ActiveRecord::RecordNotFound
-  def position!
-    position || raise(ActiveRecord::RecordNotFound,
-                        "Couldn't find Position for Car with 'id'=#{id}")
+  # Returns the cars location or raises ActiveRecord::RecordNotFound
+  def location!
+    location || raise(ActiveRecord::RecordNotFound,
+                        "Couldn't find Location for Car with 'id'=#{id}")
   end
 
   # Updates the cars mileage

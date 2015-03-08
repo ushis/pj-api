@@ -1,4 +1,4 @@
-class PositionPolicy < ApplicationPolicy
+class LocationPolicy < ApplicationPolicy
 
   def show?
     user.owns_or_borrows?(record.car)

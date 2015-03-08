@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(version: 20150228173556) do
   add_index "comments", ["type"], name: "index_comments_on_type"
   add_index "comments", ["user_id"], name: "index_comments_on_user_id"
 
-  create_table "positions", force: :cascade do |t|
+  create_table "locations", force: :cascade do |t|
     t.integer  "car_id",     null: false
     t.float    "latitude",   null: false
     t.float    "longitude",  null: false
@@ -46,7 +46,7 @@ ActiveRecord::Schema.define(version: 20150228173556) do
     t.datetime "updated_at"
   end
 
-  add_index "positions", ["car_id"], name: "index_positions_on_car_id"
+  add_index "locations", ["car_id"], name: "index_locations_on_car_id"
 
   create_table "relationships", force: :cascade do |t|
     t.integer  "user_id",    null: false

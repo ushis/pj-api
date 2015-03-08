@@ -17,7 +17,7 @@ class CarPolicy < ApplicationPolicy
   end
 
   def accessible_associations
-    [:position]
+    [:location]
   end
 
   def accessible_attributes

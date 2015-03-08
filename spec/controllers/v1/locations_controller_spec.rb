@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe V1::PositionsController do
+describe V1::LocationsController do
   describe 'GET #show' do
     before { set_auth_header(token) }
 
@@ -32,7 +32,7 @@ describe V1::PositionsController do
       end
 
       context 'who is not related to the car' do
-        before { create(:position, car: car) }
+        before { create(:location, car: car) }
 
         before { send_request }
 
@@ -42,21 +42,21 @@ describe V1::PositionsController do
       context 'who is related to the car' do
         let(:car) { user.cars.sample }
 
-        context 'with no position' do
+        context 'with no location' do
           before { send_request }
 
           it { is_expected.to respond_with(:not_found) }
         end
 
-        context 'with position' do
-          before { create(:position, car: car) }
+        context 'with location' do
+          before { create(:location, car: car) }
 
           before { send_request }
 
           it { is_expected.to respond_with(:success) }
 
-          it 'responds with the position' do
-            expect(json[:position]).to eq(position_json(car.position))
+          it 'responds with the location' do
+            expect(json[:location]).to eq(location_json(car.location))
           end
         end
       end
@@ -65,7 +65,7 @@ describe V1::PositionsController do
 
   [[:post, :create], [:patch, :update]].each do |method, action|
     describe "#{method} ##{action}" do
-      before { create(:position, car: car) if method == :patch }
+      before { create(:location, car: car) if method == :patch }
 
       before { set_auth_header(token) }
 
@@ -114,9 +114,9 @@ describe V1::PositionsController do
           context 'with invalid latitude' do
             let(:params) do
               {
-                position: {
+                location: {
                   latitude: [nil, -93.52, 111.11].sample,
-                  longitude: build(:position).longitude
+                  longitude: build(:location).longitude
                 }
               }
             end
@@ -131,8 +131,8 @@ describe V1::PositionsController do
           context 'with invalid longitude' do
             let(:params) do
               {
-                position: {
-                  latitude: build(:position).latitude,
+                location: {
+                  latitude: build(:location).latitude,
                   longitude: [nil, -183.52, 211.11].sample
                 }
               }
@@ -148,9 +148,9 @@ describe V1::PositionsController do
           context 'with valid params' do
             let(:params) do
               {
-                position: {
-                  latitude: build(:position).latitude,
-                  longitude: build(:position).longitude
+                location: {
+                  latitude: build(:location).latitude,
+                  longitude: build(:location).longitude
                 }
               }
             end
@@ -159,16 +159,16 @@ describe V1::PositionsController do
               expect(response).to be_success
             end
 
-            it 'responds with the position' do
-              expect(json[:position]).to eq(position_json(car.reload.position))
+            it 'responds with the location' do
+              expect(json[:location]).to eq(location_json(car.reload.location))
             end
 
             it 'set the correct latitude' do
-              expect(car.reload.position.latitude).to eq(params[:position][:latitude])
+              expect(car.reload.location.latitude).to eq(params[:location][:latitude])
             end
 
             it 'set the correct longitude' do
-              expect(car.reload.position.longitude).to eq(params[:position][:longitude])
+              expect(car.reload.location.longitude).to eq(params[:location][:longitude])
             end
           end
         end
@@ -207,7 +207,7 @@ describe V1::PositionsController do
       end
 
       context 'who is not related to the car' do
-        before { create(:position, car: car) }
+        before { create(:location, car: car) }
 
         before { send_request }
 
@@ -217,22 +217,22 @@ describe V1::PositionsController do
       context 'who is related to the car' do
         let(:car) { user.cars.sample }
 
-        context 'with no position' do
+        context 'with no location' do
           before { send_request }
 
           it { is_expected.to respond_with(:not_found) }
         end
 
-        context 'with position' do
-          before { create(:position, car: car) }
+        context 'with location' do
+          before { create(:location, car: car) }
 
           before { send_request }
 
           it { is_expected.to respond_with(:no_content) }
 
-          it 'destroys the position' do
+          it 'destroys the location' do
             expect {
-              car.reload.position!
+              car.reload.location!
             }.to raise_error(ActiveRecord::RecordNotFound)
           end
         end

@@ -2,8 +2,8 @@ FactoryGirl.define do
   factory :car do
     name { SecureRandom.uuid }
 
-    trait :with_position do
-      position
+    trait :with_location do
+      location
     end
 
     trait :with_rides do

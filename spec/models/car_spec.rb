@@ -12,7 +12,7 @@ describe Car do
     it { is_expected.to have_many(:owners).through(:ownerships).source(:user) }
     it { is_expected.to have_many(:borrowers).through(:borrowerships).source(:user) }
 
-    it { is_expected.to have_one(:position).inverse_of(:car).dependent(:destroy) }
+    it { is_expected.to have_one(:location).inverse_of(:car).dependent(:destroy) }
   end
 
   describe 'validations' do
@@ -118,21 +118,21 @@ describe Car do
     end
   end
 
-  describe '#position!' do
-    context 'with no position' do
+  describe '#location!' do
+    context 'with no location' do
       let(:car) { build(:car) }
 
       it 'raises ActiveRecord::RecordNotFound' do
-        expect { car.position! }.to raise_error(ActiveRecord::RecordNotFound)
+        expect { car.location! }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
 
-    context 'with position' do
-      let(:car) { build(:car, :with_position) }
+    context 'with location' do
+      let(:car) { build(:car, :with_location) }
 
-      subject { car.position! }
+      subject { car.location! }
 
-      it { is_expected.to eq(car.position) }
+      it { is_expected.to eq(car.location) }
     end
   end
 
