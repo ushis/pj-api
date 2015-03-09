@@ -6,6 +6,8 @@ class V1::RidesController < V1::ApplicationController
   def index
     @rides = @car.rides
       .includes(:user)
+      .before(params[:before])
+      .after(params[:after])
       .order_by(params[:order_by], params[:order])
       .page(params[:page])
       .per(params[:per_page])
@@ -76,6 +78,8 @@ class V1::RidesController < V1::ApplicationController
   # Returns the meta data for the index request
   def index_meta_data
     {
+      before: params[:before],
+      after: params[:after],
       order: params[:order],
       order_by: params[:order_by],
       page: @rides.current_page,

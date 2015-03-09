@@ -53,6 +53,46 @@ describe Reservation do
     end
   end
 
+  describe '.before' do
+    let!(:older) do
+      create(:reservation, starts_at: date - 3.days, ends_at: date + 1.day)
+    end
+
+    let!(:same) do
+      create(:reservation, starts_at: date, ends_at: date + 1.day)
+    end
+
+    let!(:younger) do
+      create(:reservation, starts_at: date + 3.days, ends_at: date + 4.days)
+    end
+
+    subject { Reservation.before(date) }
+
+    let(:date) { 3.days.from_now }
+
+    it { is_expected.to match_array([older]) }
+  end
+
+  describe '.after' do
+    let!(:older) do
+      create(:reservation, starts_at: date - 3.days, ends_at: date - 1.day)
+    end
+
+    let!(:same) do
+      create(:reservation, starts_at: date - 1.day, ends_at: date)
+    end
+
+    let!(:younger) do
+      create(:reservation, starts_at: date + 3.days, ends_at: date + 4.days)
+    end
+
+    subject { Reservation.after(date) }
+
+    let(:date) { 1.day.from_now }
+
+    it { is_expected.to match_array([younger]) }
+  end
+
   describe '.order_by_attribute_values' do
     subject { Reservation.order_by_attribute_values }
 

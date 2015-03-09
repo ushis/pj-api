@@ -82,6 +82,46 @@ describe Ride do
     end
   end
 
+  describe '.before' do
+    let!(:older) do
+      create(:ride, started_at: date - 3.days, ended_at: date + 1.day)
+    end
+
+    let!(:same) do
+      create(:ride, started_at: date, ended_at: date + 1.day)
+    end
+
+    let!(:younger) do
+      create(:ride, started_at: date + 3.days, ended_at: date + 4.days)
+    end
+
+    subject { Ride.before(date) }
+
+    let(:date) { 1.day.ago }
+
+    it { is_expected.to match_array([older]) }
+  end
+
+  describe '.after' do
+    let!(:older) do
+      create(:ride, started_at: date - 3.days, ended_at: date - 1.day)
+    end
+
+    let!(:same) do
+      create(:ride, started_at: date - 1.day, ended_at: date)
+    end
+
+    let!(:younger) do
+      create(:ride, started_at: date + 3.days, ended_at: date + 4.days)
+    end
+
+    subject { Ride.after(date) }
+
+    let(:date) { 3.days.ago }
+
+    it { is_expected.to match_array([younger]) }
+  end
+
   describe '.order_by_attribute_values' do
     subject { Ride.order_by_attribute_values }
 

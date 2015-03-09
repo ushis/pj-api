@@ -22,6 +22,9 @@ class Ride < ActiveRecord::Base
 
   order_by_attributes :id, :distance, :started_at, :ended_at, :created_at
 
+  scope :before, -> (date) { date.blank? ? all : where('started_at < ?', date) }
+  scope :after, -> (date) { date.blank? ? all : where('ended_at > ?', date) }
+
   private
 
   # Validates that started_at is before ended_at
