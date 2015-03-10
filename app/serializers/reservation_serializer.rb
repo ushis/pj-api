@@ -1,5 +1,10 @@
 class ReservationSerializer < ApplicationSerializer
-  attributes :id, :starts_at, :ends_at, :created_at, :updated_at
+  attributes :id,
+    :starts_at,
+    :ends_at,
+    :comments_count,
+    :created_at,
+    :updated_at
 
   has_one :user
 end

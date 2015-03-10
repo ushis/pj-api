@@ -14,7 +14,8 @@ class Car < ActiveRecord::Base
     inverse_of: :car,
     dependent: :destroy,
     class_name: :CarComment,
-    foreign_key: :commentable_id
+    foreign_key: :commentable_id,
+    counter_cache: :comments_count
 
   has_one :location, inverse_of: :car, dependent: :destroy
 

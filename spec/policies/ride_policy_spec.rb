@@ -124,7 +124,9 @@ describe RidePolicy do
 
     let(:record) { nil }
 
-    let(:attrs) { %i(id distance started_at ended_at created_at updated_at) }
+    let(:attrs) do
+      %i(id distance started_at ended_at comments_count created_at updated_at)
+    end
 
     it { is_expected.to match_array(attrs) }
   end

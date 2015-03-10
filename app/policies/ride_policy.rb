@@ -23,7 +23,10 @@ class RidePolicy < ApplicationPolicy
   end
 
   def accessible_attributes
-    [:id, :distance, :started_at, :ended_at, :created_at, :updated_at]
+    [
+      :id, :distance, :started_at, :ended_at, :comments_count,
+      :created_at, :updated_at
+    ]
   end
 
   def permitted_attributes

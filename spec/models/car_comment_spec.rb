@@ -3,7 +3,7 @@ require 'rails_helper'
 describe CarComment do
   describe 'associations' do
     it { is_expected.to belong_to(:user) }
-    it { is_expected.to belong_to(:car).inverse_of(:comments) }
+    it { is_expected.to belong_to(:car).inverse_of(:comments).counter_cache(:comments_count) }
   end
 
   describe 'validations' do

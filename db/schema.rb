@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 20150228173556) do
     t.integer  "rides_count",     default: 0, null: false
     t.integer  "owners_count",    default: 0, null: false
     t.integer  "borrowers_count", default: 0, null: false
+    t.integer  "comments_count",  default: 0, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -62,10 +63,11 @@ ActiveRecord::Schema.define(version: 20150228173556) do
   add_index "relationships", ["user_id", "car_id"], name: "index_relationships_on_user_id_and_car_id", unique: true
 
   create_table "reservations", force: :cascade do |t|
-    t.integer  "user_id",    null: false
-    t.integer  "car_id",     null: false
-    t.datetime "starts_at",  null: false
-    t.datetime "ends_at",    null: false
+    t.integer  "user_id",                    null: false
+    t.integer  "car_id",                     null: false
+    t.datetime "starts_at",                  null: false
+    t.datetime "ends_at",                    null: false
+    t.integer  "comments_count", default: 0, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -77,15 +79,17 @@ ActiveRecord::Schema.define(version: 20150228173556) do
 
   create_table "rides", force: :cascade do |t|
     t.integer  "user_id"
-    t.integer  "car_id",     null: false
-    t.integer  "distance",   null: false
-    t.datetime "started_at", null: false
-    t.datetime "ended_at",   null: false
+    t.integer  "car_id",                     null: false
+    t.integer  "distance",                   null: false
+    t.datetime "started_at",                 null: false
+    t.datetime "ended_at",                   null: false
+    t.integer  "comments_count", default: 0, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "rides", ["car_id"], name: "index_rides_on_car_id"
+  add_index "rides", ["distance"], name: "index_rides_on_distance"
   add_index "rides", ["ended_at"], name: "index_rides_on_ended_at"
   add_index "rides", ["started_at"], name: "index_rides_on_started_at"
   add_index "rides", ["user_id"], name: "index_rides_on_user_id"

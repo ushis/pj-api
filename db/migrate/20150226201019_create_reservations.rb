@@ -1,12 +1,13 @@
 class CreateReservations < ActiveRecord::Migration
   def change
     create_table :reservations do |t|
-      t.belongs_to :user,       null: false, index: true
-      t.belongs_to :car,        null: false, index: true
-      t.datetime   :starts_at,  null: false
+      t.belongs_to :user,           null: false, index: true
+      t.belongs_to :car,            null: false, index: true
+      t.datetime   :starts_at,      null: false
       t.index      :starts_at
-      t.datetime   :ends_at,    null: false
+      t.datetime   :ends_at,        null: false
       t.index      :ends_at
+      t.integer    :comments_count, null: false, default: 0
       t.timestamps
     end
   end

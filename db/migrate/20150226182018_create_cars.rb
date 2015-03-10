@@ -7,6 +7,7 @@ class CreateCars < ActiveRecord::Migration
       t.integer :rides_count,     null: false, default: 0
       t.integer :owners_count,    null: false, default: 0
       t.integer :borrowers_count, null: false, default: 0
+      t.integer :comments_count,  null: false, default: 0
       t.timestamps
     end
   end

@@ -3,7 +3,7 @@ require 'rails_helper'
 describe ReservationComment do
   describe 'associations' do
     it { is_expected.to belong_to(:user) }
-    it { is_expected.to belong_to(:reservation).inverse_of(:comments) }
+    it { is_expected.to belong_to(:reservation).inverse_of(:comments).counter_cache(:comments_count) }
   end
 
   describe 'validations' do

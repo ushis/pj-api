@@ -53,6 +53,7 @@ module ApiHelper
       rides_count: car.rides_count,
       owners_count: car.owners_count,
       borrowers_count: car.borrowers_count,
+      comments_count: car.comments_count,
       location: car.location.nil? ? nil : location_json(car.location),
       created_at: car.created_at.as_json,
       updated_at: car.updated_at.as_json,
@@ -82,6 +83,7 @@ module ApiHelper
       distance: ride.distance,
       started_at: ride.started_at.as_json,
       ended_at: ride.ended_at.as_json,
+      comments_count: car.comments_count,
       user: ride.user.present? ? user_json(ride.user) : nil,
       created_at: ride.created_at.as_json,
       updated_at: ride.updated_at.as_json
@@ -97,6 +99,7 @@ module ApiHelper
       id: reservation.id,
       starts_at: reservation.starts_at.as_json,
       ends_at: reservation.ends_at.as_json,
+      comments_count: car.comments_count,
       user: user_json(reservation.user),
       created_at: reservation.created_at.as_json,
       updated_at: reservation.updated_at.as_json

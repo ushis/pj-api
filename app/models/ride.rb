@@ -8,7 +8,8 @@ class Ride < ActiveRecord::Base
     inverse_of: :ride,
     dependent: :destroy,
     class_name: :RideComment,
-    foreign_key: :commentable_id
+    foreign_key: :commentable_id,
+    counter_cache: :comments_count
 
   validates :distance,    presence: true, numericality: {greater_than: 0}
   validates :started_at,  presence: true

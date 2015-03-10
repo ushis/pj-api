@@ -5,6 +5,7 @@ class CarSerializer < ApplicationSerializer
     :rides_count,
     :owners_count,
     :borrowers_count,
+    :comments_count,
     :created_at,
     :updated_at,
     :current_user

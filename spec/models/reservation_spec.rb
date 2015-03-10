@@ -5,7 +5,7 @@ describe Reservation do
     it { is_expected.to belong_to(:user).inverse_of(:reservations) }
     it { is_expected.to belong_to(:car).inverse_of(:reservations) }
 
-    it { is_expected.to have_many(:comments).dependent(:destroy) }
+    it { is_expected.to have_many(:comments).dependent(:destroy).counter_cache(:comments_count) }
   end
 
   describe 'validations' do

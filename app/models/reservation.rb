@@ -8,7 +8,8 @@ class Reservation < ActiveRecord::Base
     inverse_of: :reservation,
     dependent: :destroy,
     class_name: :ReservationComment,
-    foreign_key: :commentable_id
+    foreign_key: :commentable_id,
+    counter_cache: :comments_count
 
   validates :starts_at, presence: true
   validates :ends_at,   presence: true

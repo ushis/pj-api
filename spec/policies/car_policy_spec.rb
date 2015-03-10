@@ -113,7 +113,7 @@ describe CarPolicy do
     let(:attrs) do
       %i(
           id name mileage current_user
-          rides_count owners_count borrowers_count
+          rides_count owners_count borrowers_count comments_count
           created_at updated_at
         )
     end
