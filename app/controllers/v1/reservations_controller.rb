@@ -6,8 +6,8 @@ class V1::ReservationsController < V1::ApplicationController
   def index
     @reservations = @car.reservations
       .includes(:user)
-      .before(params[:before])
-      .after(params[:after])
+      .after(datetime_param(:after))
+      .before(datetime_param(:before))
       .order(params[:order_by], params[:order])
       .page(params[:page])
       .per(params[:per_page])
@@ -78,8 +78,8 @@ class V1::ReservationsController < V1::ApplicationController
   # Returns the meta data for the index request
   def index_meta_data
     {
-      before: params[:before],
-      after: params[:after],
+      after: datetime_param(:after),
+      before: datetime_param(:before),
       order: params[:order],
       order_by: params[:order_by],
       page: @reservations.current_page,
