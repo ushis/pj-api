@@ -56,7 +56,7 @@ describe V1::LocationsController do
           it { is_expected.to respond_with(:success) }
 
           it 'responds with the location' do
-            expect(json[:location]).to eq(location_json(car.location))
+            expect(json[:location]).to eq(location_json(car.reload.location))
           end
         end
       end
@@ -168,11 +168,13 @@ describe V1::LocationsController do
             end
 
             it 'sets the correct latitude' do
-              expect(car.reload.location.latitude).to eq(params[:location][:latitude])
+              expect(car.reload.location.latitude).to \
+                be_within(1e-10).of(params[:location][:latitude])
             end
 
             it 'sets the correct longitude' do
-              expect(car.reload.location.longitude).to eq(params[:location][:longitude])
+              expect(car.reload.location.longitude).to \
+                be_within(1e-10).of(params[:location][:longitude])
             end
           end
         end

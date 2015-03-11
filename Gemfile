@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gem 'rails', '4.2.0'
 gem 'rails-api'
-gem 'sqlite3'
+gem 'pg'
 gem 'bcrypt', '~> 3.1.7'
 gem 'active_model_serializers'
 gem 'pundit'
