@@ -123,11 +123,11 @@ describe Ride do
   end
 
   describe '.order_by_attribute_values' do
-    subject { Ride.order_by_attribute_values }
+    subject { Ride.order_by_attribute_values.keys }
 
-    let(:attrs) { %w(id distance started_at ended_at created_at).to_set }
+    let(:attrs) { %w(id distance started_at ended_at created_at updated_at) }
 
-    it { is_expected.to eq(attrs) }
+    it { is_expected.to match_array(attrs) }
   end
 
   describe '.order_by' do
@@ -145,7 +145,7 @@ describe Ride do
       end
     end
 
-    [:id, :distance, :started_at, :ended_at, :created_at].each do |attribute|
+    [:id, :distance, :started_at, :ended_at, :created_at, :updated_at].each do |attribute|
       context "attr is #{attribute}" do
         let(:attr) { attribute }
 
@@ -164,7 +164,7 @@ describe Ride do
     end
 
     context 'attr is something else' do
-      let(:attr) { :updated_at }
+      let(:attr) { :user_id }
 
       let(:direction) { :asc }
 

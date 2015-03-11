@@ -6,5 +6,5 @@ class Comment < ActiveRecord::Base
   validates :user,    presence: true, on: :create
   validates :comment, presence: true
 
-  order_by_attributes :id, :created_at
+  order_by_attributes :id, :created_at, :updated_at
 end

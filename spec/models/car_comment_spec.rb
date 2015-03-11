@@ -13,9 +13,9 @@ describe CarComment do
   end
 
   describe '.order_by_attribute_values' do
-    subject { CarComment.order_by_attribute_values }
+    subject { CarComment.order_by_attribute_values.keys }
 
-    it { is_expected.to eq(%w(id created_at).to_set) }
+    it { is_expected.to match_array(%w(id created_at updated_at)) }
   end
 
   describe '.order_by' do
@@ -33,7 +33,7 @@ describe CarComment do
       end
     end
 
-    [:id, :created_at].each do |attribute|
+    [:id, :created_at, :updated_at].each do |attribute|
       context "attr is #{attribute}" do
         let(:attr) { attribute }
 
@@ -52,7 +52,7 @@ describe CarComment do
     end
 
     context 'attr is something else' do
-      let(:attr) { :updated_at }
+      let(:attr) { :user_id }
 
       let(:direction) { :asc }
 

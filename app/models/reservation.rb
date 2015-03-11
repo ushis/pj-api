@@ -16,7 +16,7 @@ class Reservation < ActiveRecord::Base
 
   validate :ensure_starts_at_is_before_ends_at
 
-  order_by_attributes :id, :starts_at, :ends_at, :created_at
+  order_by_attributes :id, :starts_at, :ends_at, :created_at, :updated_at
 
   scope :before, -> (date) { date.blank? ? all : where('starts_at < ?', date) }
   scope :after, -> (date) { date.blank? ? all : where('ends_at > ?', date) }

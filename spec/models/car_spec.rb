@@ -21,9 +21,9 @@ describe Car do
   end
 
   describe '.order_by_attribute_values' do
-    subject { Car.order_by_attribute_values }
+    subject { Car.order_by_attribute_values.keys }
 
-    it { is_expected.to eq(%w(id name created_at).to_set) }
+    it { is_expected.to match_array(%w(id name created_at updated_at)) }
   end
 
   describe '.order_by' do
@@ -41,7 +41,7 @@ describe Car do
       end
     end
 
-    [:id, :name, :created_at].each do |attribute|
+    [:id, :name, :created_at, :updated_at].each do |attribute|
       context "attr is #{attribute}" do
         let(:attr) { attribute }
 
@@ -60,7 +60,7 @@ describe Car do
     end
 
     context 'attr is something else' do
-      let(:attr) { :updated_at }
+      let(:attr) { :location }
 
       let(:direction) { :asc }
 

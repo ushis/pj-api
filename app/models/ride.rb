@@ -21,7 +21,12 @@ class Ride < ActiveRecord::Base
 
   after_destroy :update_car_mileage
 
-  order_by_attributes :id, :distance, :started_at, :ended_at, :created_at
+  order_by_attributes :id,
+    :distance,
+    :started_at,
+    :ended_at,
+    :created_at,
+    :updated_at
 
   scope :before, -> (date) { date.blank? ? all : where('started_at < ?', date) }
   scope :after, -> (date) { date.blank? ? all : where('ended_at > ?', date) }

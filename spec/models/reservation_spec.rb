@@ -94,11 +94,11 @@ describe Reservation do
   end
 
   describe '.order_by_attribute_values' do
-    subject { Reservation.order_by_attribute_values }
+    subject { Reservation.order_by_attribute_values.keys }
 
-    let(:attrs) { %w(id starts_at ends_at created_at).to_set }
+    let(:attrs) { %w(id starts_at ends_at created_at updated_at) }
 
-    it { is_expected.to eq(attrs) }
+    it { is_expected.to match_array(attrs) }
   end
 
   describe '.order_by' do
@@ -116,7 +116,7 @@ describe Reservation do
       end
     end
 
-    [:id, :starts_at, :ends_at, :created_at].each do |attribute|
+    [:id, :starts_at, :ends_at, :created_at, :updated_at].each do |attribute|
       context "attr is #{attribute}" do
         let(:attr) { attribute }
 
@@ -135,7 +135,7 @@ describe Reservation do
     end
 
     context 'attr is something else' do
-      let(:attr) { :updated_at }
+      let(:attr) { :user_id }
 
       let(:direction) { :asc }
 

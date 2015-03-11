@@ -21,7 +21,7 @@ class Car < ActiveRecord::Base
 
   validates :name,   presence: true, length: {maximum: 255}
 
-  order_by_attributes :id, :name, :created_at
+  order_by_attributes :id, :name, :created_at, :updated_at
 
   # Searches cars by (partial) name
   def self.search(q)

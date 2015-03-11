@@ -46,11 +46,11 @@ describe Borrowership do
   end
 
   describe '.order_by_attribute_values' do
-    subject { Borrowership.order_by_attribute_values }
+    subject { Borrowership.order_by_attribute_values.keys }
 
-    let(:attrs) { %w(id created_at) }
+    let(:attrs) { %w(id created_at updated_at user.username) }
 
-    it { is_expected.to eq(%w(id created_at).to_set) }
+    it { is_expected.to match_array(attrs) }
   end
 
   describe '.order_by' do
@@ -68,7 +68,7 @@ describe Borrowership do
       end
     end
 
-    [:id, :created_at].each do |attribute|
+    [:id, :created_at, :updated_at].each do |attribute|
       context "attr is #{attribute}" do
         let(:attr) { attribute }
 
@@ -86,8 +86,34 @@ describe Borrowership do
       end
     end
 
+    context "attr is 'user.username'" do
+      let(:attr) { 'user.username' }
+
+      let(:result) do
+        borrowerships.sort do |a, b|
+          if direction == :desc
+            b.user.username <=> a.user.username
+          else
+            a.user.username <=> b.user.username
+          end
+        end
+      end
+
+      context 'direction is asc' do
+        let(:direction) { :asc }
+
+        it { is_expected.to eq(result) }
+      end
+
+      context 'direction is asc' do
+        let(:direction) { :desc }
+
+        it { is_expected.to eq(result) }
+      end
+    end
+
     context 'attr is something else' do
-      let(:attr) { :updated_at }
+      let(:attr) { :user_id }
 
       let(:direction) { :asc }
 

@@ -6,7 +6,7 @@ class Relationship < ActiveRecord::Base
 
   validates :user_id, uniqueness: {scope: :car_id}
 
-  order_by_attributes :id, :created_at
+  order_by_attributes :id, :created_at, :updated_at, user: :username
 
   # Searches relationships by (partial) username
   def self.search(q)
