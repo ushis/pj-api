@@ -1,4 +1,4 @@
-class LocationUpdateMailJob < ApplicationJob
+class LocationUpdatedMailJob < ApplicationJob
 
   def perform(location)
     location.car.owners.exclude(location.user).each do |user|
