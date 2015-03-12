@@ -10,7 +10,7 @@ class LocationMailer < ApplicationMailer
   private
 
   def subject
-    "#{@user.username} updated the location of #{@location.car.name}"
+    "#{@location.user.username} updated the location of #{@location.car.name}"
   end
 
   def location_url(location)
