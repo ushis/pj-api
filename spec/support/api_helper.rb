@@ -25,6 +25,7 @@ module ApiHelper
   def profile_json(user)
     user_json(user).merge!({
       email: user.email,
+      time_zone: user.time_zone.tzinfo.name,
       created_at: user.created_at.as_json,
       updated_at: user.updated_at.as_json
     })

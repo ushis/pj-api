@@ -19,13 +19,13 @@ class UserPolicy < ApplicationPolicy
   def accessible_attributes
     [:id, :username].tap do |attrs|
       if user == record
-        attrs.concat([:email, :created_at, :updated_at, :access_token])
+        attrs.concat([:email, :time_zone, :created_at, :updated_at, :access_token])
       end
     end
   end
 
   def permitted_attributes
-    [:email, :password, :password_confirmation].tap do |attrs|
+    [:email, :time_zone, :password, :password_confirmation].tap do |attrs|
       attrs << :username if !record.persisted?
     end
   end

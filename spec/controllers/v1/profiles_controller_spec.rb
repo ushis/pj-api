@@ -154,6 +154,7 @@ describe V1::ProfilesController do
           user: {
             username: 'john',
             email: 'john@example.com',
+            time_zone: ActiveSupport::TimeZone.all.sample.utc_offset,
             password: 'secret',
             password_confirmation: 'secret'
           }
@@ -180,8 +181,12 @@ describe V1::ProfilesController do
         expect(user.email).to eq(params[:user][:email])
       end
 
-      it 'set the correct password' do
+      it 'sets the correct password' do
         expect(user.authenticate(params[:user][:password])).to eq(user)
+      end
+
+      it 'sets the correct time zone' do
+        expect(user.time_zone.utc_offset).to eq(params[:user][:time_zone])
       end
 
       describe 'emails' do
@@ -282,10 +287,13 @@ describe V1::ProfilesController do
             {
               user: {
                 email: 'john@example.com',
+                time_zone: time_zone.tzinfo.name,
                 password_current: password_current
               }
             }
           end
+
+          let(:time_zone) { ActiveSupport::TimeZone.all.sample }
 
           it { is_expected.to respond_with(:success) }
 
@@ -295,6 +303,11 @@ describe V1::ProfilesController do
 
           it 'sets the new email' do
             expect(user.reload.email).to eq(params[:user][:email])
+          end
+
+          it 'sets the correct time zone' do
+            expect(user.reload.time_zone.utc_offset).to \
+              eq(time_zone.utc_offset)
           end
         end
 

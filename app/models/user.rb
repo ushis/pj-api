@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
   include HasToken
+  include TimeZoneAttributes
 
   has_token :access, 1.week
 
@@ -19,7 +20,7 @@ class User < ActiveRecord::Base
   validates :username, presence: true, uniqueness: true,
     length: {maximum: 255}, format: /\A[a-z0-9]+\z/
 
-  validates :email,    presence: true, uniqueness: true,
+  validates :email, presence: true, uniqueness: true,
     length: {maximum: 255}, format: /.+@.+/
 
   validates :password, presence: true,
@@ -31,9 +32,12 @@ class User < ActiveRecord::Base
     if: -> (u) { u.password.present? }
 
   before_validation -> (u) { u.username = u.username.to_s.strip.downcase }
+
   before_validation -> (u) { u.email = u.email.to_s.strip }
 
   scope :exclude, -> (*users) { users.empty? ? all : where.not(id: users) }
+
+  time_zone_attributes :time_zone
 
   # Finds a user by username/email
   def self.find_by_username_or_email(username_or_email)

@@ -266,6 +266,56 @@ describe User do
     end
   end
 
+  describe '#time_zone=' do
+    before { user.time_zone = arg }
+
+    let(:user) { build(:user) }
+
+    subject { user.send(:read_attribute, :time_zone) }
+
+    context 'when arg is nil' do
+      let(:arg) { nil }
+
+      it { is_expected.to be_nil }
+    end
+
+    context 'when arg is somthing invalid' do
+      let(:arg) { [1e12, 'invalid'].sample }
+
+      it { is_expected.to eq(Time.zone.tzinfo.name) }
+    end
+
+    context 'when arg is a valid time zone' do
+      let(:arg) { [zone.tzinfo.name, zone.utc_offset].sample }
+
+      let(:zone) { ActiveSupport::TimeZone.all.sample }
+
+      it { is_expected.to eq(zone.tzinfo.name) }
+    end
+  end
+
+  describe '#time_zone' do
+    subject { user.time_zone }
+
+    let(:user) { build(:user) }
+
+    before { user.send(:write_attribute, :time_zone, time_zone) }
+
+    context 'when time zone is something invalid' do
+      let(:time_zone) { [nil, 12e100].sample }
+
+      it { is_expected.to eq(Time.zone) }
+    end
+
+    context 'when time_zone is a valid time zone' do
+      let(:time_zone) { [zone.tzinfo.name, zone.utc_offset].sample }
+
+      let(:zone) { ActiveSupport::TimeZone.all.sample }
+
+      its(:utc_offset) { is_expected.to eq(zone.utc_offset) }
+    end
+  end
+
   describe '#owns_or_borrows?' do
     subject { user.owns_or_borrows?(car) }
 

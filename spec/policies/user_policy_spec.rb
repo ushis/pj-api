@@ -65,7 +65,9 @@ describe UserPolicy do
     context 'user is record' do
       let(:user) { record }
 
-      let(:attrs) { %i(id username email created_at updated_at access_token) }
+      let(:attrs) do
+        %i(id username email time_zone created_at updated_at access_token)
+      end
 
       it { is_expected.to match_array(attrs) }
     end
@@ -79,7 +81,7 @@ describe UserPolicy do
     context 'record is persisted' do
       let(:record) { create(:user) }
 
-      let(:attrs) { %i(email password password_confirmation) }
+      let(:attrs) { %i(email time_zone password password_confirmation) }
 
       it { is_expected.to match_array(attrs) }
     end
@@ -87,7 +89,9 @@ describe UserPolicy do
     context 'record is not persisted' do
       let(:record) { build(:user) }
 
-      let(:attrs) { %i(username email password password_confirmation) }
+      let(:attrs) do
+        %i(username email time_zone password password_confirmation)
+      end
 
       it { is_expected.to match_array(attrs) }
     end
