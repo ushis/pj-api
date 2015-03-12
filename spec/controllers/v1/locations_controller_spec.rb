@@ -176,6 +176,33 @@ describe V1::LocationsController do
               expect(car.reload.location.longitude).to \
                 be_within(1e-10).of(params[:location][:longitude])
             end
+
+            describe 'emails' do
+              let(:car) do
+                create(:car, owners: [user] + owners, borrowers: borrowers)
+              end
+
+              let(:owners) { create_list(:user, 2) }
+
+              let(:borrowers) { create_list(:user, 2) }
+
+              subject { ActionMailer::Base.deliveries }
+
+              its(:length) { is_expected.to eq(2) }
+
+              it 'sends mails to the owners' do
+                expect(subject.map(&:to).flatten).to \
+                  match_array(owners.map(&:email))
+              end
+
+              it 'sends a update location email' do
+                expect(subject.first.subject).to include('location')
+              end
+
+              it 'has the correct car name' do
+                expect(subject.first.subject).to include(car.name)
+              end
+            end
           end
         end
       end

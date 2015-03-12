@@ -56,4 +56,7 @@ RSpec.configure do |config|
 
   # Include ApiHelper
   config.include ApiHelper, type: :controller
+
+  # Clear Action Mailer deliveries before each test
+  config.before(:each) { ActionMailer::Base.deliveries.clear }
 end
