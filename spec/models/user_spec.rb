@@ -290,7 +290,16 @@ describe User do
 
       let(:zone) { ActiveSupport::TimeZone.all.sample }
 
-      it { is_expected.to eq(zone.tzinfo.name) }
+      it 'writes the correct time zone' do
+        expect(ActiveSupport::TimeZone[subject].utc_offset).to \
+          eq(zone.utc_offset)
+      end
+    end
+
+    context 'when arg is a ActiveSupport::TimeZone' do
+      let(:arg) { ActiveSupport::TimeZone.all.sample }
+
+      it { is_expected.to eq(arg.tzinfo.name) }
     end
   end
 
