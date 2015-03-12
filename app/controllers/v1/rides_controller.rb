@@ -26,6 +26,7 @@ class V1::RidesController < V1::ApplicationController
     authorize @ride
 
     if @ride.save
+      RideCreatedMailJob.perform_later(@ride)
       render json: @ride, status: :created
     else
       render_error :unprocessable_entity, @ride.errors
