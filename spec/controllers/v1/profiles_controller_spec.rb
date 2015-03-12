@@ -183,6 +183,16 @@ describe V1::ProfilesController do
       it 'set the correct password' do
         expect(user.authenticate(params[:user][:password])).to eq(user)
       end
+
+      describe 'emails' do
+        subject { ActionMailer::Base.deliveries.first }
+
+        its(:to) { is_expected.to match_array([user.email]) }
+
+        its(:subject) { is_expected.to include('Welcome') }
+
+        its(:body) { is_expected.to include(user.username) }
+      end
     end
   end
 

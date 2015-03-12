@@ -14,6 +14,7 @@ class V1::ProfilesController < V1::ApplicationController
     authorize @user
 
     if @user.save
+      UserMailer.welcome(@user).deliver_later
       render json: @user, scope: @user, serializer: ProfileSerializer, status: :created
     else
       render_error :unprocessable_entity, @user.errors

@@ -11,6 +11,8 @@ api:
     - POSTGRES_HOST=postgres
     - POSTGRES_USER=postgres
     - POSTGRES_PASSWORD=secret
+    - SMTP_HOST=mailcatcher
+    - SMTP_PORT=1025
   command: rails s -b 0.0.0.0
 
 postgres:
@@ -21,6 +23,6 @@ postgres:
     - POSTGRES_PASSWORD=secret
 
 mailcatcher:
-  image: schickling/mailcatcher
+  image: ushi/mailcatcher
   ports:
     - "1080:1080"

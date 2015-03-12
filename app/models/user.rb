@@ -59,4 +59,9 @@ class User < ActiveRecord::Base
   def borrows?(car)
     borrowed_cars.include?(car)
   end
+
+  # Returns the users email with username suitable for email headers
+  def email_with_username
+    "#{username} <#{email}>"
+  end
 end

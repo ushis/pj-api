@@ -38,4 +38,18 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
+
+  # Send mails via SMTP
+  config.action_mailer.delivery_method = :smtp
+
+  # Configure SMTP via environment
+  config.action_mailer.smtp_settings = {
+    address: ENV['SMTP_HOST'],
+    port: ENV['SMTP_PORT']
+  }
+
+  # Set default from address
+  config.action_mailer.default_options = {
+    from: 'pj@localhost'
+  }
 end
