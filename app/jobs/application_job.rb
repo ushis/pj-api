@@ -1,3 +1,3 @@
 class ApplicationJob < ActiveJob::Base
-  queue_as :detach
+  queue_as :default
 end
