@@ -195,7 +195,7 @@ describe V1::LocationsController do
                   match_array(owners.map(&:email))
               end
 
-              it 'sends a update location email' do
+              it 'sends a location update email' do
                 expect(subject.first.subject).to include('location')
               end
 

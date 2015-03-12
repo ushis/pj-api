@@ -212,6 +212,33 @@ describe V1::ReservationsController do
           it 'sets the correct car' do
             expect(reservation.car).to eq(car)
           end
+
+          describe 'emails' do
+            let(:car) do
+              create(:car, owners: [user] + owners, borrowers: borrowers)
+            end
+
+            let(:owners) { create_list(:user, 2) }
+
+            let(:borrowers) { create_list(:user, 2) }
+
+            subject { ActionMailer::Base.deliveries }
+
+            its(:length) { is_expected.to eq(2) }
+
+            it 'sends mails to the owners' do
+              expect(subject.map(&:to).flatten).to \
+                match_array(owners.map(&:email))
+            end
+
+            it 'sends a reservation created email' do
+              expect(subject.first.subject).to include('reservation')
+            end
+
+            it 'sets the correct car name' do
+              expect(subject.first.subject).to include(car.name)
+            end
+          end
         end
       end
     end

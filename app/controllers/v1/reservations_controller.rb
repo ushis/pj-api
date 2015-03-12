@@ -26,6 +26,7 @@ class V1::ReservationsController < V1::ApplicationController
     authorize @reservation
 
     if @reservation.save
+      ReservationCreatedMailJob.perform_later(@reservation)
       render json: @reservation, status: :created
     else
       render_error :unprocessable_entity, @reservation.errors
