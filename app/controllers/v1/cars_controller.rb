@@ -41,7 +41,10 @@ class V1::CarsController < V1::ApplicationController
 
   # DELETE /v1/cars/:id
   def destroy
+    recipients = @car.users.exclude(current_user).load
+
     if @car.destroy
+      CarDestroyedMailJob.perform_later(@car.name, current_user, *recipients)
       head :no_content
     else
       render_error :unprocessable_entity, @car.errors
