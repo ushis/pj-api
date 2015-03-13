@@ -310,8 +310,14 @@ describe User do
 
     before { user.send(:write_attribute, :time_zone, time_zone) }
 
+    context 'when time zone is nil' do
+      let(:time_zone) { nil }
+
+      it { is_expected.to eq(Time.zone) }
+    end
+
     context 'when time zone is something invalid' do
-      let(:time_zone) { [nil, 12e100].sample }
+      let(:time_zone) { ['invalid', 12e100].sample }
 
       it { is_expected.to eq(Time.zone) }
     end
