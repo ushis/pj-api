@@ -3,5 +3,9 @@ Hey <%= @user.username %>,
 i would like to inform you, that <%= @ride.user.username %> added a
 new ride to your car <%= @ride.car.name %>.
 
+  Distance: <%= @ride.distance %> km
+  Start:    <%= format_datetime(@ride.started_at, @user.time_zone) %>
+  End:      <%= format_datetime(@ride.ended_at, @user.time_zone) %>
+
 ---
 <%= @url %>

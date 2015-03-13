@@ -3,5 +3,13 @@ Hey <%= @user.username %>,
 i would like to inform you, that <%= @reservation.user.username %> added a
 new reservation to your car <%= @reservation.car.name %>.
 
+The car is needed between
+
+  *<%=
+    format_datetime(@reservation.starts_at, @user.time_zone)
+  %>* and *<%=
+    format_datetime(@reservation.ends_at, @user.time_zone)
+  %>*
+
 ---
 <%= @url %>
