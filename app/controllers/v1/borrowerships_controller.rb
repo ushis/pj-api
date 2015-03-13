@@ -25,6 +25,7 @@ class V1::BorrowershipsController < V1::ApplicationController
     authorize @borrowership
 
     if @borrowership.save
+      BorrowershipCreatedMailJob.perform_later(@borrowership, current_user)
       render json: @borrowership, status: :created
     else
       render_error :unprocessable_entity, @borrowership.errors

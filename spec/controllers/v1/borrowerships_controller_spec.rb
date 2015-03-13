@@ -224,6 +224,27 @@ describe V1::BorrowershipsController do
           it 'sets the correct user' do
             expect(borrowership.user).to eq(other)
           end
+
+          describe 'emails' do
+            let(:car) { create(:car, owners: [user] + owners, borrowers: borrowers) }
+
+            let(:owners) { build_list(:user, 2) }
+
+            let(:borrowers) { build_list(:user, 2) }
+
+            subject { ActionMailer::Base.deliveries }
+
+            its(:length) { is_expected.to eq(3) }
+
+            it 'sends an email to all owners' do
+              expect(subject.map(&:to).flatten).to \
+                match_array([other].concat(owners).map(&:email))
+            end
+
+            it 'sets the correct car name' do
+              expect(subject.first.subject).to include(car.name)
+            end
+          end
         end
       end
     end
