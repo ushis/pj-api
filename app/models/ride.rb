@@ -11,6 +11,8 @@ class Ride < ActiveRecord::Base
     foreign_key: :commentable_id,
     counter_cache: :comments_count
 
+  has_many :commenters, through: :comments, source: :user
+
   validates :distance,    presence: true, numericality: {greater_than: 0}
   validates :started_at,  presence: true
   validates :ended_at,    presence: true

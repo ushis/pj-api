@@ -31,6 +31,7 @@ class V1::CommentsController < V1::ApplicationController
     authorize @comment
 
     if @comment.save
+      CommentCreatedMailJob.perform_later(@comment)
       render json: @comment, status: :created
     else
       render_error :unprocessable_entity, @comment.errors

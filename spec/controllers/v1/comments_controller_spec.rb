@@ -305,6 +305,37 @@ describe V1::CommentsController do
             it 'sets the correct car' do
               expect(comment.car).to eq(car)
             end
+
+            describe 'emails' do
+              let(:car) do
+                create(:car, owners: [user] + owners, borrowers: borrowers, comments: comments)
+              end
+
+              let(:owners) { build_list(:user, 2) }
+
+              let(:borrowers) { build_list(:user, 2) }
+
+              let(:comments) { build_list(:car_comment, 2) }
+
+              let(:commenters) { comments.map(&:user) }
+
+              subject { ActionMailer::Base.deliveries }
+
+              its(:length) { is_expected.to eq(4) }
+
+              it 'sends an email to all owners and commenters' do
+                expect(subject.map(&:to).flatten).to \
+                  match_array((owners + commenters).map(&:email))
+              end
+
+              it 'sends a comment mail' do
+                expect(subject.first.subject).to include('comment')
+              end
+
+              it 'sets the correct car name' do
+                expect(subject.first.subject).to include(car.name)
+              end
+            end
           end
         end
       end
@@ -407,6 +438,37 @@ describe V1::CommentsController do
 
               it 'sets the correct user' do
                 expect(comment.user).to eq(user)
+              end
+
+              describe 'emails' do
+                let(:parent) { create(parent_type, car: car, comments: comments) }
+
+                let(:car) { create(:car, owners: [user] + owners, borrowers: borrowers) }
+
+                let(:owners) { build_list(:user, 2) }
+
+                let(:borrowers) { build_list(:user, 2) }
+
+                let(:comments) { build_list("#{parent_type}_comment", 2) }
+
+                let(:commenters) { comments.map(&:user) }
+
+                subject { ActionMailer::Base.deliveries }
+
+                its(:length) { is_expected.to eq(5) }
+
+                it 'sends an email to all owners and commenters' do
+                  expect(subject.map(&:to).flatten).to \
+                    match_array((owners + commenters + [parent.user]).map(&:email))
+                end
+
+                it 'sends a comment mail' do
+                  expect(subject.first.subject).to include('comment')
+                end
+
+                it 'sets the correct car name' do
+                  expect(subject.first.subject).to include(car.name)
+                end
               end
             end
           end

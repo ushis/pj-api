@@ -3,6 +3,7 @@ require 'rails_helper'
 describe Car do
   describe 'associations' do
     it { is_expected.to have_many(:comments).dependent(:destroy).counter_cache(:comments_count) }
+    it { is_expected.to have_many(:commenters).through(:comments).source(:user) }
     it { is_expected.to have_many(:rides).inverse_of(:car).dependent(:destroy) }
     it { is_expected.to have_many(:reservations).inverse_of(:car).dependent(:destroy) }
     it { is_expected.to have_many(:relationships).inverse_of(:car).dependent(:destroy) }

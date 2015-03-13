@@ -17,6 +17,8 @@ class Car < ActiveRecord::Base
     foreign_key: :commentable_id,
     counter_cache: :comments_count
 
+  has_many :commenters, through: :comments, source: :user
+
   has_one :location, inverse_of: :car, dependent: :destroy
 
   validates :name,   presence: true, length: {maximum: 255}

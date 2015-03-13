@@ -11,6 +11,8 @@ class Reservation < ActiveRecord::Base
     foreign_key: :commentable_id,
     counter_cache: :comments_count
 
+  has_many :commenters, through: :comments, source: :user
+
   validates :starts_at, presence: true
   validates :ends_at,   presence: true
 
