@@ -25,6 +25,7 @@ class V1::OwnershipsController < V1::ApplicationController
     authorize @ownership
 
     if @ownership.save
+      OwnershipCreatedMailJob.perform_later(@ownership, current_user)
       render json: @ownership, status: :created
     else
       render_error :unprocessable_entity, @ownership.errors
