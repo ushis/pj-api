@@ -63,7 +63,7 @@ class ApplicationController < ActionController::API
     unauthorized if current_user.nil?
   end
 
-  # Returns the current_user or nil if this is an anonymous request
+  # Returns the current user or nil if this is an anonymous request
   def current_user
     @current_user ||= User.find_by_access_token(access_token)
   end

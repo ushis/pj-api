@@ -122,6 +122,34 @@ describe User do
     end
   end
 
+  describe '.find_by_username_or_email!' do
+    let!(:users) { create_list(:user, 3) }
+
+    let(:sample) { users.sample }
+
+    subject { User.find_by_username_or_email!(username_or_email) }
+
+    context 'given invalid input' do
+      let(:username_or_email) { 'invalid' }
+
+      it 'raises ActiveRecord::RecordNotFound' do
+        expect { subject }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
+
+    context 'given a valid username' do
+      let(:username_or_email) { sample.username }
+
+      it { is_expected.to eq(sample) }
+    end
+
+    context 'given a valid email' do
+      let(:username_or_email) { sample.email }
+
+      it { is_expected.to eq(sample) }
+    end
+  end
+
   describe '.search' do
     let!(:jane) { create(:user, username: :jane) }
 
@@ -178,91 +206,103 @@ describe User do
     end
   end
 
-  describe '.find_by_access_token' do
-    subject { User.find_by_access_token(token) }
+  describe '.tokens' do
+    subject { User.tokens[scope] }
 
-    let!(:user) { create(:user) }
+    context 'access' do
+      let(:scope) { :access }
 
-    context 'given a valid token' do
-      let(:token) { user.access_token }
-
-      it { is_expected.to eq(user) }
+      its(:ttl) { is_expected.to eq(1.week) }
     end
 
-    context 'given an expired token' do
-      let(:token) do
-        User.tokens[:access].new(user.id, :access, 1.day.ago.to_i).to_s
-      end
+    context 'password_reset' do
+      let(:scope) { :password_reset }
 
-      it { is_expected.to be_nil }
-    end
-
-    context 'given an invalid scope' do
-      let(:token) do
-        User.tokens[:access].new(user.id, :invalid, 1.day.from_now.to_i).to_s
-      end
-
-      it { is_expected.to be_nil }
+      its(:ttl) { is_expected.to eq(10.minutes) }
     end
   end
 
-  describe '#access_token' do
-    let(:token) { User.tokens[:access].from_s(user.access_token) }
+  [:access, :password_reset].each do |scope|
+    describe ".find_by_#{scope}_token" do
+      subject { User.send("find_by_#{scope}_token", token) }
 
-    let(:user) { create(:user) }
+      let!(:user) { create(:user) }
 
-    describe 'id' do
-      subject { token.id }
+      context 'given a valid token' do
+        let(:token) { user.send("#{scope}_token") }
 
-      it { is_expected.to eq(user.id) }
-    end
-
-    describe 'scope' do
-      subject { token.scope }
-
-      it { is_expected.to eq('access') }
-    end
-
-    describe 'exp' do
-      subject { token.exp }
-
-      it { is_expected.to eq(1.week.from_now.to_i) }
-    end
-  end
-
-  describe '#valid_access_token?' do
-    subject { user.valid_access_token?(token) }
-
-    let(:user) { create(:user) }
-
-    context 'given an expired token' do
-      let(:token) do
-        User.tokens[:access].new(user.id, :access, 1.day.ago.to_i).to_s
+        it { is_expected.to eq(user) }
       end
 
-      it { is_expected.to be false }
-    end
+      context 'given an expired token' do
+        let(:token) do
+          User.tokens[scope].new(user.id, scope, 1.day.ago.to_i).to_s
+        end
 
-    context 'given an invalid scope' do
-      let(:token) do
-        User.tokens[:access].new(user.id, :invalid, 1.day.from_now.to_i).to_s
+        it { is_expected.to be_nil }
       end
 
-      it { is_expected.to be false }
+      context 'given an invalid scope' do
+        let(:token) do
+          User.tokens[scope].new(user.id, :invalid, 1.day.from_now.to_i).to_s
+        end
+
+        it { is_expected.to be_nil }
+      end
     end
 
-    context 'given an invalid id' do
-      let(:token) do
-        User.tokens[:access].new(0, :invalid, 1.day.from_now.to_i).to_s
+    describe "##{scope}_token" do
+      let(:token) { User.tokens[scope].from_s(user.send("#{scope}_token")) }
+
+      let(:user) { create(:user) }
+
+      describe 'id' do
+        subject { token.id }
+
+        it { is_expected.to eq(user.id) }
       end
 
-      it { is_expected.to be false }
+      describe 'scope' do
+        subject { token.scope }
+
+        it { is_expected.to eq(scope.to_s) }
+      end
     end
 
-    context 'given a valid token' do
-      let(:token) { user.access_token }
+    describe "#valid_#{scope}_token?" do
+      subject { user.send("valid_#{scope}_token?", token) }
 
-      it { is_expected.to be true }
+      let(:user) { create(:user) }
+
+      context 'given an expired token' do
+        let(:token) do
+          User.tokens[scope].new(user.id, scope, 1.day.ago.to_i).to_s
+        end
+
+        it { is_expected.to be false }
+      end
+
+      context 'given an invalid scope' do
+        let(:token) do
+          User.tokens[scope].new(user.id, :invalid, 1.day.from_now.to_i).to_s
+        end
+
+        it { is_expected.to be false }
+      end
+
+      context 'given an invalid id' do
+        let(:token) do
+          User.tokens[scope].new(0, scope, 1.day.from_now.to_i).to_s
+        end
+
+        it { is_expected.to be false }
+      end
+
+      context 'given a valid token' do
+        let(:token) { user.send("#{scope}_token") }
+
+        it { is_expected.to be true }
+      end
     end
   end
 

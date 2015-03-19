@@ -2,7 +2,8 @@ class User < ActiveRecord::Base
   include HasToken
   include TimeZoneAttributes
 
-  has_token :access, 1.week
+  has_token :access,         1.week
+  has_token :password_reset, 10.minutes
 
   has_secure_password validations: false
 
@@ -42,6 +43,13 @@ class User < ActiveRecord::Base
   # Finds a user by username/email
   def self.find_by_username_or_email(username_or_email)
     where('username = :q OR email = :q', q: username_or_email).first
+  end
+
+  # Finds a user by username/email or raises ActiveRecord::RecordNotFound
+  def self.find_by_username_or_email!(username_or_email)
+    find_by_username_or_email(username_or_email) ||
+      raise(ActiveRecord::RecordNotFound,
+            "Couldn't find User with 'username'=#{username_or_email}")
   end
 
   # Searches users by (partial) username

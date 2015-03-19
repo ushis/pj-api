@@ -43,7 +43,7 @@ class Car < ActiveRecord::Base
   # Returns the cars location or raises ActiveRecord::RecordNotFound
   def location!
     location || raise(ActiveRecord::RecordNotFound,
-                        "Couldn't find Location for Car with 'id'=#{id}")
+                      "Couldn't find Location for Car with 'id'=#{id}")
   end
 
   # Updates the cars mileage
