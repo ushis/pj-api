@@ -8,7 +8,7 @@ class V1::ReservationsController < V1::ApplicationController
       .includes(:user)
       .after(datetime_param(:after))
       .before(datetime_param(:before))
-      .order(params[:order_by], params[:order])
+      .order_by(params[:order_by], params[:order])
       .page(params[:page])
       .per(params[:per_page])
 
