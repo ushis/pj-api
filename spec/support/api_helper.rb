@@ -66,8 +66,8 @@ module ApiHelper
 
   def location_json(location)
     {
-      latitude: location.latitude,
-      longitude: location.longitude,
+      latitude: location.latitude.to_f,
+      longitude: location.longitude.to_f,
       user: location.user.nil? ? nil : user_json(location.user),
       created_at: location.created_at.as_json,
       updated_at: location.updated_at.as_json

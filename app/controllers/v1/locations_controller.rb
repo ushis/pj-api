@@ -12,7 +12,7 @@ class V1::LocationsController < V1::ApplicationController
   def create
     if @location.update(location_params.merge(user: current_user))
       LocationUpdatedMailJob.perform_later(@location)
-      render json: @location.reload, status: :created
+      render json: @location, status: :created
     else
       render_error :unprocessable_entity, @location.errors
     end
@@ -22,7 +22,7 @@ class V1::LocationsController < V1::ApplicationController
   def update
     if @location.update(location_params.merge(user: current_user))
       LocationUpdatedMailJob.perform_later(@location)
-      render json: @location.reload
+      render json: @location
     else
       render_error :unprocessable_entity, @location.errors
     end
