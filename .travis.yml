@@ -6,6 +6,5 @@ addons:
   postgresql: "9.3"
 before_script:
   - psql -c 'create database travis_ci_test;' -U postgres
-  - cp config/database.travis.yml config/database.yml
 env:
-  - JWT_KEY=74050cdbe796acd46a76cc2bc8545bcf69a73033af003b27e29480812a87a98a
+  - JWT_KEY=74050cdbe796acd46a76cc2bc8545bcf69a73033af003b27e29480812a87a98a DATABASE_URL=postgresql://postgres@localhost/travis_ci_test
