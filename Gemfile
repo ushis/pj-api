@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.2.4'
+gem 'rails', '4.2.5.1'
 gem 'rails-api'
 gem 'pg'
 gem 'bcrypt', '~> 3.1.7'
@@ -20,6 +20,6 @@ group :test do
   gem 'rspec-rails'
   gem 'rspec-its'
   gem 'factory_girl_rails'
-  gem 'shoulda-matchers', require: false
+  gem 'shoulda-matchers'
   gem 'coveralls', require: false
 end

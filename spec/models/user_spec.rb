@@ -41,7 +41,7 @@ describe User do
     describe 'uniqueness validations' do
       before { create(:user) }
 
-      it { is_expected.to validate_uniqueness_of(:username) }
+      it { is_expected.to validate_uniqueness_of(:username).ignoring_case_sensitivity }
       it { is_expected.to validate_uniqueness_of(:email) }
     end
   end

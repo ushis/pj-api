@@ -35,7 +35,7 @@ class Token < Struct.new(:id, :scope, :exp)
 
   # Encodes the token to a string
   def to_s
-    JWT.encode(to_h, ENV['JWT_KEY'])
+    JWT.encode(to_h, ENV.fetch('JWT_KEY'))
   end
 
   private
@@ -44,7 +44,7 @@ class Token < Struct.new(:id, :scope, :exp)
   #
   # Raises JWT::DecodeError on failure
   def self.decode(token)
-    payload, _ = JWT.decode(token, ENV['JWT_KEY'])
+    payload, _ = JWT.decode(token, ENV.fetch('JWT_KEY'))
     new(payload['id'], payload['scope'], payload['exp'])
   end
 end

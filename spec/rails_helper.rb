@@ -3,7 +3,6 @@ ENV['RAILS_ENV'] ||= 'test'
 require 'spec_helper'
 require File.expand_path('../../config/environment', __FILE__)
 require 'rspec/rails'
-require 'shoulda/matchers'
 
 # Enable Coveralls on Travis
 if ENV['TRAVIS']
@@ -59,4 +58,12 @@ RSpec.configure do |config|
 
   # Clear Action Mailer deliveries before each test
   config.before(:each) { ActionMailer::Base.deliveries.clear }
+end
+
+# Configure Shoulda
+Shoulda::Matchers.configure do |config|
+  config.integrate do |with|
+    with.test_framework :rspec
+    with.library :rails
+  end
 end
