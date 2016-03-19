@@ -9,7 +9,7 @@ gem 'pundit'
 gem 'jwt'
 gem 'kaminari'
 gem 'dotenv-rails'
-gem 'sucker_punch'
+gem 'sucker_punch', '~> 1.6.0'
 gem 'puma'
 
 group :development do
