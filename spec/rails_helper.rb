@@ -4,8 +4,8 @@ require 'spec_helper'
 require File.expand_path('../../config/environment', __FILE__)
 require 'rspec/rails'
 
-# Enable Coveralls on Travis
-if ENV['TRAVIS']
+# Enable Coveralls on CIs
+if ENV['CI'] || ENV['TRAVIS']
   require 'coveralls'
   Coveralls.wear!('rails')
 end
