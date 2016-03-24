@@ -1,0 +1,25 @@
+---
+machine:
+  services:
+    - docker
+
+dependencies:
+  override:
+    - docker info
+    - docker build -t ushi/pj-api .
+
+database:
+  override:
+    - /bin/true
+
+test:
+  override:
+    - docker run -d --name postgres -e POSTGRES_PASSWORD=secret -e POSTGRES_DB=test postgres
+    - docker run --link postgres -e DATABASE_URL=postgres://postgres:secret@postgres/test ushi/pj-api bundle exec rake
+
+deployment:
+  hub:
+    branch: master
+    commands:
+      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+      - docker push ushi/pj-api
