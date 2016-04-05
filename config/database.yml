@@ -14,7 +14,3 @@ development:
 test:
   <<: *default
   database: pj_api_test
-
-production:
-  <<: *default
-  database: <%= ENV['POSTGRES_DB'] %>

@@ -49,10 +49,10 @@ Rails.application.configure do
   config.log_level = :debug
 
   # Prepend all log lines with the following tags.
-  # config.log_tags = [ :subdomain, :uuid ]
+  config.log_tags = [:uuid]
 
-  # Use a different logger for distributed setups.
-  # config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
+  # Log to stdout
+  config.logger = ::Logger.new(STDOUT)
 
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
@@ -63,7 +63,13 @@ Rails.application.configure do
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false
-  config.action_mailer.delivery_method = :sendmail
+  config.action_mailer.delivery_method = :smtp
+
+  # Configure SMTP via environment
+  config.action_mailer.smtp_settings = {
+    address: ENV.fetch('SMTP_HOST'),
+    port: ENV.fetch('SMTP_PORT')
+  }
 
   # Set default FROM header from the environment
   config.action_mailer.default_options = {
