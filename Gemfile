@@ -11,6 +11,7 @@ gem 'kaminari'
 gem 'dotenv-rails'
 gem 'sucker_punch', '~> 1.6.0'
 gem 'puma'
+gem 'airbrake', '~> 5.0'
 
 group :development do
   gem 'spring'
