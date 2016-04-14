@@ -4,7 +4,7 @@ class BorrowershipMailer < ApplicationMailer
     @user = user
     @borrowership = borrowership
     @creator = creator
-    @url = borrowership_url(borrowership)
+    @url = borrowership_url
     mail(to: user.email_with_username, subject: subject)
   end
 
@@ -18,7 +18,7 @@ class BorrowershipMailer < ApplicationMailer
     end
   end
 
-  def borrowership_url(borrowership)
+  def borrowership_url
     app_url("/cars/#{@borrowership.car.id}/borrowers")
   end
 end
