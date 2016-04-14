@@ -4,7 +4,7 @@ class OwnershipMailer < ApplicationMailer
     @user = user
     @ownership = ownership
     @creator = creator
-    @url = ownership_url(ownership)
+    @url = ownership_url
     mail(to: user.email_with_username, subject: subject)
   end
 
@@ -18,7 +18,7 @@ class OwnershipMailer < ApplicationMailer
     end
   end
 
-  def ownership_url(ownership)
+  def ownership_url
     app_url("/cars/#{@ownership.car.id}/owners")
   end
 end

@@ -2,7 +2,7 @@ class CarCommentMailer < ApplicationMailer
 
   def create(user, comment)
     @comment = comment
-    @url = comment_url(comment)
+    @url = comment_url
     mail(to: user.email_with_username, subject: subject)
   end
 
@@ -12,7 +12,7 @@ class CarCommentMailer < ApplicationMailer
     "#{@comment.user.username} left a comment on #{@comment.car.name}"
   end
 
-  def comment_url(comment)
-    app_url("/cars/#{comment.car.id}/comments")
+  def comment_url
+    app_url("/cars/#{@comment.car.id}/comments")
   end
 end

@@ -13,6 +13,7 @@ api:
     - POSTGRES_PASSWORD=secret
     - SMTP_HOST=mailcatcher
     - SMTP_PORT=1025
+    - APP_HOST=http://localhost:9000
   command: rails s -b 0.0.0.0
 
 postgres:
