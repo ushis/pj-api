@@ -1,18 +1,20 @@
-class TaggedEmail < Mail::Address
+class TaggedAddress < Mail::Address
+
+  TAG_SEPARATOR = '+'
 
   def untagged_local
-    local.split('+', 2).first
+    local.split(TAG_SEPARATOR, 2).first
   end
 
   def tag
-    local.split('+', 2).second
+    local.split(TAG_SEPARATOR, 2).second
   end
 
   def tag=(tag)
     if tag.blank?
       self.local = untagged_local
     else
-      self.local = "#{untagged_local}+#{tag}"
+      self.local = [untagged_local, TAG_SEPARATOR, tag].join
     end
   end
 

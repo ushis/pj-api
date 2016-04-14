@@ -1,18 +1,18 @@
 require 'rails_helper'
 
-describe TaggedEmail do
+describe TaggedAddress do
   describe '#untagged_local' do
-    subject { TaggedEmail.new(email).untagged_local }
+    subject { TaggedAddress.new(address).untagged_local }
 
-    let(:email) { "#{local}@example.com" }
+    let(:address) { "#{local}@example.com" }
 
-    context 'for untagged email' do
+    context 'for untagged address' do
       let(:local) { SecureRandom.hex(12) }
 
       it { is_expected.to eq(local) }
     end
 
-    context 'for tagged email' do
+    context 'for tagged address' do
       let(:local) { "#{untagged}+#{SecureRandom.hex(12)}" }
 
       let(:untagged) { SecureRandom.hex(12) }
@@ -22,17 +22,17 @@ describe TaggedEmail do
   end
 
   describe '#tag' do
-    subject { TaggedEmail.new(email).tag }
+    subject { TaggedAddress.new(address).tag }
 
-    let(:email) { "#{local}@example.com" }
+    let(:address) { "#{local}@example.com" }
 
-    context 'for untagged email' do
+    context 'for untagged address' do
       let(:local) { SecureRandom.hex(12) }
 
       it { is_expected.to eq(nil) }
     end
 
-    context 'for tagged email' do
+    context 'for tagged address' do
       let(:local) { "#{SecureRandom.hex(12)}+#{tag}" }
 
       let(:tag) { SecureRandom.hex(12) }
@@ -42,17 +42,17 @@ describe TaggedEmail do
   end
 
   describe '#tag=' do
-    before { tagged_email.tag = tag }
+    before { tagged_address.tag = tag }
 
-    subject { tagged_email.to_s }
+    subject { tagged_address.to_s }
 
-    let(:tagged_email) { TaggedEmail.new(email) }
+    let(:tagged_address) { TaggedAddress.new(address) }
 
-    let(:email) { "#{name} <#{local}@example.com>" }
+    let(:address) { "#{name} <#{local}@example.com>" }
 
     let(:name) { [SecureRandom.hex(4), SecureRandom.hex(6)].join(' ') }
 
-    context 'for untagged email' do
+    context 'for untagged address' do
       let(:local) { SecureRandom.hex(12) }
 
       context 'given tag is present' do
@@ -64,11 +64,11 @@ describe TaggedEmail do
       context 'given tag is blank' do
         let(:tag) { '  ' }
 
-        it { is_expected.to eq(email) }
+        it { is_expected.to eq(address) }
       end
     end
 
-    context 'for tagged email' do
+    context 'for tagged address' do
       let(:local) { "#{untagged}+#{SecureRandom.hex(12)}" }
 
       let(:untagged) { SecureRandom.hex(12) }
@@ -88,13 +88,13 @@ describe TaggedEmail do
   end
 
   describe '#local=' do
-    before { tagged_email.local = new_local }
+    before { tagged_address.local = new_local }
 
-    subject { tagged_email.to_s }
+    subject { tagged_address.to_s }
 
-    let(:tagged_email) { TaggedEmail.new(email) }
+    let(:tagged_address) { TaggedAddress.new(address) }
 
-    let(:email) { domain.blank? ? local : "#{local}@#{domain}" }
+    let(:address) { domain.blank? ? local : "#{local}@#{domain}" }
 
     let(:local) { SecureRandom.hex(12) }
 

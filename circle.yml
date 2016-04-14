@@ -15,6 +15,7 @@ database:
 test:
   pre:
     - env | grep -P '^(CIRCLE|CI|COVERALLS)' > circle.env
+    - echo 'MAIL_REPLY=pj@localhost.local' >> circle.env
   override:
     - docker run -d --name postgres -e POSTGRES_PASSWORD=secret -e POSTGRES_DB=test postgres:9.5
     - docker run --link postgres --env-file circle.env -e DATABASE_URL=postgres://postgres:secret@postgres/test ushi/pj-api bundle exec rake
