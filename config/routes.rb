@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     resource  :password_reset, only: [:create, :update]
     resources :sessions,       only: [:create]
     resources :users,          only: [:index, :show]
+    resources :replies,        only: [:create]
 
     resources :cars, only: [:index, :show, :create, :update, :destroy] do
       resource  :location,      only: [:show, :create, :update, :destroy]
