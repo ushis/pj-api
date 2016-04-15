@@ -123,5 +123,11 @@ describe TaggedAddress do
 
       it { is_expected.to eq(new_local) }
     end
+
+    context 'when address is missing' do
+      let(:address) { nil }
+
+      it { is_expected.to eq(new_local) }
+    end
   end
 end

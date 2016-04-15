@@ -19,7 +19,9 @@ class TaggedAddress < Mail::Address
   end
 
   def local=(local)
-    if domain.blank?
+    if address.nil?
+      self.address = local
+    elsif domain.blank?
       self.address = to_s.sub(address, local)
     else
       self.address = to_s.sub(address, "#{local}@#{domain}")
