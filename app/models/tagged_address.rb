@@ -3,11 +3,11 @@ class TaggedAddress < Mail::Address
   TAG_SEPARATOR = '+'
 
   def untagged_local
-    local.split(TAG_SEPARATOR, 2).first
+    local.nil? ? nil : local.split(TAG_SEPARATOR, 2).first
   end
 
   def tag
-    local.split(TAG_SEPARATOR, 2).second
+    local.nil? ? nil : local.split(TAG_SEPARATOR, 2).second
   end
 
   def tag=(tag)

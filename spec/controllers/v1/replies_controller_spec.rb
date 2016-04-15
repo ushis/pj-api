@@ -39,6 +39,16 @@ describe V1::RepliesController do
       end
     end
 
+    context 'with missing recipient' do
+      let(:recipient) { nil }
+
+      it { is_expected.to respond_with(:unprocessable_entity) }
+
+      it 'responds with an error' do
+        expect(json[:details][:recipient]).to be_present
+      end
+    end
+
     context 'with invalid recipient' do
       let(:recipient) { 'invalid@' }
 

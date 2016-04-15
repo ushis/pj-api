@@ -19,6 +19,12 @@ describe TaggedAddress do
 
       it { is_expected.to eq(untagged) }
     end
+
+    context 'without an address' do
+      let(:address) { nil }
+
+      it { is_expected.to eq(nil) }
+    end
   end
 
   describe '#tag' do
@@ -38,6 +44,12 @@ describe TaggedAddress do
       let(:tag) { SecureRandom.hex(12) }
 
       it { is_expected.to eq(tag) }
+    end
+
+    context 'without an address' do
+      let(:address) { nil }
+
+      it { is_expected.to eq(nil) }
     end
   end
 
