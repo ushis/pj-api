@@ -46,9 +46,9 @@ describe ReplyAddress do
       context 'with invalid message' do
         let(:tag) { MessageSigner.new.sign(SecureRandom.hex(32)) }
 
-        it 'raises URI::BadURIError' do
+        it 'raise InvalidAddress' do
           expect { ReplyAddress.decode(address) }.to \
-            raise_error(URI::BadURIError)
+            raise_error(ReplyAddress::InvalidAddress)
         end
       end
 
