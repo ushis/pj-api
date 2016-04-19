@@ -22,6 +22,6 @@ class ReservationCommentMailer < ApplicationMailer
   end
 
   def reply_to
-    ReplyAddress.new(@user, @comment.reservation).to_s
+    ReplyAddress.new(@user, @comment.reservation, @comment.reservation.car.name).to_s
   end
 end

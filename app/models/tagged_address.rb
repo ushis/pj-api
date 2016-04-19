@@ -27,4 +27,20 @@ class TaggedAddress < Mail::Address
       self.address = to_s.sub(address, "#{local}@#{domain}")
     end
   end
+
+  # Works around a bug in mail. See fix in the next release:
+  #
+  # https://github.com/mikel/mail/commit/8cb227828e53f7b078c68573fc4214796a6d11b9
+  def display_name
+    super
+  rescue NoMethodError
+    nil
+  end
+
+  # Works around a bug in mail. See fix in the next release:
+  #
+  # https://github.com/mikel/mail/commit/8cb227828e53f7b078c68573fc4214796a6d11b9
+  def display_name=(name)
+    super(name.to_s)
+  end
 end

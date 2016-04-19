@@ -18,6 +18,6 @@ class CarCommentMailer < ApplicationMailer
   end
 
   def reply_to
-    ReplyAddress.new(@user, @comment.car).to_s
+    ReplyAddress.new(@user, @comment.car, @comment.car.name).to_s
   end
 end

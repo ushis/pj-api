@@ -50,9 +50,4 @@ class Car < ActiveRecord::Base
   def update_mileage
     update_attribute(:mileage, rides.sum(:distance))
   end
-
-  # Returns self
-  def car
-    self
-  end
 end

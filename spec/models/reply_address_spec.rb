@@ -5,15 +5,19 @@ describe ReplyAddress do
     context 'given a valid address' do
       subject { ReplyAddress.decode(address) }
 
-      let(:address) { ReplyAddress.new(user, record).to_s }
+      let(:address) { ReplyAddress.new(user, record, name).to_s }
 
       let(:user) { create(:user) }
 
       let(:record) { create(:car) }
 
+      let(:name) { SecureRandom.hex(28) }
+
       its(:user) { is_expected.to eq(user) }
 
       its(:record) { is_expected.to eq(record) }
+
+      its(:name) { is_expected.to eq(name) }
     end
 
     context 'given an invalid address' do
@@ -72,15 +76,17 @@ describe ReplyAddress do
   describe '#to_s' do
     subject { TaggedAddress.new(address) }
 
-    let(:address) { ReplyAddress.new(user, record).to_s }
+    let(:address) { ReplyAddress.new(user, record, name).to_s }
 
     let(:user) { create(:user) }
 
     let(:record) { create(:reservation) }
 
+    let(:name) { SecureRandom.hex(24) }
+
     let(:untagged) { Mail::Address.new(ENV.fetch('MAIL_REPLY')) }
 
-    its(:display_name) { is_expected.to eq(record.car.name) }
+    its(:display_name) { is_expected.to eq(name) }
 
     its(:tag) { is_expected.to be_present }
 
