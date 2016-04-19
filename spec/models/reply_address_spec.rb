@@ -37,9 +37,15 @@ describe ReplyAddress do
       end
 
       context 'with invalid signature' do
-        let(:tag) { MessageSigner.new(key).sign(SecureRandom.hex(32)) }
+        let(:tag) { GIDTag.new(signer: signer).encode(user, record) }
+
+        let(:signer) { MessageSigner.new(key: key) }
 
         let(:key) { SecureRandom.hex(128) }
+
+        let(:user) { create(:user) }
+
+        let(:record) { create(:car) }
 
         it 'raises InvalidAddress' do
           expect { ReplyAddress.decode(address) }.to \

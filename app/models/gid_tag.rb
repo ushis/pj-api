@@ -3,45 +3,53 @@ class GIDTag
 
   GID_SEPARATOR = '|'
 
-  class Encoder < Struct.new(:records)
+  class Encoder
 
-    def to_s
-      MessageSigner.new.sign(gids.join(GID_SEPARATOR))
+    def initialize(options={})
+      @signer = options[:signer] || MessageSigner.new
+    end
+
+    def encode(records)
+      @signer.sign(gids(records).join(GID_SEPARATOR))
     end
 
     private
 
-    def gids
+    def gids(records)
       records.map { |record| record.to_gid.to_s }
     end
   end
 
-  class Decoder < Struct.new(:tag)
+  class Decoder
 
-    def records
-      gids.map { |gid| GlobalID.new(gid).find }
-    rescue MessageSigner::InvalidMessage, URI::BadURIError
+    def initialize(options={})
+      @signer = options[:signer] || MessageSigner.new
+    end
+
+    def decode(tag)
+      gids(tag).map { |gid| GlobalID.new(gid).find }
+    rescue URI::BadURIError
       raise InvalidTag
     end
 
     private
 
-    def gids
-      MessageSigner.new.verify(tag).split(GID_SEPARATOR)
+    def gids(tag)
+      @signer.verify(tag).split(GID_SEPARATOR)
+    rescue MessageSigner::InvalidMessage
+      raise InvalidTag
     end
   end
 
-  attr_reader :records
-
-  def self.decode(tag)
-    new(*Decoder.new(tag).records)
+  def initialize(options={})
+    @options = options
   end
 
-  def initialize(*records)
-    @records = records
+  def encode(*records)
+    Encoder.new(@options).encode(records)
   end
 
-  def to_s
-    Encoder.new(records).to_s
+  def decode(tag)
+    Decoder.new(@options).decode(tag)
   end
 end

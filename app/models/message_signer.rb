@@ -3,8 +3,9 @@ class MessageSigner
   class InvalidEncoding < InvalidMessage; end
   class InvalidSignature < InvalidMessage; end
 
-  def initialize(key=nil)
-    @key = key
+  def initialize(options={})
+    @key = options[:key] || Rails.application.secrets.secret_key_base
+    @alg = options[:digest] || 'sha1'
   end
 
   def sign(message)
@@ -43,14 +44,10 @@ class MessageSigner
   end
 
   def generate_signature(message)
-    OpenSSL::HMAC.digest(digest, key, message)
+    OpenSSL::HMAC.digest(digest, @key, message)
   end
 
   def digest
-    @digest ||= OpenSSL::Digest::SHA1.new
-  end
-
-  def key
-    @key ||= Rails.application.secrets.secret_key_base
+    @digest ||= OpenSSL::Digest.new(@alg)
   end
 end

@@ -36,7 +36,7 @@ describe MessageSigner do
       let(:message) { SecureRandom.hex(24) }
 
       context 'sign with an invalid key' do
-        let(:invalid) { MessageSigner.new(key).sign(message) }
+        let(:invalid) { MessageSigner.new(key: key).sign(message) }
 
         let(:key) { SecureRandom.hex(128) }
 
