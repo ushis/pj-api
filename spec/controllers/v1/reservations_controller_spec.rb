@@ -224,6 +224,16 @@ describe V1::ReservationsController do
 
             subject { ActionMailer::Base.deliveries }
 
+            let(:sample) { subject.sample }
+
+            let(:sample_reply_to) { sample.reply_to.first }
+
+            let(:sample_reply_address) { ReplyAddress.decode(sample_reply_to) }
+
+            let(:sample_recipient) do
+              owners.find { |u| u.email == sample.to.first }
+            end
+
             its(:length) { is_expected.to eq(2) }
 
             it 'sends mails to the owners' do
@@ -237,6 +247,14 @@ describe V1::ReservationsController do
 
             it 'sets the correct car name' do
               expect(subject.first.subject).to include(car.name)
+            end
+
+            it 'sets the correct user in the Reply-To header' do
+              expect(sample_reply_address.user).to eq(sample_recipient)
+            end
+
+            it 'sets the correct records in the Reply-To header' do
+              expect(sample_reply_address.record).to eq(reservation)
             end
           end
         end

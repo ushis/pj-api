@@ -4,7 +4,7 @@ class RideMailer < ApplicationMailer
     @user = user
     @ride = ride
     @url = ride_url
-    mail(to: user.email_with_username, subject: subject)
+    mail(to: user.email_with_username, subject: subject, reply_to: reply_to)
   end
 
   private
@@ -15,5 +15,9 @@ class RideMailer < ApplicationMailer
 
   def ride_url
     app_url("/cars/#{@ride.car.id}/rides/#{@ride.id}/comments")
+  end
+
+  def reply_to
+    ReplyAddress.new(@user, @ride, @ride.car.name).to_s
   end
 end

@@ -346,11 +346,11 @@ describe V1::CommentsController do
                 expect(subject.first.subject).to include(car.name)
               end
 
-              it 'encodes the correct user in the Reply-To Header' do
+              it 'encodes the correct user in the Reply-To header' do
                 expect(sample_reply_address.user).to eq(sample_recipient)
               end
 
-              it 'encodes the correct car in the Reply-To Header' do
+              it 'encodes the correct car in the Reply-To header' do
                 expect(sample_reply_address.record).to eq(car)
               end
             end
