@@ -74,6 +74,6 @@ class User < ActiveRecord::Base
 
   # Returns the users email with username suitable for email headers
   def email_with_username
-    "#{username} <#{email}>"
+    Mail::Address.new(email).tap { |addr| addr.display_name = username }.to_s
   end
 end

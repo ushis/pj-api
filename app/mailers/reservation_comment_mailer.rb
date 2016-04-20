@@ -4,7 +4,7 @@ class ReservationCommentMailer < ApplicationMailer
     @user = user
     @comment = comment
     @url = comment_url
-    mail(to: user.email_with_username, subject: subject)
+    mail(to: user.email_with_username, subject: subject, reply_to: reply_to)
   end
 
   private
@@ -19,5 +19,9 @@ class ReservationCommentMailer < ApplicationMailer
 
   def comment_url
     app_url("/cars/#{@comment.reservation.car.id}/reservations/#{@comment.reservation.id}/comments")
+  end
+
+  def reply_to
+    ReplyAddress.new(@user, @comment.reservation, @comment.reservation.car.name).to_s
   end
 end

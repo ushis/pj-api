@@ -321,6 +321,16 @@ describe V1::CommentsController do
 
               subject { ActionMailer::Base.deliveries }
 
+              let(:sample) { subject.sample }
+
+              let(:sample_reply_to) { sample.reply_to.first }
+
+              let(:sample_reply_address) { ReplyAddress.decode(sample_reply_to) }
+
+              let(:sample_recipient) do
+                (owners + commenters).find { |u| u.email == sample.to.first }
+              end
+
               its(:length) { is_expected.to eq(4) }
 
               it 'sends an email to all owners and commenters' do
@@ -334,6 +344,14 @@ describe V1::CommentsController do
 
               it 'sets the correct car name' do
                 expect(subject.first.subject).to include(car.name)
+              end
+
+              it 'encodes the correct user in the Reply-To header' do
+                expect(sample_reply_address.user).to eq(sample_recipient)
+              end
+
+              it 'encodes the correct car in the Reply-To header' do
+                expect(sample_reply_address.record).to eq(car)
               end
             end
           end
@@ -455,6 +473,16 @@ describe V1::CommentsController do
 
                 subject { ActionMailer::Base.deliveries }
 
+                let(:sample) { subject.sample }
+
+                let(:sample_reply_to) { sample.reply_to.first }
+
+                let(:sample_reply_address) { ReplyAddress.decode(sample_reply_to) }
+
+                let(:sample_recipient) do
+                  (owners + commenters + [parent.user]).find { |u| u.email == sample.to.first }
+                end
+
                 its(:length) { is_expected.to eq(5) }
 
                 it 'sends an email to all owners and commenters' do
@@ -468,6 +496,14 @@ describe V1::CommentsController do
 
                 it 'sets the correct car name' do
                   expect(subject.first.subject).to include(car.name)
+                end
+
+                it 'encodes the correct user in the Reply-To Header' do
+                  expect(sample_reply_address.user).to eq(sample_recipient)
+                end
+
+                it 'encodes the correct parent in the Reply-To Header' do
+                  expect(sample_reply_address.record).to eq(parent)
                 end
               end
             end
