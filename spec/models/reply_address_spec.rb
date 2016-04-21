@@ -11,7 +11,7 @@ describe ReplyAddress do
 
       let(:record) { create(:car) }
 
-      let(:name) { SecureRandom.hex(28) }
+      let(:name) { SecureRandom.uuid }
 
       its(:user) { is_expected.to eq(user) }
 
@@ -22,13 +22,13 @@ describe ReplyAddress do
 
     context 'given an invalid address' do
       let(:address) do
-        TaggedAddress.new("#{SecureRandom.hex(6)}@example.com").tap do |addr|
+        TaggedAddress.new("#{SecureRandom.uuid}@example.com").tap do |addr|
           addr.tag = tag
         end.to_s
       end
 
       context 'with invalid syntax' do
-        let(:address) { "#{SecureRandom.hex(28)}@" }
+        let(:address) { "#{SecureRandom.uuid}@" }
 
         it 'raises InvalidAddress' do
           expect { ReplyAddress.decode(address) }.to \
@@ -41,7 +41,7 @@ describe ReplyAddress do
 
         let(:signer) { MessageSigner.new(key: key) }
 
-        let(:key) { SecureRandom.hex(128) }
+        let(:key) { SecureRandom.uuid }
 
         let(:user) { create(:user) }
 
@@ -54,7 +54,7 @@ describe ReplyAddress do
       end
 
       context 'with invalid message' do
-        let(:tag) { MessageSigner.new.sign(SecureRandom.hex(32)) }
+        let(:tag) { MessageSigner.new.sign(SecureRandom.uuid) }
 
         it 'raise InvalidAddress' do
           expect { ReplyAddress.decode(address) }.to \
@@ -88,7 +88,7 @@ describe ReplyAddress do
 
     let(:record) { create(:reservation) }
 
-    let(:name) { SecureRandom.hex(24) }
+    let(:name) { SecureRandom.uuid }
 
     let(:untagged) { Mail::Address.new(ENV.fetch('MAIL_REPLY')) }
 

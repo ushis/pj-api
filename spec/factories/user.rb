@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :user do
-    username { SecureRandom.hex(8) }
+    username { SecureRandom.hex(6) }
     email { "#{SecureRandom.uuid}@example.com" }
     password { SecureRandom.uuid }
     password_confirmation { password }

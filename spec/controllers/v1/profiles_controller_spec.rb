@@ -197,6 +197,10 @@ describe V1::ProfilesController do
         its(:subject) { is_expected.to include('Welcome') }
 
         its(:body) { is_expected.to include(user.username) }
+
+        it 'sets the correct From Header' do
+          expect(subject.header['From'].to_s).to eq(ENV['MAIL_FROM'])
+        end
       end
     end
   end

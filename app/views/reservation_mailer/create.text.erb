@@ -1,16 +1,14 @@
-Hey <%= @user.username %>,
+Hey <%= @mail.recipient.username %>,
 
-i would like to inform you, that <%= @reservation.user.username %> added a
-new reservation to your car <%= @reservation.car.name %>.
+i need <%= @mail.car.name %> between
 
-The car is needed between
+  <%= @mail.formatted_starts_at %> and <%= @mail.formatted_ends_at %>
 
-  *<%=
-    format_datetime(@reservation.starts_at, @user.time_zone)
-  %>* and *<%=
-    format_datetime(@reservation.ends_at, @user.time_zone)
-  %>*
+Please let me know if this is a problem.
+
+Cheers,
+<%= @mail.sender.username %>
 
 ---
 Reply to this email directly or view it here:
-<%= @url %>
+<%= @mail.app_url %>

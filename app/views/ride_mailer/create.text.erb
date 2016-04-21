@@ -1,12 +1,12 @@
-Hey <%= @user.username %>,
+Hey <%= @mail.recipient.username %>,
 
-i would like to inform you, that <%= @ride.user.username %> added a
-new ride to your car <%= @ride.car.name %>.
+i took <%= @mail.car.name %> for a <%= @mail.ride.distance %> km ride between
 
-  Distance: <%= @ride.distance %> km
-  Start:    <%= format_datetime(@ride.started_at, @user.time_zone) %>
-  End:      <%= format_datetime(@ride.ended_at, @user.time_zone) %>
+  <%= @mail.formatted_started_at %> and <%= @mail.formatted_ended_at %>
+
+Cheers,
+<%= @mail.sender.username %>
 
 ---
 Reply to this email directly or view it here:
-<%= @url %>
+<%= @mail.app_url %>

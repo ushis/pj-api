@@ -50,6 +50,6 @@ Rails.application.configure do
 
   # Set default from address
   config.action_mailer.default_options = {
-    from: 'pj@localhost'
+    from: ENV.fetch('MAIL_FROM')
   }
 end

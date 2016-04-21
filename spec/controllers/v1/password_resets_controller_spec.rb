@@ -47,6 +47,10 @@ describe V1::PasswordResetsController do
         its(:subject) { is_expected.to include('password') }
 
         its(:body) { is_expected.to include(user.password_reset_token) }
+
+        it 'sets the correct From Header' do
+          expect(subject.header['From'].to_s).to eq(ENV['MAIL_FROM'])
+        end
       end
     end
   end
@@ -110,7 +114,7 @@ describe V1::PasswordResetsController do
           }
         end
 
-        let(:password) { SecureRandom.hex(12) }
+        let(:password) { SecureRandom.uuid }
 
         it { is_expected.to respond_with(:no_content) }
 

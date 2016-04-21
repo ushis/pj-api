@@ -1,5 +1,5 @@
-<%= word_wrap(@comment.comment, line_width: 79) %>
+<%= word_wrap(@mail.comment.comment, line_width: 79) %>
 
 ---
 Reply to this email directly or view it here:
-<%= @url %>
+<%= @mail.app_url %>

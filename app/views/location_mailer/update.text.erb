@@ -1,7 +1,10 @@
-Hey <%= @user.username %>,
+Hey <%= @mail.recipient.username %>,
 
-i would like to inform you, that <%= @location.user.username %> updated the
-location of your car <%= @location.car.name %>.
+i parked <%= @mail.car.name %> at a new location.
+
+Cheers,
+<%= @mail.sender.username %>
 
 ---
-<%= @url %>
+View it here:
+<%= @mail.app_url %>
