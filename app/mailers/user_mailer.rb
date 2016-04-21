@@ -1,14 +1,12 @@
 class UserMailer < ApplicationMailer
 
   def welcome(user)
-    @user = user
-    @url = app_url('/signin')
-    mail(to: user.email_with_username, subject: 'Welcome to PJ')
+    @mail = UserWelcomeMail.new(user)
+    mail(@mail.header)
   end
 
   def password_reset(user)
-    @user = user
-    @url = app_url("/password/reset/#{user.password_reset_token}")
-    mail(to: user.email_with_username, subject: 'Reset your password')
+    @mail = UserPasswordResetMail.new(user)
+    mail(@mail.header)
   end
 end

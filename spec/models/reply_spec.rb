@@ -8,7 +8,7 @@ describe Reply do
 
     let(:record) { build(:ride) }
 
-    let(:message) { SecureRandom.hex(32) }
+    let(:message) { SecureRandom.uuid }
 
     it { is_expected.to be_a(RideComment) }
 
@@ -26,7 +26,7 @@ describe Reply do
 
     let(:record) { create(:ride) }
 
-    let(:message) { SecureRandom.hex(32) }
+    let(:message) { SecureRandom.uuid }
 
     it 'saves to comment' do
       expect {
@@ -60,7 +60,7 @@ describe Reply do
 
     let(:record) { create(:ride) }
 
-    let(:message) { SecureRandom.hex(32) }
+    let(:message) { SecureRandom.uuid }
 
     it { is_expected.to be_empty }
 
@@ -84,7 +84,7 @@ describe Reply do
 
     let(:record) { build(:ride) }
 
-    let(:message) { SecureRandom.hex(32) }
+    let(:message) { SecureRandom.uuid }
 
 
     [:user, :record, :message].each do |attr|

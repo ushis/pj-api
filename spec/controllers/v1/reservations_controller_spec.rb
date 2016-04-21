@@ -230,6 +230,8 @@ describe V1::ReservationsController do
 
             let(:sample_reply_address) { ReplyAddress.decode(sample_reply_to) }
 
+            let(:sample_message_id) { sample.message_id }
+
             let(:sample_recipient) do
               owners.find { |u| u.email == sample.to.first }
             end
@@ -242,11 +244,7 @@ describe V1::ReservationsController do
             end
 
             it 'sends a reservation created email' do
-              expect(subject.first.subject).to include('reservation')
-            end
-
-            it 'sets the correct car name' do
-              expect(subject.first.subject).to include(car.name)
+              expect(subject.first.subject).to include("I need #{car.name} between")
             end
 
             it 'sets the correct user in the Reply-To header' do
@@ -255,6 +253,10 @@ describe V1::ReservationsController do
 
             it 'sets the correct records in the Reply-To header' do
               expect(sample_reply_address.record).to eq(reservation)
+            end
+
+            it 'sets the correct Message-Id header' do
+              expect(sample_message_id).to eq(MessageID.new(car, reservation).id)
             end
           end
         end

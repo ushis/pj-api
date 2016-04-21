@@ -252,6 +252,8 @@ describe V1::RidesController do
 
             let(:sample_reply_address) { ReplyAddress.decode(sample_reply_to) }
 
+            let(:sample_message_id) { sample.message_id }
+
             let(:sample_recipient) do
               owners.find { |u| u.email == sample.to.first }
             end
@@ -264,11 +266,7 @@ describe V1::RidesController do
             end
 
             it 'sends a ride created email' do
-              expect(subject.first.subject).to include('ride')
-            end
-
-            it 'sets the correct car name' do
-              expect(subject.first.subject).to include(car.name)
+              expect(subject.first.subject).to eq("I took #{car.name} for a #{ride.distance} km ride")
             end
 
             it 'sets the correct user in the Reply-To header' do
@@ -277,6 +275,10 @@ describe V1::RidesController do
 
             it 'sets the correct records in the Reply-To header' do
               expect(sample_reply_address.record).to eq(ride)
+            end
+
+            it 'sets the correct Message-Id header' do
+              expect(sample_message_id).to eq(MessageID.new(car, ride).id)
             end
           end
         end

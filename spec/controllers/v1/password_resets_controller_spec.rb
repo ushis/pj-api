@@ -110,7 +110,7 @@ describe V1::PasswordResetsController do
           }
         end
 
-        let(:password) { SecureRandom.hex(12) }
+        let(:password) { SecureRandom.uuid }
 
         it { is_expected.to respond_with(:no_content) }
 

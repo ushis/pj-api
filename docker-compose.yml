@@ -15,6 +15,7 @@ api:
     - SMTP_PORT=1025
     - APP_HOST=http://localhost:9000
     - MAIL_REPLY=pj@localhost.local
+    - MAIL_FROM=pj@localhost.local
   command: rails s -b 0.0.0.0
 
 postgres:

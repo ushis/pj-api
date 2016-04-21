@@ -22,7 +22,7 @@ describe MessageSigner do
       end
 
       context 'which is present' do
-        let(:message) { SecureRandom.hex(64) }
+        let(:message) { SecureRandom.uuid }
 
         it { is_expected.to eq(message) }
       end
@@ -33,12 +33,12 @@ describe MessageSigner do
 
       let(:valid) { MessageSigner.new.sign(message) }
 
-      let(:message) { SecureRandom.hex(24) }
+      let(:message) { SecureRandom.uuid }
 
       context 'sign with an invalid key' do
         let(:invalid) { MessageSigner.new(key: key).sign(message) }
 
-        let(:key) { SecureRandom.hex(128) }
+        let(:key) { SecureRandom.uuid }
 
         it 'raises InvalidBase64' do
           expect { subject.verify(invalid) }.to \

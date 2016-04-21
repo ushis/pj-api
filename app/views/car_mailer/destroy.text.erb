@@ -1,7 +1,10 @@
-Hey <%= @user.username %>,
+Hey <%= @mail.recipient.username %>,
 
-i would like to inform you, that <%= @destroyer.username %> deleted the car
-<%= @car_name %>.
+i deleted <%= @mail.car_name %>.
+
+Cheers,
+<%= @mail.sender.username %>
 
 ---
-<%= @url %>
+View it here:
+<%= @mail.app_url %>

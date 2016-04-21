@@ -1,8 +1,14 @@
-Hey <%= @user.username %>,
+Hey <%= @mail.recipient.username %>,
 
-i would like to inform you, that <%= @creator.username %> appointed
-<%= @borrowership.user == @user ? 'you' : @borrowership.user.username %> as a new borrower of <%=
-@borrowership.car.name %>.
+<% if @mail.borrowership.user == @mail.recipient %>
+I added you to <%= @mail.car.name %>.
+<% else %>
+I added <%= @mail.borrowership.user.username %> to <%= @mail.car.name %>.
+<% end %>
+
+Cheers,
+<%= @mail.sender.username %>
 
 ---
-<%= @url %>
+View it here:
+<%= @mail.app_url %>

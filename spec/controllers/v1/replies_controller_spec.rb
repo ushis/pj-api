@@ -21,7 +21,7 @@ describe V1::RepliesController do
 
     let(:record) { user.cars.sample }
 
-    let(:message) { SecureRandom.hex(32) }
+    let(:message) { SecureRandom.uuid }
 
     context 'without params' do
       let(:params) { {} }
@@ -109,7 +109,7 @@ describe V1::RepliesController do
         end
 
         it 'sends a comment mail' do
-          expect(subject.first.subject).to include('comment')
+          expect(subject.first.subject).to include('Re: ')
         end
 
         it 'sets the correct car name' do

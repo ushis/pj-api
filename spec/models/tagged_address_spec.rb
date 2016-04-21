@@ -7,15 +7,15 @@ describe TaggedAddress do
     let(:address) { "#{local}@example.com" }
 
     context 'for untagged address' do
-      let(:local) { SecureRandom.hex(12) }
+      let(:local) { SecureRandom.uuid }
 
       it { is_expected.to eq(local) }
     end
 
     context 'for tagged address' do
-      let(:local) { "#{untagged}+#{SecureRandom.hex(12)}" }
+      let(:local) { "#{untagged}+#{SecureRandom.uuid}" }
 
-      let(:untagged) { SecureRandom.hex(12) }
+      let(:untagged) { SecureRandom.uuid }
 
       it { is_expected.to eq(untagged) }
     end
@@ -33,15 +33,15 @@ describe TaggedAddress do
     let(:address) { "#{local}@example.com" }
 
     context 'for untagged address' do
-      let(:local) { SecureRandom.hex(12) }
+      let(:local) { SecureRandom.uuid }
 
       it { is_expected.to eq(nil) }
     end
 
     context 'for tagged address' do
-      let(:local) { "#{SecureRandom.hex(12)}+#{tag}" }
+      let(:local) { "#{SecureRandom.uuid}+#{tag}" }
 
-      let(:tag) { SecureRandom.hex(12) }
+      let(:tag) { SecureRandom.uuid }
 
       it { is_expected.to eq(tag) }
     end
@@ -62,13 +62,13 @@ describe TaggedAddress do
 
     let(:address) { "#{name} <#{local}@example.com>" }
 
-    let(:name) { [SecureRandom.hex(4), SecureRandom.hex(6)].join(' ') }
+    let(:name) { [SecureRandom.uuid, SecureRandom.uuid].join(' ') }
 
     context 'for untagged address' do
-      let(:local) { SecureRandom.hex(12) }
+      let(:local) { SecureRandom.uuid }
 
       context 'given tag is present' do
-        let(:tag) { SecureRandom.hex(12) }
+        let(:tag) { SecureRandom.uuid }
 
         it { is_expected.to eq("#{name} <#{local}+#{tag}@example.com>") }
       end
@@ -81,12 +81,12 @@ describe TaggedAddress do
     end
 
     context 'for tagged address' do
-      let(:local) { "#{untagged}+#{SecureRandom.hex(12)}" }
+      let(:local) { "#{untagged}+#{SecureRandom.uuid}" }
 
-      let(:untagged) { SecureRandom.hex(12) }
+      let(:untagged) { SecureRandom.uuid }
 
       context 'given tag is present' do
-        let(:tag) { SecureRandom.hex(12) }
+        let(:tag) { SecureRandom.uuid }
 
         it { is_expected.to eq("#{name} <#{untagged}+#{tag}@example.com>") }
       end
@@ -108,12 +108,12 @@ describe TaggedAddress do
 
     let(:address) { domain.blank? ? local : "#{local}@#{domain}" }
 
-    let(:local) { SecureRandom.hex(12) }
+    let(:local) { SecureRandom.uuid }
 
-    let(:new_local) { SecureRandom.hex(12) }
+    let(:new_local) { SecureRandom.uuid }
 
     context 'when domain is present' do
-      let(:domain) { "#{SecureRandom.hex(12)}.com" }
+      let(:domain) { "#{SecureRandom.uuid}.com" }
 
       it { is_expected.to eq("#{new_local}@#{domain}") }
     end

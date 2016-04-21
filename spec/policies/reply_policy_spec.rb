@@ -8,7 +8,7 @@ describe ReplyPolicy do
 
     let(:reply) { Reply.new(user, record, message) }
 
-    let(:message) { SecureRandom.hex(32) }
+    let(:message) { SecureRandom.uuid }
 
     context 'when record is a car' do
       context 'as unrelated user' do

@@ -281,7 +281,7 @@ describe V1::CommentsController do
             let(:params) do
               {
                 comment: {
-                  comment: SecureRandom.hex(32)
+                  comment: SecureRandom.uuid
                 }
               }
             end
@@ -327,6 +327,12 @@ describe V1::CommentsController do
 
               let(:sample_reply_address) { ReplyAddress.decode(sample_reply_to) }
 
+              let(:sample_message_id) { sample.message_id }
+
+              let(:sample_in_reply_to) { sample.in_reply_to }
+
+              let(:sample_references) { sample.references }
+
               let(:sample_recipient) do
                 (owners + commenters).find { |u| u.email == sample.to.first }
               end
@@ -339,7 +345,7 @@ describe V1::CommentsController do
               end
 
               it 'sends a comment mail' do
-                expect(subject.first.subject).to include('comment')
+                expect(subject.first.subject).to eq("Re: Discussion about #{car.name}")
               end
 
               it 'sets the correct car name' do
@@ -352,6 +358,18 @@ describe V1::CommentsController do
 
               it 'encodes the correct car in the Reply-To header' do
                 expect(sample_reply_address.record).to eq(car)
+              end
+
+              it 'sets the correct Message-Id header' do
+                expect(sample_message_id).to eq(MessageID.new(car, comment).id)
+              end
+
+              it 'sets the correct In-Reply-To header' do
+                expect(sample_in_reply_to).to eq(MessageID.new(car).id)
+              end
+
+              it 'sets the correct References header' do
+                expect(sample_references).to eq(MessageID.new(car).id)
               end
             end
           end
@@ -437,12 +455,12 @@ describe V1::CommentsController do
               let(:params) do
                 {
                   comment: {
-                    comment: SecureRandom.hex(32)
+                    comment: SecureRandom.uuid
                   }
                 }
               end
 
-              let(:comment) { parent.comments.find(json[:comment][:id]) }
+              let(:comment) { parent.comments(true).find(json[:comment][:id]) }
 
               it { is_expected.to respond_with(:created) }
 
@@ -479,6 +497,12 @@ describe V1::CommentsController do
 
                 let(:sample_reply_address) { ReplyAddress.decode(sample_reply_to) }
 
+                let(:sample_message_id) { sample.message_id }
+
+                let(:sample_in_reply_to) { sample.in_reply_to }
+
+                let(:sample_references) { sample.references }
+
                 let(:sample_recipient) do
                   (owners + commenters + [parent.user]).find { |u| u.email == sample.to.first }
                 end
@@ -491,7 +515,7 @@ describe V1::CommentsController do
                 end
 
                 it 'sends a comment mail' do
-                  expect(subject.first.subject).to include('comment')
+                  expect(subject.first.subject).to include('Re: ')
                 end
 
                 it 'sets the correct car name' do
@@ -504,6 +528,18 @@ describe V1::CommentsController do
 
                 it 'encodes the correct parent in the Reply-To Header' do
                   expect(sample_reply_address.record).to eq(parent)
+                end
+
+                it 'sets the correct Message-Id header' do
+                  expect(sample_message_id).to eq(MessageID.new(car, parent, comment).id)
+                end
+
+                it 'sets the correct In-Reply-To header' do
+                  expect(sample_in_reply_to).to eq(MessageID.new(car, parent).id)
+                end
+
+                it 'sets the correct References header' do
+                  expect(sample_references).to eq(MessageID.new(car, parent).id)
                 end
               end
             end
@@ -631,7 +667,7 @@ describe V1::CommentsController do
                 let(:params) do
                   {
                     comment: {
-                      comment: SecureRandom.hex(32)
+                      comment: SecureRandom.uuid
                     }
                   }
                 end
@@ -797,7 +833,7 @@ describe V1::CommentsController do
                   let(:params) do
                     {
                       comment: {
-                        comment: SecureRandom.hex(32)
+                        comment: SecureRandom.uuid
                       }
                     }
                   end
