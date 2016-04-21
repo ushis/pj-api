@@ -24,6 +24,7 @@ describe User do
     it { is_expected.to validate_length_of(:email).is_at_most(255) }
     it { is_expected.to allow_value('my+valid.email@example.com').for(:email) }
     it { is_expected.to_not allow_value('me.example.com').for(:email) }
+    it { is_expected.to_not allow_value("hello\n@world.com").for(:email) }
 
     context 'when password is present' do
       subject { build(:user, password: 'secret') }

@@ -22,7 +22,7 @@ class User < ActiveRecord::Base
     length: {maximum: 255}, format: /\A[a-z0-9]+\z/
 
   validates :email, presence: true, uniqueness: true,
-    length: {maximum: 255}, format: /.+@.+/
+    length: {maximum: 255}, format: /\A.+@.+\z/
 
   validates :password, presence: true,
     if: -> (u) { !u.password_digest.present? }
