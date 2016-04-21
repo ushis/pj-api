@@ -34,11 +34,8 @@ class V1::OwnershipsController < V1::ApplicationController
 
   # DELETE /v1/cars/:car_id/ownerships/:id
   def destroy
-    if @ownership.destroy
-      head :no_content
-    else
-      render_error :unprocessable_entity, @ownership.errors
-    end
+    @ownership.destroy!
+    head :no_content
   end
 
   private

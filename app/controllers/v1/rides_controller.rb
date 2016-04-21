@@ -44,11 +44,8 @@ class V1::RidesController < V1::ApplicationController
 
   # DELETE /v1/cars/:car_id/rides/:id
   def destroy
-    if @ride.destroy
-      head :no_content
-    else
-      render_error :unprocessable_entity, @ride.errors
-    end
+    @ride.destroy!
+    head :no_content
   end
 
   private
