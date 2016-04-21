@@ -30,11 +30,8 @@ class V1::LocationsController < V1::ApplicationController
 
   # DELETE /v1/cars/:car_id/location
   def destroy
-    if @location.destroy
-      head :no_content
-    else
-      render_error :unprocessable_entity, @location.errors
-    end
+    @location.destroy!
+    head :no_content
   end
 
   private

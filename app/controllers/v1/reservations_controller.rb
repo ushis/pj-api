@@ -44,11 +44,8 @@ class V1::ReservationsController < V1::ApplicationController
 
   # DELETE /v1/cars/:car_id/reservations/:id
   def destroy
-    if @reservation.destroy
-      head :no_content
-    else
-      render_error :unprocessable_entity, @reservation.errors
-    end
+    @reservation.destroy!
+    head :no_content
   end
 
   private

@@ -36,10 +36,9 @@ class V1::ProfilesController < V1::ApplicationController
   def destroy
     if !@user.authenticate(password)
       unauthorized
-    elsif @user.destroy
-      head :no_content
     else
-      render_error :unprocessable_entity, @user.errors
+      @user.destroy!
+      head :no_content
     end
   end
 

@@ -34,11 +34,8 @@ class V1::BorrowershipsController < V1::ApplicationController
 
   # DELETE /v1/cars/:car_id/borrowerships/:id
   def destroy
-    if @borrowership.destroy
-      head :no_content
-    else
-      render_error :unprocessable_entity, @borrowership.errors
-    end
+    @borrowership.destroy!
+    head :no_content
   end
 
   private

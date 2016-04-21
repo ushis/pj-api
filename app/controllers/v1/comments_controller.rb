@@ -53,11 +53,8 @@ class V1::CommentsController < V1::ApplicationController
   # DELETE /v1/cars/:car_id/rides/:ride_id/comments/:id
   # DELETE /v1/cars/:car_id/reservations/:reservation_id/comments/:id
   def destroy
-    if @comment.destroy
-      head :no_content
-    else
-      render_error :unprocessable_entity, @comment.errors
-    end
+    @comment.destroy!
+    head :no_content
   end
 
   private
