@@ -333,6 +333,14 @@ describe V1::CommentsController do
 
               let(:sample_references) { sample.references }
 
+              let(:sample_from) { sample.header['From'].to_s }
+
+              let(:expected_from) do
+                Mail::Address.new(ENV['MAIL_FROM']).tap do |address|
+                  address.display_name = user.username
+                end.to_s
+              end
+
               let(:sample_recipient) do
                 (owners + commenters).find { |u| u.email == sample.to.first }
               end
@@ -345,11 +353,11 @@ describe V1::CommentsController do
               end
 
               it 'sends a comment mail' do
-                expect(subject.first.subject).to eq("Re: Discussion about #{car.name}")
+                expect(sample.subject).to eq("Re: Discussion about #{car.name}")
               end
 
               it 'sets the correct car name' do
-                expect(subject.first.subject).to include(car.name)
+                expect(sample.subject).to include(car.name)
               end
 
               it 'encodes the correct user in the Reply-To header' do
@@ -370,6 +378,10 @@ describe V1::CommentsController do
 
               it 'sets the correct References header' do
                 expect(sample_references).to eq(MessageID.new(car).id)
+              end
+
+              it 'sets the correct From header' do
+                expect(sample_from).to eq(expected_from)
               end
             end
           end
@@ -503,6 +515,14 @@ describe V1::CommentsController do
 
                 let(:sample_references) { sample.references }
 
+                let(:sample_from) { sample.header['From'].to_s }
+
+                let(:expected_from) do
+                  Mail::Address.new(ENV['MAIL_FROM']).tap do |address|
+                    address.display_name = user.username
+                  end.to_s
+                end
+
                 let(:sample_recipient) do
                   (owners + commenters + [parent.user]).find { |u| u.email == sample.to.first }
                 end
@@ -515,11 +535,11 @@ describe V1::CommentsController do
                 end
 
                 it 'sends a comment mail' do
-                  expect(subject.first.subject).to include('Re: ')
+                  expect(sample.subject).to include('Re: ')
                 end
 
                 it 'sets the correct car name' do
-                  expect(subject.first.subject).to include(car.name)
+                  expect(sample.subject).to include(car.name)
                 end
 
                 it 'encodes the correct user in the Reply-To Header' do
@@ -540,6 +560,10 @@ describe V1::CommentsController do
 
                 it 'sets the correct References header' do
                   expect(sample_references).to eq(MessageID.new(car, parent).id)
+                end
+
+                it 'sets the correct From header' do
+                  expect(sample_from).to eq(expected_from)
                 end
               end
             end

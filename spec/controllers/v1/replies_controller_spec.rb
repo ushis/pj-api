@@ -101,6 +101,32 @@ describe V1::RepliesController do
 
         subject { ActionMailer::Base.deliveries }
 
+        let(:sample) { subject.sample }
+
+        let(:sample_reply_to) { sample.reply_to.first }
+
+        let(:sample_reply_address) { ReplyAddress.decode(sample_reply_to) }
+
+        let(:sample_message_id) { sample.message_id }
+
+        let(:sample_in_reply_to) { sample.in_reply_to }
+
+        let(:sample_references) { sample.references }
+
+        let(:sample_from) { sample.header['From'].to_s }
+
+        let(:expected_from) do
+          Mail::Address.new(ENV['MAIL_FROM']).tap do |address|
+            address.display_name = user.username
+          end.to_s
+        end
+
+        let(:sample_recipient) do
+          (owners + commenters).find { |u| u.email == sample.to.first }
+        end
+
+        let(:comment) { Comment.order(created_at: :desc).first }
+
         its(:length) { is_expected.to eq(4) }
 
         it 'sends an email to all owners and commenters' do
@@ -109,11 +135,35 @@ describe V1::RepliesController do
         end
 
         it 'sends a comment mail' do
-          expect(subject.first.subject).to include('Re: ')
+          expect(sample.subject).to include('Re: ')
         end
 
         it 'sets the correct car name' do
-          expect(subject.first.subject).to include(record.name)
+          expect(sample.subject).to include(record.name)
+        end
+
+        it 'encodes the correct user in the Reply-To Header' do
+          expect(sample_reply_address.user).to eq(sample_recipient)
+        end
+
+        it 'encodes the correct record in the Reply-To Header' do
+          expect(sample_reply_address.record).to eq(record)
+        end
+
+        it 'sets the correct Message-Id header' do
+          expect(sample_message_id).to eq(MessageID.new(record, comment).id)
+        end
+
+        it 'sets the correct In-Reply-To header' do
+          expect(sample_in_reply_to).to eq(MessageID.new(record).id)
+        end
+
+        it 'sets the correct References header' do
+          expect(sample_references).to eq(MessageID.new(record).id)
+        end
+
+        it 'sets the correct From header' do
+          expect(sample_from).to eq(expected_from)
         end
       end
     end

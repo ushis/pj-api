@@ -232,6 +232,12 @@ describe V1::OwnershipsController do
 
             subject { ActionMailer::Base.deliveries }
 
+            let(:from) do
+              Mail::Address.new(ENV['MAIL_FROM']).tap do |address|
+                address.display_name = user.username
+              end.to_s
+            end
+
             its(:length) { is_expected.to eq(3) }
 
             it 'sends an email to all owners' do
@@ -245,6 +251,10 @@ describe V1::OwnershipsController do
 
             it 'sets the correct car name' do
               expect(subject.first.subject).to include(car.name)
+            end
+
+            it 'sets the correct From header' do
+              expect(subject.first.header['From'].to_s).to eq(from)
             end
           end
         end

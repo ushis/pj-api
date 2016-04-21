@@ -33,7 +33,7 @@ Rails.application.configure do
 
   # Set Action Mailer options
   config.action_mailer.default_options = {
-    from: 'test@localhost'
+    from: ENV.fetch('MAIL_FROM')
   }
 
   # Randomize the order test cases are executed.

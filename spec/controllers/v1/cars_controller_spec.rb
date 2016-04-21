@@ -293,6 +293,12 @@ describe V1::CarsController do
 
           subject { ActionMailer::Base.deliveries }
 
+          let(:from) do
+            Mail::Address.new(ENV['MAIL_FROM']).tap do |address|
+              address.display_name = user.username
+            end.to_s
+          end
+
           its(:length) { is_expected.to eq(4) }
 
           it 'sends an email to related users' do
@@ -302,6 +308,10 @@ describe V1::CarsController do
 
           it 'sets the correct car name' do
             expect(subject.first.subject).to include(car.name)
+          end
+
+          it 'sets the correct From header' do
+            expect(subject.first.header['From'].to_s).to eq(from)
           end
         end
       end

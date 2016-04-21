@@ -232,6 +232,14 @@ describe V1::ReservationsController do
 
             let(:sample_message_id) { sample.message_id }
 
+            let(:sample_from) { sample.header['From'].to_s }
+
+            let(:expected_from) do
+              Mail::Address.new(ENV['MAIL_FROM']).tap do |address|
+                address.display_name = user.username
+              end.to_s
+            end
+
             let(:sample_recipient) do
               owners.find { |u| u.email == sample.to.first }
             end
@@ -257,6 +265,10 @@ describe V1::ReservationsController do
 
             it 'sets the correct Message-Id header' do
               expect(sample_message_id).to eq(MessageID.new(car, reservation).id)
+            end
+
+            it 'sets the correct From header' do
+              expect(sample_from).to eq(expected_from)
             end
           end
         end
