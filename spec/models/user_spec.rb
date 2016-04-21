@@ -214,12 +214,16 @@ describe User do
       let(:scope) { :access }
 
       its(:ttl) { is_expected.to eq(1.week) }
+
+      its(:inspect) { is_expected.to eq('Token (scope: :access, ttl: 7 days)') }
     end
 
     context 'password_reset' do
       let(:scope) { :password_reset }
 
       its(:ttl) { is_expected.to eq(10.minutes) }
+
+      its(:inspect) { is_expected.to eq('Token (scope: :password_reset, ttl: 600 seconds)') }
     end
   end
 
