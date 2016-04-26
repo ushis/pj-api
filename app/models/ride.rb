@@ -17,7 +17,7 @@ class Ride < ActiveRecord::Base
   validates :started_at,  presence: true
   validates :ended_at,    presence: true
 
-  validate :ensure_startet_at_is_before_ended_at
+  validate :ensure_started_at_is_before_ended_at
 
   after_save :update_car_mileage
 
@@ -36,9 +36,9 @@ class Ride < ActiveRecord::Base
   private
 
   # Validates that started_at is before ended_at
-  def ensure_startet_at_is_before_ended_at
+  def ensure_started_at_is_before_ended_at
     if started_at && ended_at && started_at >= ended_at
-      errors.add(:ended_at, :is_before_startet_at)
+      errors.add(:ended_at, :is_before_started_at)
     end
   end
 
