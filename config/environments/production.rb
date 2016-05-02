@@ -11,7 +11,7 @@ Rails.application.configure do
   config.eager_load = true
 
   # Full error reports are disabled and caching is turned on.
-  config.consider_all_requests_local       = false
+  config.consider_all_requests_local = false
   config.action_controller.perform_caching = true
 
   # Enable Rack::Cache to put a simple HTTP cache in front of your application
@@ -49,10 +49,13 @@ Rails.application.configure do
   config.log_level = :debug
 
   # Prepend all log lines with the following tags.
-  config.log_tags = [:uuid]
+  config.log_tags = [
+    -> (_) { Process.pid },
+    -> (req) { req.uuid[-12,12] }
+  ]
 
   # Log to stdout
-  config.logger = ::Logger.new(STDOUT)
+  config.logger = ActiveSupport::TaggedLogging.new(Logger.new(STDOUT))
 
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
@@ -82,9 +85,6 @@ Rails.application.configure do
 
   # Send deprecation notices to registered listeners.
   config.active_support.deprecation = :notify
-
-  # Use default logging formatter so that PID and timestamp are not suppressed.
-  config.log_formatter = ::Logger::Formatter.new
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
