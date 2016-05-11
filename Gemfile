@@ -14,6 +14,7 @@ gem 'airbrake', '~> 5.0'
 
 group :development do
   gem 'spring'
+  gem 'brakeman', require: false
 end
 
 group :test do
