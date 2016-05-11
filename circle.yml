@@ -20,6 +20,7 @@ test:
     - echo 'MAIL_FROM=pj <noreply@localhost.local>' >> circle.env
   override:
     - docker run --link postgres --env-file circle.env -e DATABASE_URL=postgres://postgres:secret@postgres/test ushi/pj-api bundle exec rake
+    - docker run ushi/pj-api bundle exec brakeman -q -z
 
 deployment:
   hub:
