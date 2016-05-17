@@ -1,6 +1,6 @@
 # PJ API
 
-[![Circle CI](https://circleci.com/gh/ushis/pj-api.svg?style=svg)](https://circleci.com/gh/ushis/pj-api)
+[![Circle CI](https://circleci.com/gh/ushis/pj-api.svg?style=shield)](https://circleci.com/gh/ushis/pj-api)
 [![Dependency Status](https://gemnasium.com/badges/github.com/ushis/pj-api.svg)](https://gemnasium.com/github.com/ushis/pj-api)
 [![Coverage Status](https://coveralls.io/repos/github/ushis/pj-api/badge.svg?branch=master)](https://coveralls.io/github/ushis/pj-api?branch=master)
 
