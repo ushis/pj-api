@@ -1,6 +1,7 @@
 class V1::RepliesController < V1::ApplicationController
   rescue_from ReplyAddress::InvalidAddress, with: :invalid_address
   rescue_from Pundit::NotAuthorizedError,   with: :invalid_address
+  rescue_from ActiveRecord::RecordNotFound, with: :invalid_address
 
   before_action :find_record
 

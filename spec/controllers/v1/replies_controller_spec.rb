@@ -69,6 +69,28 @@ describe V1::RepliesController do
       end
     end
 
+    context 'with non existing user' do
+      let(:user) { build(:user, id: -1) }
+
+      let(:record) { create(:car) }
+
+      it { is_expected.to respond_with(:unprocessable_entity) }
+
+      it 'responds with an error' do
+        expect(json[:details][:recipient]).to be_present
+      end
+    end
+
+    context 'with non existing record' do
+      let(:record) { build(:car, id: -1) }
+
+      it { is_expected.to respond_with(:unprocessable_entity) }
+
+      it 'responds with an error' do
+        expect(json[:details][:recipient]).to be_present
+      end
+    end
+
     context 'with valid params' do
       let(:comment) { Comment.order(created_at: :desc).first }
 
