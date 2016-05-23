@@ -3,6 +3,7 @@
 [![Circle CI](https://circleci.com/gh/ushis/pj-api.svg?style=shield)](https://circleci.com/gh/ushis/pj-api)
 [![Dependency Status](https://gemnasium.com/badges/github.com/ushis/pj-api.svg)](https://gemnasium.com/github.com/ushis/pj-api)
 [![Coverage Status](https://coveralls.io/repos/github/ushis/pj-api/badge.svg?branch=master)](https://coveralls.io/github/ushis/pj-api?branch=master)
+[![codebeat badge](https://codebeat.co/badges/8c15d130-6c34-4c39-9315-d931d210c779)](https://codebeat.co/projects/github-com-ushis-pj-api)
 
 The API behind https://pj.honkgong.info helps you to organize your car
 sharing group.

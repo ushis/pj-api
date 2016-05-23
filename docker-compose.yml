@@ -1,9 +1,14 @@
 version: '2'
+
+volumes:
+  bundle:
+
 services:
   api:
     build: .
     volumes:
-      - .:/pj-api
+      - .:/home/app/src
+      - bundle:/home/app/bundle
     ports:
       - '3000:3000'
     depends_on:

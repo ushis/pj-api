@@ -7,7 +7,6 @@ class Reply
     @user = user
     @record = record
     @message = message
-    @errors = ActiveModel::Errors.new(self)
   end
 
   def comment
@@ -19,8 +18,9 @@ class Reply
   end
 
   def errors
-    @errors.set(:message, comment.errors.get(:comment))
-    @errors
+    ActiveModel::Errors.new(self).tap do |errors|
+      errors.set(:message, comment.errors.get(:comment))
+    end
   end
 
   def read_attribute_for_validation(attr)
