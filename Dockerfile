@@ -12,6 +12,7 @@ WORKDIR /home/app/src
 
 ENV BUNDLE_JOBS=4 \
   BUNDLE_PATH=/home/app/bundle \
+  BUNDLE_BIN=/home/app/bundle/bin \
   BUNDLE_APP_CONFIG=/home/app/bundle/config \
   GEM_PATH=/home/app/bundle:$GEM_PATH \
   PATH=/home/app/bundle/bin:$PATH
