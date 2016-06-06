@@ -23,6 +23,9 @@ ActiveRecord::Schema.define(version: 20160606080444) do
     t.datetime "updated_at"
   end
 
+  add_index "cancelations", ["reservation_id"], name: "index_cancelations_on_reservation_id", using: :btree
+  add_index "cancelations", ["user_id"], name: "index_cancelations_on_user_id", using: :btree
+
   create_table "cars", force: :cascade do |t|
     t.string   "name",                        null: false
     t.integer  "mileage",         default: 0, null: false
