@@ -148,4 +148,17 @@ describe Reservation do
     end
   end
 
+  describe '#cancelled?' do
+    subject { reservation.cancelled? }
+
+    let(:reservation) { create(:reservation) }
+
+    it { is_expected.to be false }
+
+    context 'with a cancelation' do
+      before { create(:cancelation, reservation: reservation) }
+
+      it { is_expected.to be true }
+    end
+  end
 end
