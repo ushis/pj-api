@@ -19,7 +19,8 @@ Rails.application.routes.draw do
       end
 
       resources :reservations, only: [:index, :show, :create, :update, :destroy] do
-        resources :comments, only: [:index, :show, :create, :update, :destroy]
+        resource  :cancelation, only: [:show, :create, :destroy]
+        resources :comments,    only: [:index, :show, :create, :update, :destroy]
       end
     end
   end

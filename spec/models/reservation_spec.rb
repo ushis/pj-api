@@ -5,6 +5,8 @@ describe Reservation do
     it { is_expected.to belong_to(:user).inverse_of(:reservations) }
     it { is_expected.to belong_to(:car).inverse_of(:reservations) }
 
+    it { is_expected.to have_one(:cancelation).inverse_of(:reservation).dependent(:destroy) }
+
     it { is_expected.to have_many(:comments).dependent(:destroy).counter_cache(:comments_count) }
     it { is_expected.to have_many(:commenters).through(:comments).source(:user) }
   end
@@ -146,4 +148,17 @@ describe Reservation do
     end
   end
 
+  describe '#cancelled?' do
+    subject { reservation.cancelled? }
+
+    let(:reservation) { create(:reservation) }
+
+    it { is_expected.to be false }
+
+    context 'with a cancelation' do
+      before { create(:cancelation, reservation: reservation) }
+
+      it { is_expected.to be true }
+    end
+  end
 end

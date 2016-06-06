@@ -6,5 +6,5 @@ class ReservationSerializer < ApplicationSerializer
     :created_at,
     :updated_at
 
-  has_one :user
+  has_one :user, :cancelation
 end
