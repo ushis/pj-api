@@ -4,6 +4,8 @@ class Reservation < ActiveRecord::Base
   belongs_to :user, inverse_of: :reservations, required: true
   belongs_to :car,  inverse_of: :reservations, required: true
 
+  has_one :cancelation, inverse_of: :reservation, dependent: :destroy
+
   has_many :comments,
     inverse_of: :reservation,
     dependent: :destroy,
@@ -22,6 +24,15 @@ class Reservation < ActiveRecord::Base
 
   scope :before, -> (date) { date.blank? ? all : where('starts_at < ?', date) }
   scope :after, -> (date) { date.blank? ? all : where('ends_at > ?', date) }
+
+  def cancelled?
+    cancelation.present?
+  end
+
+  def cancelation!
+    cancelation || raise(ActiveRecord::RecordNotFound,
+                         "Couldn't find Cancelation for Reservation with 'id'=#{id}")
+  end
 
   private
 

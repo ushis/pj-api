@@ -1,14 +1,16 @@
 require 'rails_helper'
 
-describe ReservationPolicy do
+describe CancelationPolicy do
   it { is_expected.to be_a(ApplicationPolicy) }
 
   describe '#show?' do
-    subject { ReservationPolicy.new(user, record).show? }
+    subject { CancelationPolicy.new(user, record).show? }
 
     let(:user) { create(:user, :with_owned_and_borrowed_cars) }
 
-    let(:record) { create(:reservation, car: car) }
+    let(:record) { create(:cancelation, reservation: reservation) }
+
+    let(:reservation) { create(:reservation, car: car) }
 
     context 'as unrelated user' do
       let(:car) { create(:car) }
@@ -24,31 +26,15 @@ describe ReservationPolicy do
   end
 
   describe '#create?' do
-    subject { ReservationPolicy.new(user, record).create? }
+    subject { CancelationPolicy.new(user, record).create? }
 
     let(:user) { create(:user, :with_owned_and_borrowed_cars) }
 
-    let(:record) { build(:reservation, car: car) }
+    let(:record) { build(:cancelation, reservation: reservation) }
 
-    context 'as unrelated user' do
-      let(:car) { create(:car) }
+    let(:reservation) { create(:reservation, car: car, user: reservator) }
 
-      it { is_expected.to be false }
-    end
-
-    context 'as related user' do
-      let(:car) { user.cars.sample }
-
-      it { is_expected.to be true }
-    end
-  end
-
-  describe '#update?' do
-    subject { ReservationPolicy.new(user, record).update? }
-
-    let(:user) { create(:user, :with_owned_and_borrowed_cars) }
-
-    let(:record) { create(:reservation, car: car) }
+    let(:reservator) { create(:user) }
 
     context 'as unrelated user' do
       let(:car) { create(:car) }
@@ -61,8 +47,8 @@ describe ReservationPolicy do
 
       it { is_expected.to be false }
 
-      context 'who did the reservation' do
-        let(:record) { create(:reservation, car: car, user: user) }
+      context 'who is reservator' do
+        let(:reservator) { user }
 
         it { is_expected.to be true }
       end
@@ -76,11 +62,15 @@ describe ReservationPolicy do
   end
 
   describe '#destroy?' do
-    subject { ReservationPolicy.new(user, record).destroy? }
+    subject { CancelationPolicy.new(user, record).destroy? }
 
     let(:user) { create(:user, :with_owned_and_borrowed_cars) }
 
-    let(:record) { create(:reservation, car: car) }
+    let(:record) { build(:cancelation, reservation: reservation) }
+
+    let(:reservation) { create(:reservation, car: car, user: reservator) }
+
+    let(:reservator) { create(:user) }
 
     context 'as unrelated user' do
       let(:car) { create(:car) }
@@ -93,8 +83,8 @@ describe ReservationPolicy do
 
       it { is_expected.to be false }
 
-      context 'who did the reservation' do
-        let(:record) { create(:reservation, car: car, user: user) }
+      context 'who is reservator' do
+        let(:reservator) { user }
 
         it { is_expected.to be true }
       end
@@ -108,36 +98,36 @@ describe ReservationPolicy do
   end
 
   describe '#accessible_associations' do
-    subject { ReservationPolicy.new(user, record).accessible_associations }
+    subject { CancelationPolicy.new(user, record).accessible_associations }
 
     let(:user) { nil }
 
     let(:record) { nil }
 
-    it { is_expected.to match_array([:user, :cancelation]) }
+    it { is_expected.to match_array([:user]) }
   end
 
   describe '#accessible_attributes' do
-    subject { ReservationPolicy.new(user, record).accessible_attributes }
+    subject { CancelationPolicy.new(user, record).accessible_attributes }
 
     let(:user) { nil }
 
     let(:record) { nil }
 
     let(:attrs) do
-      %i(id starts_at ends_at comments_count created_at updated_at)
+      %i(created_at updated_at)
     end
 
     it { is_expected.to match_array(attrs) }
   end
 
   describe '#permitted_attributes' do
-    subject { ReservationPolicy.new(user, record).permitted_attributes }
+    subject { CancelationPolicy.new(user, record).permitted_attributes }
 
     let(:user) { nil }
 
     let(:record) { nil }
 
-    it { is_expected.to match_array([:starts_at, :ends_at]) }
+    it { is_expected.to eq([]) }
   end
 end

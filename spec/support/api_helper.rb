@@ -85,7 +85,7 @@ module ApiHelper
       started_at: ride.started_at.as_json,
       ended_at: ride.ended_at.as_json,
       comments_count: car.comments_count,
-      user: ride.user.present? ? user_json(ride.user) : nil,
+      user: ride.user.nil? ? nil : user_json(ride.user),
       created_at: ride.created_at.as_json,
       updated_at: ride.updated_at.as_json
     }
@@ -100,10 +100,19 @@ module ApiHelper
       id: reservation.id,
       starts_at: reservation.starts_at.as_json,
       ends_at: reservation.ends_at.as_json,
-      comments_count: car.comments_count,
+      comments_count: reservation.comments_count,
+      cancelation: reservation.cancelation.nil? ? nil : cancelation_json(reservation.cancelation),
       user: user_json(reservation.user),
       created_at: reservation.created_at.as_json,
       updated_at: reservation.updated_at.as_json
+    }
+  end
+
+  def cancelation_json(cancelation)
+    {
+      user: cancelation.user.nil? ? nil : user_json(cancelation.user),
+      created_at: cancelation.created_at.as_json,
+      updated_at: cancelation.updated_at.as_json
     }
   end
 

@@ -10,6 +10,7 @@ class User < ActiveRecord::Base
   has_many :locations,     inverse_of: :user, dependent: :nullify
   has_many :comments,      inverse_of: :user, dependent: :nullify
   has_many :rides,         inverse_of: :user, dependent: :nullify
+  has_many :cancelations,  inverse_of: :user, dependent: :nullify
   has_many :reservations,  inverse_of: :user, dependent: :destroy
   has_many :relationships, inverse_of: :user, dependent: :destroy
   has_many :ownerships,    inverse_of: :user

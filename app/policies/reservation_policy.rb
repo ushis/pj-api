@@ -19,7 +19,7 @@ class ReservationPolicy < ApplicationPolicy
   end
 
   def accessible_associations
-    [:user]
+    [:user, :cancelation]
   end
 
   def accessible_attributes

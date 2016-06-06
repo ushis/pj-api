@@ -5,7 +5,7 @@ class V1::ReservationsController < V1::ApplicationController
   # GET /v1/cars/:car_id/reservations
   def index
     @reservations = @car.reservations
-      .includes(:user)
+      .includes(:user, cancelation: :user)
       .after(datetime_param(:after))
       .before(datetime_param(:before))
       .order_by(params[:order_by], params[:order])
