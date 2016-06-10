@@ -8,8 +8,8 @@ class ReservationCreatedMail < ApplicationMail
     record
   end
 
-  def app_url
-    super("/cars/#{car.id}/reservations/#{reservation.id}/comments")
+  def url
+    app_url("/cars/#{car.id}/reservations/#{reservation.id}/comments")
   end
 
   def subject
@@ -17,21 +17,32 @@ class ReservationCreatedMail < ApplicationMail
   end
 
   def reply_to
-    ReplyAddress.new(recipient, reservation, car.name).to_s
+    reply_address.to_s
   end
 
   def message_id
     MessageID.new(car, reservation).to_s
   end
 
+  def list_id
+    ListID.new(car).to_s
+  end
+
+  def list_archive
+    app_url("/cars/#{car.id}/location")
+  end
+
+  def list_post
+    "<mailto:#{reply_address.address}>"
+  end
+
   def header
-    {
-      to: to,
-      from: from,
-      subject: subject,
+    super.merge({
       reply_to: reply_to,
-      message_id: message_id
-    }
+      'List-ID': list_id,
+      'List-Post': list_post,
+      'List-Archive': list_archive
+    })
   end
 
   def formatted_starts_at
@@ -40,5 +51,11 @@ class ReservationCreatedMail < ApplicationMail
 
   def formatted_ends_at
     format_datetime(reservation.ends_at)
+  end
+
+  private
+
+  def reply_address
+    ReplyAddress.new(recipient, reservation, car.name)
   end
 end

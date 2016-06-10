@@ -74,11 +74,6 @@ Rails.application.configure do
     port: ENV.fetch('SMTP_PORT')
   }
 
-  # Set default FROM header from the environment
-  config.action_mailer.default_options = {
-    from: ENV.fetch('MAIL_FROM')
-  }
-
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
   config.i18n.fallbacks = true

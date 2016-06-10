@@ -8,11 +8,11 @@ class OwnershipCreatedMail < ApplicationMail
     record
   end
 
-  def app_url
+  def url
     if ownership.user == recipient
-      super("/cars/#{car.id}/location")
+      app_url("/cars/#{car.id}/location")
     else
-      super("/cars/#{car.id}/owners")
+      app_url("/cars/#{car.id}/owners")
     end
   end
 
@@ -22,14 +22,5 @@ class OwnershipCreatedMail < ApplicationMail
     else
       "I declared #{ownership.user.username} owner of #{car.name}"
     end
-  end
-
-  def header
-    {
-      to: to,
-      from: from,
-      subject: subject,
-      message_id: message_id
-    }
   end
 end

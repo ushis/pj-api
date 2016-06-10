@@ -31,11 +31,6 @@ Rails.application.configure do
   # ActionMailer::Base.deliveries array.
   config.action_mailer.delivery_method = :test
 
-  # Set Action Mailer options
-  config.action_mailer.default_options = {
-    from: ENV.fetch('MAIL_FROM')
-  }
-
   # Randomize the order test cases are executed.
   config.active_support.test_order = :random
 

@@ -8,8 +8,8 @@ class CarCommentCreatedMail < ApplicationMail
     record
   end
 
-  def app_url
-    super("/cars/#{car.id}/comments")
+  def url
+    app_url("/cars/#{car.id}/comments")
   end
 
   def subject
@@ -17,7 +17,7 @@ class CarCommentCreatedMail < ApplicationMail
   end
 
   def reply_to
-    ReplyAddress.new(recipient, car, car.name).to_s
+    reply_address.to_s
   end
 
   def message_id
@@ -30,15 +30,32 @@ class CarCommentCreatedMail < ApplicationMail
 
   alias :references :in_reply_to
 
+  def list_id
+    ListID.new(car).to_s
+  end
+
+  def list_archive
+    app_url("/cars/#{car.id}/location")
+  end
+
+  def list_post
+    "<mailto:#{reply_address.address}>"
+  end
+
   def header
-    {
-      to: to,
-      from: from,
-      subject: subject,
+    super.merge({
       reply_to: reply_to,
-      message_id: message_id,
       references: references,
-      in_reply_to: in_reply_to
-    }
+      in_reply_to: in_reply_to,
+      'List-ID': list_id,
+      'List-Post': list_post,
+      'List-Archive': list_archive
+    })
+  end
+
+  private
+
+  def reply_address
+    ReplyAddress.new(recipient, car, car.name)
   end
 end

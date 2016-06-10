@@ -335,10 +335,20 @@ describe V1::CommentsController do
 
               let(:sample_from) { sample.header['From'].to_s }
 
+              let(:sample_list_id) { sample.header['List-ID'].to_s }
+
+              let(:sample_list_post) { sample.header['List-Post'].to_s }
+
+              let(:sample_list_archive) { sample.header['List-Archive'].to_s }
+
               let(:expected_from) do
                 Mail::Address.new(ENV['MAIL_FROM']).tap do |address|
                   address.display_name = user.username
                 end.to_s
+              end
+
+              let(:expected_list_id) do
+                "#{car.name} <#{car.name}-#{car.id}.#{Mail::Address.new(ENV['MAIL_FROM']).domain}>"
               end
 
               let(:sample_recipient) do
@@ -382,6 +392,20 @@ describe V1::CommentsController do
 
               it 'sets the correct From header' do
                 expect(sample_from).to eq(expected_from)
+              end
+
+              it 'sets the correct List-ID header' do
+                expect(sample_list_id).to eq(expected_list_id)
+              end
+
+              it 'sets the correct List-Post header' do
+                expect(sample_list_post).to \
+                  eq("<mailto:#{sample_reply_address.address}>")
+              end
+
+              it 'sets the correct List-Archive header' do
+                expect(sample_list_archive).to \
+                  eq("#{ENV['APP_HOST']}/#/cars/#{car.id}/location")
               end
             end
           end
@@ -517,10 +541,20 @@ describe V1::CommentsController do
 
                 let(:sample_from) { sample.header['From'].to_s }
 
+                let(:sample_list_id) { sample.header['List-ID'].to_s }
+
+                let(:sample_list_post) { sample.header['List-Post'].to_s }
+
+                let(:sample_list_archive) { sample.header['List-Archive'].to_s }
+
                 let(:expected_from) do
                   Mail::Address.new(ENV['MAIL_FROM']).tap do |address|
                     address.display_name = user.username
                   end.to_s
+                end
+
+                let(:expected_list_id) do
+                  "#{car.name} <#{car.name}-#{car.id}.#{Mail::Address.new(ENV['MAIL_FROM']).domain}>"
                 end
 
                 let(:sample_recipient) do
@@ -564,6 +598,20 @@ describe V1::CommentsController do
 
                 it 'sets the correct From header' do
                   expect(sample_from).to eq(expected_from)
+                end
+
+                it 'sets the correct List-ID header' do
+                  expect(sample_list_id).to eq(expected_list_id)
+                end
+
+                it 'sets the correct List-Post header' do
+                  expect(sample_list_post).to \
+                    eq("<mailto:#{sample_reply_address.address}>")
+                end
+
+                it 'sets the correct List-Archive header' do
+                  expect(sample_list_archive).to \
+                    eq("#{ENV['APP_HOST']}/#/cars/#{car.id}/location")
                 end
               end
             end
