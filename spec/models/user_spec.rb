@@ -454,12 +454,4 @@ describe User do
       it { is_expected.to be false }
     end
   end
-
-  describe '#email_with_username' do
-    subject { user.email_with_username }
-
-    let(:user) { build(:user) }
-
-    it { is_expected.to eq("#{user.username} <#{user.email}>") }
-  end
 end

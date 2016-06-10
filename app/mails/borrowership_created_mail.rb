@@ -8,11 +8,11 @@ class BorrowershipCreatedMail < ApplicationMail
     record
   end
 
-  def app_url
+  def url
     if borrowership.user == recipient
-      super("/cars/#{car.id}/location")
+      app_url("/cars/#{car.id}/location")
     else
-      super("/cars/#{car.id}/borrowers")
+      app_url("/cars/#{car.id}/borrowers")
     end
   end
 
@@ -22,14 +22,5 @@ class BorrowershipCreatedMail < ApplicationMail
     else
       "I added #{borrowership.user.username} to #{car.name}"
     end
-  end
-
-  def header
-    {
-      to: to,
-      from: from,
-      subject: subject,
-      message_id: message_id
-    }
   end
 end

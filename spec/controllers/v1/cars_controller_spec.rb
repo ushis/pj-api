@@ -283,37 +283,6 @@ describe V1::CarsController do
         it 'destroys the car' do
           expect { car.reload }.to raise_error(ActiveRecord::RecordNotFound)
         end
-
-        describe 'emails' do
-          let(:car) { create(:car, owners: [user] + owners, borrowers: borrowers) }
-
-          let(:owners) { build_list(:user, 2) }
-
-          let(:borrowers) { build_list(:user, 2) }
-
-          subject { ActionMailer::Base.deliveries }
-
-          let(:from) do
-            Mail::Address.new(ENV['MAIL_FROM']).tap do |address|
-              address.display_name = user.username
-            end.to_s
-          end
-
-          its(:length) { is_expected.to eq(4) }
-
-          it 'sends an email to related users' do
-            expect(subject.map(&:to).flatten).to \
-              match_array((owners + borrowers).map(&:email))
-          end
-
-          it 'sets the correct car name' do
-            expect(subject.first.subject).to include(car.name)
-          end
-
-          it 'sets the correct From header' do
-            expect(subject.first.header['From'].to_s).to eq(from)
-          end
-        end
       end
     end
   end

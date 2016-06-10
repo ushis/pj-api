@@ -1,4 +1,4 @@
-class RideCommentCreatedMail < ApplicationMail
+class RideCommentCreatedMail < RideCreatedMail
 
   def car
     ride.car
@@ -12,16 +12,8 @@ class RideCommentCreatedMail < ApplicationMail
     record
   end
 
-  def app_url
-    original_mail.app_url
-  end
-
   def subject
-    "Re: #{original_mail.subject}"
-  end
-
-  def reply_to
-    original_mail.reply_to
+    "Re: #{super}"
   end
 
   def message_id
@@ -29,26 +21,15 @@ class RideCommentCreatedMail < ApplicationMail
   end
 
   def in_reply_to
-    original_mail.message_id
+    RideCreatedMail.new(recipient, sender, ride).message_id
   end
 
   alias :references :in_reply_to
 
   def header
-    {
-      to: to,
-      from: from,
-      subject: subject,
-      reply_to: reply_to,
-      message_id: message_id,
+    super.merge({
       references: references,
       in_reply_to: in_reply_to
-    }
-  end
-
-  private
-
-  def original_mail
-    @original_mail ||= RideCreatedMail.new(recipient, ride.user, ride)
+    })
   end
 end

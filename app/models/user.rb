@@ -72,9 +72,4 @@ class User < ActiveRecord::Base
   def borrows?(car)
     borrowed_cars.include?(car)
   end
-
-  # Returns the users email with username suitable for email headers
-  def email_with_username
-    Mail::Address.new(email).tap { |addr| addr.display_name = username }.to_s
-  end
 end

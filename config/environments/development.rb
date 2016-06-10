@@ -48,9 +48,4 @@ Rails.application.configure do
     address: ENV['SMTP_HOST'],
     port: ENV['SMTP_PORT']
   }
-
-  # Set default from address
-  config.action_mailer.default_options = {
-    from: ENV.fetch('MAIL_FROM')
-  }
 end

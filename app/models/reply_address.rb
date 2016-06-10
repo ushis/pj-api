@@ -18,10 +18,20 @@ class ReplyAddress
     @name = name
   end
 
+  def address
+    tagged_address.address
+  end
+
   def to_s
+    tagged_address.to_s
+  end
+
+  private
+
+  def tagged_address
     TaggedAddress.new(ENV.fetch('MAIL_REPLY')).tap do |address|
       address.tag = GIDTag.new.encode(user, record)
       address.display_name = name
-    end.to_s
+    end
   end
 end
