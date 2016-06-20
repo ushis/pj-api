@@ -8,18 +8,29 @@ dependencies:
     - docker info
     - docker build -t ushi/pj-api .
     - docker run -d --name postgres -e POSTGRES_PASSWORD=secret -e POSTGRES_DB=test postgres:9.5
+    - docker run -d --name influx -p 8086:8086 influxdb
 
 database:
   override:
-    - /bin/true
+    # docker exec is not supported by circleci...
+    # docker exec influx influx -execute 'create database test'
+    - curl localhost:8086/query -d'q=create database test'
 
 test:
   pre:
     - env | grep -P '^(CIRCLE|CI|COVERALLS)' > circle.env
-    - echo 'MAIL_REPLY=pj <pj@reply.localhost.local>' >> circle.env
-    - echo 'MAIL_FROM=pj <noreply@localhost.local>' >> circle.env
+    - |
+      cat >> circle.env <<EOF
+      MAIL_REPLY=pj <pj@reply.localhost.local>
+      MAIL_FROM=pj <noreply@localhost.local>
+      DATABASE_URL=postgres://postgres:secret@postgres/test
+      INFLUXDB_DB=test
+      INFLUXDB_HOST=influx
+      INFLUXDB_USER=root
+      INFLUXDB_PASSWORD=secret
+      EOF
   override:
-    - docker run --link postgres --env-file circle.env -e DATABASE_URL=postgres://postgres:secret@postgres/test ushi/pj-api bundle exec rake
+    - docker run --link postgres --link influx --env-file circle.env ushi/pj-api bundle exec rake
     - docker run ushi/pj-api bundle exec brakeman -q -z
 
 deployment:
