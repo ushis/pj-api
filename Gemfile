@@ -11,6 +11,7 @@ gem 'kaminari'
 gem 'sucker_punch', '~> 1.6.0'
 gem 'puma'
 gem 'airbrake'
+gem 'influxdb'
 
 group :development do
   gem 'brakeman', require: false
