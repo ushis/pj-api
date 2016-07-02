@@ -1,8 +1,8 @@
 class Relationship < ActiveRecord::Base
   include OrderBy
 
-  belongs_to :user, inverse_of: :relationships, required: true
-  belongs_to :car,  inverse_of: :relationships, required: true
+  belongs_to :user, inverse_of: :relationships
+  belongs_to :car,  inverse_of: :relationships
 
   validates :user_id, uniqueness: {scope: :car_id}
 

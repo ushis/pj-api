@@ -6,7 +6,7 @@ describe V1::OwnershipsController do
 
     before { set_auth_header(token) }
 
-    before { get :index, car_id: car_id }
+    before { get :index, params: {car_id: car_id} }
 
     let(:car_id) { car.id }
 
@@ -60,7 +60,7 @@ describe V1::OwnershipsController do
   describe 'GET #show' do
     before { set_auth_header(token) }
 
-    before { get :show, car_id: car_id, id: id }
+    before { get :show, params: {car_id: car_id, id: id} }
 
     let(:car_id) { car.id }
 
@@ -112,7 +112,7 @@ describe V1::OwnershipsController do
   describe 'POST #create' do
     before { set_auth_header(token) }
 
-    before { post :create, params.merge(car_id: car_id) }
+    before { post :create, params: params.merge(car_id: car_id) }
 
     let(:car_id) { car.id }
 
@@ -265,7 +265,7 @@ describe V1::OwnershipsController do
   describe 'DELETE #destroy' do
     before { set_auth_header(token) }
 
-    before { delete :destroy, car_id: car_id, id: id }
+    before { delete :destroy, params: {car_id: car_id, id: id} }
 
     let(:car_id) { car.id }
 

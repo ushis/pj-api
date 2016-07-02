@@ -1,8 +1,8 @@
 class Ride < ActiveRecord::Base
   include OrderBy
 
-  belongs_to :user, inverse_of: :rides
-  belongs_to :car,  inverse_of: :rides, counter_cache: true, required: true
+  belongs_to :user, inverse_of: :rides, optional: true
+  belongs_to :car,  inverse_of: :rides, counter_cache: true
 
   has_many :comments,
     inverse_of: :ride,

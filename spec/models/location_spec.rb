@@ -7,7 +7,8 @@ describe Location do
   end
 
   describe 'validations' do
-    it { is_expected.to validate_presence_of(:car) }
+    it { is_expected.to_not validate_presence_of(:user).with_message('must exist') }
+    it { is_expected.to validate_presence_of(:car).with_message('must exist') }
     it { is_expected.to validate_presence_of(:latitude) }
     it { is_expected.to validate_presence_of(:longitude) }
 

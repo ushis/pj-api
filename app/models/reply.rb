@@ -19,7 +19,7 @@ class Reply
 
   def errors
     ActiveModel::Errors.new(self).tap do |errors|
-      errors.set(:message, comment.errors.get(:comment))
+      errors.add(:message, comment.errors[:comment])
     end
   end
 

@@ -4,7 +4,7 @@ describe V1::LocationsController do
   describe 'GET #show' do
     before { set_auth_header(token) }
 
-    let(:send_request) { get :show, car_id: id }
+    let(:send_request) { get :show, params: {car_id: id} }
 
     let(:id) { car.id }
 
@@ -69,7 +69,7 @@ describe V1::LocationsController do
 
       before { set_auth_header(token) }
 
-      before { send method, action, params.merge(car_id: id) }
+      before { send method, action, params: params.merge(car_id: id) }
 
       let(:id) { car.id }
 
@@ -222,7 +222,7 @@ describe V1::LocationsController do
   describe 'DELETE #destroy' do
     before { set_auth_header(token) }
 
-    let(:send_request) { delete :destroy, car_id: id }
+    let(:send_request) { delete :destroy, params: {car_id: id} }
 
     let(:id) { car.id }
 
