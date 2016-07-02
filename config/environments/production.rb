@@ -35,13 +35,10 @@ Rails.application.configure do
   config.log_level = :debug
 
   # Prepend all log lines with the following tags.
-  config.log_tags = [
-    -> (_) { Process.pid },
-    -> (req) { req.uuid[-12,12] }
-  ]
+  config.log_tags = [ -> (req) { req.uuid[-12,12] } ]
 
   # Log to stdout
-  config.logger = ActiveSupport::TaggedLogging.new(Logger.new(STDOUT))
+  config.logger = ActiveSupport::TaggedLogging.new(ActiveSupport::Logger.new(STDOUT))
 
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
