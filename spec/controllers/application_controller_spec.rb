@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe ApplicationController do
   describe 'OPTIONS #options' do
-    before { process(:options, 'OPTIONS', path: '/') }
+    before { process(:options, method: :options, params: {path: '/'}) }
 
     it { is_expected.to respond_with(:no_content) }
 

@@ -30,7 +30,7 @@ describe V1::CarsController do
   describe 'GET #show' do
     before { set_auth_header(token) }
 
-    before { get :show, id: id }
+    before { get :show, params: {id: id} }
 
     let(:id) { car.id }
 
@@ -82,7 +82,7 @@ describe V1::CarsController do
   describe 'POST #create' do
     before { set_auth_header(token) }
 
-    before { post :create, params }
+    before { post :create, params: params }
 
     context 'as anonymous user' do
       let(:token) { nil }
@@ -150,7 +150,7 @@ describe V1::CarsController do
   describe 'PATCH #update' do
     before { set_auth_header(token) }
 
-    before { patch :update, params.merge(id: id) }
+    before { patch :update, params: params.merge(id: id) }
 
     let(:id) { car.id }
 
@@ -242,7 +242,7 @@ describe V1::CarsController do
   describe 'DELETE #destroy' do
     before { set_auth_header(token) }
 
-    before { delete :destroy, id: id }
+    before { delete :destroy, params: {id: id} }
 
     let(:id) { car.id }
 

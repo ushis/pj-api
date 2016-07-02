@@ -10,7 +10,8 @@ describe Ride do
   end
 
   describe 'validations' do
-    it { is_expected.to validate_presence_of(:car) }
+    it { is_expected.to_not validate_presence_of(:user).with_message('must exist') }
+    it { is_expected.to validate_presence_of(:car).with_message('must exist') }
     it { is_expected.to validate_presence_of(:distance) }
     it { is_expected.to validate_presence_of(:started_at) }
     it { is_expected.to validate_presence_of(:ended_at) }

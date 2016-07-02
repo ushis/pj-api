@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe V1::RepliesController do
   describe 'POST #create' do
-    before { post :create, params }
+    before { post :create, params: params }
 
     let(:params) do
       {

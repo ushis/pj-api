@@ -26,7 +26,7 @@ describe V1::ProfilesController do
   end
 
   describe 'POST #create' do
-    before { post :create, params }
+    before { post :create, params: params }
 
     context 'without params' do
       let(:params) { {} }
@@ -208,7 +208,7 @@ describe V1::ProfilesController do
   describe 'PATCH #update' do
     before { set_auth_header(token) }
 
-    before { patch :update, params }
+    before { patch :update, params: params }
 
     let(:user) { create(:user) }
 
@@ -365,7 +365,7 @@ describe V1::ProfilesController do
   describe 'DELETE #destroy' do
     before { set_auth_header(token) }
 
-    before { delete :destroy, params }
+    before { delete :destroy, params: params }
 
     let(:user) { create(:user) }
 

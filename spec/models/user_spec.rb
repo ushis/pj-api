@@ -216,7 +216,7 @@ describe User do
 
       its(:ttl) { is_expected.to eq(1.week) }
 
-      its(:inspect) { is_expected.to eq('Token (scope: :access, ttl: 7 days)') }
+      its(:inspect) { is_expected.to eq('Token (scope: :access, ttl: 1 week)') }
     end
 
     context 'password_reset' do
@@ -224,7 +224,7 @@ describe User do
 
       its(:ttl) { is_expected.to eq(10.minutes) }
 
-      its(:inspect) { is_expected.to eq('Token (scope: :password_reset, ttl: 600 seconds)') }
+      its(:inspect) { is_expected.to eq('Token (scope: :password_reset, ttl: 10 minutes)') }
     end
   end
 

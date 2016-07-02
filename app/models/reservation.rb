@@ -1,8 +1,8 @@
 class Reservation < ActiveRecord::Base
   include OrderBy
 
-  belongs_to :user, inverse_of: :reservations, required: true
-  belongs_to :car,  inverse_of: :reservations, required: true
+  belongs_to :user, inverse_of: :reservations
+  belongs_to :car,  inverse_of: :reservations
 
   has_one :cancelation, inverse_of: :reservation, dependent: :destroy
 

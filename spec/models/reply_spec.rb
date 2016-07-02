@@ -70,7 +70,7 @@ describe Reply do
       it { is_expected.to be_present }
 
       it 'includes an error message' do
-        expect(subject.get(:message)).to be_present
+        expect(subject[:message]).to be_present
       end
     end
   end

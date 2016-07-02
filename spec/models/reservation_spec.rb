@@ -12,8 +12,8 @@ describe Reservation do
   end
 
   describe 'validations' do
-    it { is_expected.to validate_presence_of(:user) }
-    it { is_expected.to validate_presence_of(:car) }
+    it { is_expected.to validate_presence_of(:user).with_message('must exist') }
+    it { is_expected.to validate_presence_of(:car).with_message('must exist') }
     it { is_expected.to validate_presence_of(:starts_at) }
     it { is_expected.to validate_presence_of(:ends_at) }
 

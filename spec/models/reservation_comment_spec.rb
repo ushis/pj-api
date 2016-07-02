@@ -8,7 +8,8 @@ describe ReservationComment do
 
   describe 'validations' do
     it { is_expected.to validate_presence_of(:user).on(:create) }
-    it { is_expected.to validate_presence_of(:reservation) }
+    it { is_expected.to_not validate_presence_of(:user).on(:update) }
+    it { is_expected.to validate_presence_of(:reservation).with_message('must exist') }
     it { is_expected.to validate_presence_of(:comment) }
   end
 

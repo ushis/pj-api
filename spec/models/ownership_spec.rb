@@ -7,8 +7,8 @@ describe Ownership do
   end
 
   describe 'validations' do
-    it { is_expected.to validate_presence_of(:user) }
-    it { is_expected.to validate_presence_of(:car) }
+    it { is_expected.to validate_presence_of(:user).with_message('must exist') }
+    it { is_expected.to validate_presence_of(:car).with_message('must exist') }
 
     describe 'uniqueness validations' do
       before { create(:ownership) }

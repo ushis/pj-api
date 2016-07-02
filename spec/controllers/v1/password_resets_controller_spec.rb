@@ -4,7 +4,7 @@ describe V1::PasswordResetsController do
   describe 'POST #create' do
     let!(:user) { create(:user) }
 
-    before { post :create, params }
+    before { post :create, params: params }
 
     context 'without params' do
       let(:params) { {} }
@@ -60,7 +60,7 @@ describe V1::PasswordResetsController do
 
     before { set_auth_header(token) }
 
-    before { patch :update, params }
+    before { patch :update, params: params }
 
     context 'as anonymous user' do
       let(:token) { nil }

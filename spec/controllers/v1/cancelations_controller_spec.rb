@@ -4,7 +4,7 @@ describe V1::CancelationsController do
   describe 'GET #show' do
     before { set_auth_header(token) }
 
-    before { get :show, car_id: car_id, reservation_id: reservation_id }
+    before { get :show, params: {car_id: car_id, reservation_id: reservation_id} }
 
     let(:car_id) { car.id }
 
@@ -70,7 +70,7 @@ describe V1::CancelationsController do
   describe 'POST #create' do
     before { set_auth_header(token) }
 
-    before { post :create, car_id: car_id, reservation_id: reservation_id }
+    before { post :create, params: {car_id: car_id, reservation_id: reservation_id} }
 
     let(:car_id) { car.id }
 
@@ -80,7 +80,7 @@ describe V1::CancelationsController do
 
     let(:reservation) { create(:reservation, car: car) }
 
-    let(:cancelation) { reservation.cancelation(true) }
+    let(:cancelation) { reservation.reload.cancelation }
 
     context 'as anonymous user' do
       let(:token) { nil }
@@ -146,7 +146,7 @@ describe V1::CancelationsController do
   describe 'DELETE #destroy' do
     before { set_auth_header(token) }
 
-    before { delete :destroy, car_id: car_id, reservation_id: reservation_id }
+    before { delete :destroy, params: {car_id: car_id, reservation_id: reservation_id} }
 
     let(:car_id) { car.id }
 

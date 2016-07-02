@@ -4,7 +4,7 @@ describe V1::SessionsController do
   describe 'POST #create' do
     let!(:user) { create(:user) }
 
-    before { post :create, params }
+    before { post :create, params: params }
 
     context 'without params' do
       let(:params) { {} }

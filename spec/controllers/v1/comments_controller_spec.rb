@@ -7,7 +7,7 @@ describe V1::CommentsController do
     context 'with car id only' do
       let!(:comments) { create_list(:car_comment, 2, car: car) }
 
-      before { get :index, car_id: car_id }
+      before { get :index, params: {car_id: car_id} }
 
       let(:car_id) { car.id }
 
@@ -52,7 +52,7 @@ describe V1::CommentsController do
           create_list("#{parent_type}_comment", 2, parent_type => parent)
         end
 
-        before { get :index, car_id: car_id, "#{parent_type}_id" => parent_id }
+        before { get :index, params: {car_id: car_id, "#{parent_type}_id" => parent_id} }
 
         let(:car_id) { car.id }
 
@@ -107,7 +107,7 @@ describe V1::CommentsController do
     before { set_auth_header(token) }
 
     context 'with car id only' do
-      before { get :show, car_id: car_id, id: id }
+      before { get :show, params: {car_id: car_id, id: id} }
 
       let(:car_id) { car.id }
 
@@ -159,7 +159,7 @@ describe V1::CommentsController do
     [:reservation, :ride].each do |parent_type|
       context "with #{parent_type} id" do
         before do
-          get :show, car_id: car_id, "#{parent_type}_id" => parent_id, id: id
+          get :show, params: {car_id: car_id, "#{parent_type}_id" => parent_id, id: id}
         end
 
         let(:car_id) { car.id }
@@ -219,7 +219,7 @@ describe V1::CommentsController do
     before { set_auth_header(token) }
 
     context 'with car id only' do
-      before { post :create, params.merge(car_id: car_id) }
+      before { post :create, params: params.merge(car_id: car_id) }
 
       let(:car_id) { car.id }
 
@@ -416,7 +416,7 @@ describe V1::CommentsController do
     [:reservation, :ride].each do |parent_type|
       context "with #{parent_type} id" do
         before do
-          post :create, params.merge(car_id: car_id, "#{parent_type}_id" => parent_id)
+          post :create, params: params.merge(car_id: car_id, "#{parent_type}_id" => parent_id)
         end
 
         let(:car_id) { car.id }
@@ -496,7 +496,7 @@ describe V1::CommentsController do
                 }
               end
 
-              let(:comment) { parent.comments(true).find(json[:comment][:id]) }
+              let(:comment) { parent.reload.comments.find(json[:comment][:id]) }
 
               it { is_expected.to respond_with(:created) }
 
@@ -625,7 +625,7 @@ describe V1::CommentsController do
     before { set_auth_header(token) }
 
     context 'with car id only' do
-      before { patch :update, params.merge(car_id: car_id, id: id) }
+      before { patch :update, params: params.merge(car_id: car_id, id: id) }
 
       let(:car_id) { car.id }
 
@@ -764,7 +764,7 @@ describe V1::CommentsController do
     [:reservation, :ride].each do |parent_type|
       context "with #{parent_type} id" do
         before do
-          patch :update, params.merge({
+          patch :update, params: params.merge({
             car_id: car_id,
             "#{parent_type}_id" => parent_id,
             id: id
@@ -933,7 +933,7 @@ describe V1::CommentsController do
     before { set_auth_header(token) }
 
     context 'with car id only' do
-      before { delete :destroy, car_id: car_id, id: id }
+      before { delete :destroy, params: {car_id: car_id, id: id} }
 
       let(:car_id) { car.id }
 
@@ -1012,7 +1012,7 @@ describe V1::CommentsController do
     [:reservation, :ride].each do |parent_type|
       context "with #{parent_type} id" do
         before do
-          delete :destroy, car_id: car_id, "#{parent_type}_id" => parent_id, id: id
+          delete :destroy, params: {car_id: car_id, "#{parent_type}_id" => parent_id, id: id}
         end
 
         let(:car_id) { car.id }

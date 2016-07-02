@@ -7,6 +7,7 @@ describe Cancelation do
   end
 
   describe 'validations' do
-    it { is_expected.to validate_presence_of(:reservation) }
+    it { is_expected.to validate_presence_of(:reservation).with_message('must exist') }
+    it { is_expected.to_not validate_presence_of(:user).with_message('must_exist') }
   end
 end

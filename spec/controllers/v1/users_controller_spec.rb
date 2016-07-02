@@ -30,7 +30,7 @@ describe V1::UsersController do
   describe 'GET #show' do
     before { set_auth_header(token) }
 
-    before { get :show, id: id }
+    before { get :show, params: {id: id} }
 
     let(:id) { other.id }
 
