@@ -39,4 +39,3 @@ deployment:
     commands:
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push ushi/pj-api
-      - curl -XPOST -u $DEPLOY_USER:$DEPLOY_PASS $DEPLOY_HOOK
