@@ -8,6 +8,7 @@ RUN apk add --no-cache \
   ruby-io-console \
   ruby-json \
   ruby-bigdecimal \
+  git \
   tzdata \
   build-base \
   libxml2-dev \
