@@ -1,0 +1,26 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "cd028e5650471048b249234c19e9fd620f9a6efa955061cc5195cd09b7efdf4c",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/concerns/order_by.rb",
+      "line": 26,
+      "link": "http://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "includes(order_by_attribute_values[attribute.to_s][0]).order(\"#{reflections[order_by_attribute_values[attribute.to_s][0].to_s].table_name}.#{order_by_attribute_values[attribute.to_s][1]} #{normalize_order_direction(direction)}\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "OrderBy::ClassMethods",
+        "method": "order_by"
+      },
+      "user_input": "order_by_attribute_values[attribute.to_s][1]",
+      "confidence": "Weak",
+      "note": "all input comes from the application. no user input is passed to the database."
+    }
+  ],
+  "updated": "2017-03-25 00:40:20 +0000",
+  "brakeman_version": "3.6.1"
+}

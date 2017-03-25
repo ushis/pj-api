@@ -15,7 +15,7 @@ before_script:
 script:
   - docker exec influx influx -execute 'create database test'
   - docker run --link postgres --link influx --env-file .travis.env ushi/pj-api bundle exec rake
-  - docker run ushi/pj-api bundle exec brakeman -q -z
+  - docker run ushi/pj-api bundle exec brakeman -i brakeman.ignore -q -z
 
 before_deploy:
   - docker login -u $DOCKER_USER -p $DOCKER_PASS
