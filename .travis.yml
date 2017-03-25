@@ -1,0 +1,28 @@
+---
+services:
+  - docker
+
+before_install:
+  - docker run -d --name postgres -e POSTGRES_PASSWORD=secret -e POSTGRES_DB=test postgres:9.6
+  - docker run -d --name influx influxdb
+
+install:
+  - docker build -t ushi/pj-api .
+
+before_script:
+  - env | grep -P '^(TRAVIS|CI)' >> .travis.env
+
+script:
+  - docker exec influx influx -execute 'create database test'
+  - docker run --link postgres --link influx --env-file .travis.env ushi/pj-api bundle exec rake
+  - docker run ushi/pj-api bundle exec brakeman -i brakeman.ignore -q -z
+
+before_deploy:
+  - docker login -u $DOCKER_USER -p $DOCKER_PASS
+
+deploy:
+  provider: script
+  skip_cleanup: true
+  script: docker push ushi/pj-api
+  on:
+    branch: master
