@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   match '*path', controller: :application, action: :options, via: :options
 
+  get :health, to: 'health_checks#show'
+
   namespace :v1 do
     resource  :profile,        only: [:show, :create, :update, :destroy]
     resource  :password_reset, only: [:create, :update]

@@ -10,6 +10,7 @@ RUN apk add --no-cache \
   ruby-bigdecimal \
   git \
   tzdata \
+  postgresql \
   build-base \
   libxml2-dev \
   postgresql-dev \

@@ -2,6 +2,7 @@ version: '2'
 
 volumes:
   bundle:
+  postgres:
 
 services:
   api:
@@ -13,15 +14,10 @@ services:
       - '3000:3000'
     depends_on:
       - postgres
-      - influx
     environment:
       - POSTGRES_HOST=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=secret
-      - INFLUXDB_HOST=influx
-      - INFLUXDB_DB=development
-      - INFLUXDB_USER=root
-      - INFLUXDB_PASSWORD=secret
       - SMTP_HOST=maildev
       - SMTP_PORT=25
       - APP_HOST=http://localhost:9000
@@ -31,17 +27,9 @@ services:
   postgres:
     image: postgres:9.5
     volumes:
-      - ~/.docker-volumes/pj-api/postgres:/var/lib/postgresql/data
+      - postgres:/var/lib/postgresql/data
     environment:
       - POSTGRES_PASSWORD=secret
-
-  influx:
-    image: influxdb
-    volumes:
-      - ~/.docker-volumes/pj-api/influx:/var/lib/influxdb
-    ports:
-      - '8083:8083'
-      - '8086:8086'
 
   maildev:
     image: djfarrelly/maildev
