@@ -11,7 +11,6 @@ gem 'mail'
 gem 'sucker_punch'
 gem 'puma', '~> 3.6.2'
 gem 'airbrake'
-gem 'influxdb'
 
 group :development do
   gem 'brakeman', require: false
