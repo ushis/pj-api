@@ -10,7 +10,7 @@ gem 'kaminari'
 gem 'mail'
 gem 'sucker_punch'
 gem 'puma', '~> 3.6.2'
-gem 'airbrake'
+gem 'sentry-raven'
 
 group :development do
   gem 'brakeman', require: false
