@@ -6,6 +6,7 @@ class ApplicationController < ActionController::API
   rescue_from ActiveRecord::RecordNotFound,       with: :not_found
   rescue_from ActionController::ParameterMissing, with: :unprocessable_entity
 
+  before_action :set_raven_context
   before_action :add_cors_headers
   before_action :authenticate
 
@@ -21,6 +22,12 @@ class ApplicationController < ActionController::API
   end
 
   private
+
+  # Gives raven some context
+  def set_raven_context
+    Raven.user_context(id: current_user.try(:id))
+    Raven.extra_context(params: params.to_unsafe_h)
+  end
 
   # Adds CORS headers to the response
   def add_cors_headers
