@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '5.1.1'
+gem 'rails', '5.1.2'
 gem 'pg'
 gem 'bcrypt'
 gem 'active_model_serializers', '~> 0.9.5'
@@ -9,7 +9,7 @@ gem 'jwt'
 gem 'kaminari'
 gem 'mail'
 gem 'sucker_punch'
-gem 'puma', '~> 3.6.2'
+gem 'puma'
 gem 'sentry-raven'
 
 group :development do
