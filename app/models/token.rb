@@ -35,7 +35,7 @@ class Token < Struct.new(:id, :scope, :exp)
 
   # Encodes the token to a string
   def to_s
-    JWT.encode(to_h, self.class.key)
+    JWT.encode(to_h, self.class.key, self.class.algorithm)
   end
 
   private
@@ -44,12 +44,17 @@ class Token < Struct.new(:id, :scope, :exp)
   #
   # Raises JWT::DecodeError on failure
   def self.decode(token)
-    payload, _ = JWT.decode(token, key)
+    payload, _ = JWT.decode(token, key, true, algorithm: algorithm)
     new(payload['id'], payload['scope'], payload['exp'])
   end
 
   # Returns the secret key used to sign/verify the token
   def self.key
     Rails.application.secrets.secret_key_base
+  end
+
+  # Returns the algorithm used to sign/verify the token
+  def self.algorithm
+    'HS256'
   end
 end
