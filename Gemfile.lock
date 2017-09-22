@@ -87,12 +87,12 @@ GEM
     mime-types (3.1)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2016.0521)
-    mini_portile2 (2.2.0)
+    mini_portile2 (2.3.0)
     minitest (5.10.3)
     multipart-post (2.0.0)
     nio4r (2.1.0)
-    nokogiri (1.8.0)
-      mini_portile2 (~> 2.2.0)
+    nokogiri (1.8.1)
+      mini_portile2 (~> 2.3.0)
     pg (0.21.0)
     puma (3.10.0)
     pundit (1.1.0)
@@ -160,7 +160,7 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
-    sucker_punch (2.0.3)
+    sucker_punch (2.0.4)
       concurrent-ruby (~> 1.0.0)
     term-ansicolor (1.6.0)
       tins (~> 1.0)
@@ -196,4 +196,4 @@ DEPENDENCIES
   sucker_punch
 
 BUNDLED WITH
-   1.13.7
+   1.15.0
