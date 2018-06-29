@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '5.1.4'
+gem 'rails', '~> 5.2.0'
 gem 'pg'
 gem 'bcrypt'
 gem 'active_model_serializers', '~> 0.9.5'
@@ -19,7 +19,7 @@ end
 group :test do
   gem 'rspec-rails'
   gem 'rspec-its'
-  gem 'factory_girl_rails'
+  gem 'factory_bot_rails'
   gem 'shoulda-matchers'
   gem 'coveralls', require: false
 end

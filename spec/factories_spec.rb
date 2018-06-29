@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-FactoryGirl.factories.map(&:name).each do |name|
+FactoryBot.factories.map(&:name).each do |name|
   describe "#{name} factory" do
     subject { build(name) }
 

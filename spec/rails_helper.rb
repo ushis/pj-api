@@ -50,8 +50,8 @@ RSpec.configure do |config|
   # https://relishapp.com/rspec/rspec-rails/docs
   config.infer_spec_type_from_file_location!
 
-  # Include FactoryGirl
-  config.include FactoryGirl::Syntax::Methods
+  # Include FactoryBot
+  config.include FactoryBot::Syntax::Methods
 
   # Include ApiHelper
   config.include ApiHelper, type: :controller

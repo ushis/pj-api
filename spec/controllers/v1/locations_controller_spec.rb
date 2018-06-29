@@ -155,8 +155,8 @@ describe V1::LocationsController do
               }
             end
 
-            it 'is a success' do
-              expect(response).to be_success
+            it 'is successful' do
+              expect(response).to be_successful
             end
 
             it 'responds with the location' do
