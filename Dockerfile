@@ -1,19 +1,20 @@
-FROM alpine:3.6
+FROM alpine:3.8
 
 RUN apk add --no-cache \
-  ruby \
-  ruby-dev \
-  ruby-bundler \
-  ruby-irb \
-  ruby-io-console \
-  ruby-json \
-  ruby-bigdecimal \
-  git \
-  tzdata \
-  postgresql \
   build-base \
+  git \
   libxml2-dev \
+  postgresql \
   postgresql-dev \
+  ruby \
+  ruby-bigdecimal \
+  ruby-bundler \
+  ruby-dev \
+  ruby-etc \
+  ruby-io-console \
+  ruby-irb \
+  ruby-json \
+  tzdata \
   xz-dev \
   zlib-dev
 
