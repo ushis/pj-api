@@ -4,7 +4,7 @@ FactoryBot.define do
     email { "#{SecureRandom.uuid}@example.com" }
     password { SecureRandom.uuid }
     password_confirmation { password }
-    time_zone 1
+    time_zone { 1 }
 
     trait :with_owned_cars do
       after(:create) { |user| user.owned_cars = create_list(:car, 2) }
