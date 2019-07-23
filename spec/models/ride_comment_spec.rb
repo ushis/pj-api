@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe RideComment do
   describe 'associations' do
-    it { is_expected.to belong_to(:user) }
+    it { is_expected.to belong_to(:user).without_validating_presence }
     it { is_expected.to belong_to(:ride).inverse_of(:comments).counter_cache(:comments_count) }
   end
 

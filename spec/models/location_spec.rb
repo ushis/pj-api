@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Location do
   describe 'associations' do
-    it { is_expected.to belong_to(:user).inverse_of(:locations) }
+    it { is_expected.to belong_to(:user).inverse_of(:locations).optional }
     it { is_expected.to belong_to(:car).inverse_of(:location) }
   end
 
