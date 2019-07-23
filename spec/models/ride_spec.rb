@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Ride do
   describe 'associations' do
-    it { is_expected.to belong_to(:user).inverse_of(:rides) }
+    it { is_expected.to belong_to(:user).inverse_of(:rides).optional }
     it { is_expected.to belong_to(:car).inverse_of(:rides).counter_cache(true) }
 
     it { is_expected.to have_many(:comments).dependent(:destroy).counter_cache(:comments_count) }

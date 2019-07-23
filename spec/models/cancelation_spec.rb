@@ -3,7 +3,7 @@ require 'rails_helper'
 describe Cancelation do
   describe 'associations' do
     it { is_expected.to belong_to(:reservation).inverse_of(:cancelation) }
-    it { is_expected.to belong_to(:user).inverse_of(:cancelations) }
+    it { is_expected.to belong_to(:user).inverse_of(:cancelations).optional }
   end
 
   describe 'validations' do
