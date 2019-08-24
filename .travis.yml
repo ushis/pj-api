@@ -1,23 +1,27 @@
 ---
+language: generic
+
 services:
   - docker
 
-before_install:
-  - docker run -d --name postgres -e POSTGRES_PASSWORD=secret -e POSTGRES_DB=test postgres:9.6
-
-install:
-  - docker build -t pj-api .
-
 before_script:
   - env | grep -P '^(TRAVIS|CI)' >> .travis.env
+  - npm install -g snyk
+  - snyk auth "${SNYK_API_TOKEN}"
+  - docker run -d --name postgres -e POSTGRES_PASSWORD=secret -e POSTGRES_DB=test postgres:9.6
 
 script:
+  - docker build -t pj-api .
   - docker run --link postgres --env-file .travis.env pj-api bundle exec rake
   - docker run pj-api bundle exec brakeman -i brakeman.ignore -q -z
+  - snyk test --file=Gemfile.lock
+  - snyk test --docker pj-api
 
 before_deploy:
   - if test -n "${TRAVIS_TAG}"; then
-      docker tag pj-api "ushi/pj-api:${TRAVIS_TAG}";
+      docker tag pj-api "ushi/pj-api:${TRAVIS_TAG}" &&
+        snyk monitor --file=Gemfile.lock &&
+        snyk monitor --docker "ushi/pj-api:${TRAVIS_TAG}";
     else
       docker tag pj-api "ushi/pj-api:latest";
     fi
