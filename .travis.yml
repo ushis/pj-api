@@ -14,13 +14,11 @@ script:
   - docker build -t pj-api .
   - docker run --link postgres --env-file .travis.env pj-api bundle exec rake
   - docker run pj-api bundle exec brakeman -i brakeman.ignore -q -z
-  - snyk test --file=Gemfile.lock
   - snyk test --docker pj-api
 
 before_deploy:
   - if test -n "${TRAVIS_TAG}"; then
       docker tag pj-api "ushi/pj-api:${TRAVIS_TAG}" &&
-        snyk monitor --file=Gemfile.lock &&
         snyk monitor --docker "ushi/pj-api:${TRAVIS_TAG}";
     else
       docker tag pj-api "ushi/pj-api:latest";
