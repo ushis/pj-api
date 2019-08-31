@@ -11,17 +11,17 @@ before_script:
   - docker run -d --name postgres -e POSTGRES_PASSWORD=secret -e POSTGRES_DB=test postgres:9.6
 
 script:
-  - docker build -t pj-api .
-  - docker run --link postgres --env-file .travis.env pj-api bundle exec rake
-  - docker run pj-api bundle exec brakeman -i brakeman.ignore -q -z
-  - snyk test --docker pj-api
+  - docker build -t ushi/pj-api .
+  - docker run --link postgres --env-file .travis.env ushi/pj-api bundle exec rake
+  - docker run ushi/pj-api bundle exec brakeman -i brakeman.ignore -q -z
+  - snyk test --docker ushi/pj-api
 
 before_deploy:
   - if test -n "${TRAVIS_TAG}"; then
-      docker tag pj-api "ushi/pj-api:${TRAVIS_TAG}" &&
+      docker tag ushi/pj-api "ushi/pj-api:${TRAVIS_TAG}" &&
         snyk monitor --docker "ushi/pj-api:${TRAVIS_TAG}";
     else
-      docker tag pj-api "ushi/pj-api:latest";
+      docker tag ushi/pj-api "ushi/pj-api:latest";
     fi
   - docker login -u $DOCKER_USER -p $DOCKER_PASS
 
