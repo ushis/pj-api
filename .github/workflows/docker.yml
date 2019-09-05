@@ -1,0 +1,30 @@
+---
+name: Docker
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@master
+      - name: start postgres
+        uses: actions/docker/cli@master
+        with:
+          args: run -d --name postgres -e POSTGRES_PASSWORD=secret -e POSTGRES_DB=test postgres:11.5-alpine
+      - name: build image
+        uses: actions/docker/cli@master
+        with:
+          args: build -t ushi/pj-api .
+      - name: run test suite
+        uses: actions/docker/cli@master
+        with:
+          args: run --link postgres --env-file .travis.env ushi/pj-api bundle exec rake
+      - name: run snyk test
+        env:
+          SNYK_API_TOKEN: ${{ secrets.SNYK_API_TOKEN }}
+        run: |
+          yarn install
+          yarn snyk auth "${SNYK_API_TOKEN}"
+          yarn snyk test --docker ushi/pj-api
