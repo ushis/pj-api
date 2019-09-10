@@ -29,6 +29,9 @@ module PjApi
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
 
+    # Enable MailDeliveryJob
+    config.action_mailer.delivery_job = 'ActionMailer::MailDeliveryJob'
+
     # Use sucker punch for background jobs
     config.active_job.queue_adapter = :sucker_punch
 

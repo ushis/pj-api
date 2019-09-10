@@ -79,4 +79,10 @@ class ApplicationController < ActionController::API
   def access_token
     request.headers['Authorization'].to_s.split.last
   end
+
+  # We should get rid of active model serializers.
+  def namespace_for_serializer
+    namespace = self.class.module_parent
+    namespace == Object ? nil : namespace
+  end
 end
