@@ -5,6 +5,7 @@ RUN apk add --no-cache \
   git \
   libressl2.7-libssl \
   libxml2-dev \
+  linux-headers \
   postgresql \
   postgresql-dev \
   ruby \
