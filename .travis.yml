@@ -6,20 +6,20 @@ services:
 
 before_script:
   - env | grep -P '^(TRAVIS|CI)' >> .travis.env
-  - npm install -g snyk
-  - snyk auth "${SNYK_API_TOKEN}"
   - docker run -d --name postgres -e POSTGRES_PASSWORD=secret -e POSTGRES_DB=test postgres:9.6
 
 script:
   - docker build -t ushi/pj-api .
   - docker run --link postgres --env-file .travis.env ushi/pj-api bundle exec rake
   - docker run ushi/pj-api bundle exec brakeman -i brakeman.ignore -q -z
-  - snyk test --docker ushi/pj-api
+  - yarn install
+  - yarn snyk auth "${SNYK_API_TOKEN}"
+  - yarn snyk test --docker ushi/pj-api
 
 before_deploy:
   - if test -n "${TRAVIS_TAG}"; then
       docker tag ushi/pj-api "ushi/pj-api:${TRAVIS_TAG}" &&
-        snyk monitor --docker "ushi/pj-api:${TRAVIS_TAG}";
+        yarn snyk monitor --docker "ushi/pj-api:${TRAVIS_TAG}";
     else
       docker tag ushi/pj-api "ushi/pj-api:latest";
     fi
