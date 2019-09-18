@@ -1,0 +1,40 @@
+---
+name: build
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:11-alpine
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_DB: test
+          POSTGRES_PASSWORD: secret
+    steps:
+      - name: checkout
+        uses: actions/checkout@master
+      - name: setup ruby
+        uses: actions/setup-ruby@v1
+        with:
+          ruby-version: '2.6'
+      - name: apt-get
+        run: |
+          sudo apt-get update
+          sudo apt-get install libpq-dev
+      - name: bundle
+        run: |
+          gem install bundler
+          bundle install
+      - name: rake
+        env:
+          DATABASE_URL: postgres://postgres:secret@localhost:5432/test
+          MAIL_REPLY: pj <pj@localhost.local>
+          MAIL_FROM: pj <noreply@localhost.local>
+          RAILS_ENV: test
+        run: bundle exec rake
+      - name: brakeman
+        run: bundle exec brakeman -i brakeman.ignore -q -z
