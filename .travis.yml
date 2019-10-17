@@ -11,7 +11,6 @@ before_script:
 script:
   - docker build -t ushi/pj-api .
   - docker run --link postgres --env-file .travis.env ushi/pj-api bundle exec rake
-  - docker run ushi/pj-api bundle exec brakeman -i brakeman.ignore -q -z
   - yarn install
   - yarn snyk auth "${SNYK_API_TOKEN}"
   - yarn snyk test --docker ushi/pj-api

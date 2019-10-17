@@ -36,5 +36,3 @@ jobs:
           MAIL_FROM: pj <noreply@localhost.local>
           RAILS_ENV: test
         run: bundle exec rake
-      - name: brakeman
-        run: bundle exec brakeman -i brakeman.ignore -q -z

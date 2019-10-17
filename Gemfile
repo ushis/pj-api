@@ -12,10 +12,6 @@ gem 'sucker_punch'
 gem 'puma'
 gem 'sentry-raven'
 
-group :development do
-  gem 'brakeman', require: false
-end
-
 group :test do
   gem 'rspec-rails'
   gem 'rspec-its'
