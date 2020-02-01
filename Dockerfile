@@ -1,9 +1,9 @@
-FROM alpine:3.10
+FROM alpine:3.11
 
 RUN apk add --no-cache \
   build-base \
   git \
-  libressl2.7-libssl \
+  libressl3.0-libssl \
   libxml2-dev \
   linux-headers \
   postgresql \
