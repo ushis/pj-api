@@ -1,7 +1,16 @@
 ---
 name: build
 
-on: [push, pull_request]
+on:
+  push:
+    branches: '**'
+  pull_request:
+    types: [opened, reopened, synchronize]
+  release:
+    types: [published]
+
+env:
+  DOCKER_IMAGE: docker.pkg.github.com/ushis/pj-api/pj-api
 
 jobs:
   test:
@@ -45,10 +54,25 @@ jobs:
       - name: checkout
         uses: actions/checkout@master
       - name: build
-        run: docker build -t "docker.pkg.github.com/ushis/pj-api/pj-api:${GITHUB_SHA}" .
+        run: docker build -t "${DOCKER_IMAGE}:${GITHUB_SHA}" .
       - name: push
+        if: github.event_name != 'pull_request'
         run: |
           docker login docker.pkg.github.com -u ushis -p "${GITHUB_TOKEN}"
-          docker push "docker.pkg.github.com/ushis/pj-api/pj-api:${GITHUB_SHA}"
+          docker push "${DOCKER_IMAGE}:${GITHUB_SHA}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  publish:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'release'
+    needs: [test, image]
+    steps:
+      - name: publish
+        run: |
+          docker login docker.pkg.github.com -u ushis -p "${GITHUB_TOKEN}"
+          docker pull "${DOCKER_IMAGE}:${GITHUB_SHA}"
+          docker tag "${DOCKER_IMAGE}:${GITHUB_SHA}" "${DOCKER_IMAGE}:${GITHUB_REF}"
+          docker push "${DOCKER_IMAGE}:${GITHUB_REF}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
