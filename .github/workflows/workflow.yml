@@ -4,7 +4,7 @@ name: build
 on: [push, pull_request]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     services:
       postgres:
@@ -38,3 +38,17 @@ jobs:
           MAIL_REPLY: pj <pj@localhost.local>
           MAIL_FROM: pj <noreply@localhost.local>
           RAILS_ENV: test
+
+  image:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@master
+      - name: build
+        run: docker build -t "docker.pkg.github.com/ushis/pj-api/pj-api:${GITHUB_SHA}" .
+      - name: push
+        run: |
+          docker login docker.pkg.github.com -u ushis -p "${GITHUB_TOKEN}"
+          docker push "docker.pkg.github.com/ushis/pj-api/pj-api:${GITHUB_SHA}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
