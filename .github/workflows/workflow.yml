@@ -1,10 +1,19 @@
 ---
 name: build
 
-on: [push, pull_request]
+on:
+  push:
+    branches: '**'
+  pull_request:
+    types: [opened, reopened, synchronize]
+  release:
+    types: [published]
+
+env:
+  DOCKER_IMAGE: docker.pkg.github.com/ushis/pj-api/pj-api
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     services:
       postgres:
@@ -21,18 +30,49 @@ jobs:
         uses: actions/setup-ruby@v1
         with:
           ruby-version: '2.6'
-      - name: apt-get
-        run: |
-          sudo apt-get update
-          sudo apt-get install libpq-dev
+      - name: bundle cache
+        uses: actions/cache@v1
+        with:
+          path: ~/bundle
+          key: bundle-${{ hashFiles('Gemfile.lock') }}
       - name: bundle
         run: |
           gem install bundler
-          bundle install
+          bundle config path ~/bundle
+          bundle install --jobs 4 --retry 3
       - name: rake
+        run: bundle exec rake
         env:
           DATABASE_URL: postgres://postgres:secret@localhost:5432/test
           MAIL_REPLY: pj <pj@localhost.local>
           MAIL_FROM: pj <noreply@localhost.local>
           RAILS_ENV: test
-        run: bundle exec rake
+
+  image:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@master
+      - name: build
+        run: docker build -t "${DOCKER_IMAGE}:${GITHUB_SHA}" .
+      - name: push
+        if: github.event_name != 'pull_request'
+        run: |
+          docker login docker.pkg.github.com -u ushis -p "${GITHUB_TOKEN}"
+          docker push "${DOCKER_IMAGE}:${GITHUB_SHA}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  publish:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'release'
+    needs: [test, image]
+    steps:
+      - name: publish
+        run: |
+          docker login docker.pkg.github.com -u ushis -p "${GITHUB_TOKEN}"
+          docker pull "${DOCKER_IMAGE}:${GITHUB_SHA}"
+          docker tag "${DOCKER_IMAGE}:${GITHUB_SHA}" "${DOCKER_IMAGE}:${GITHUB_REF##*/}"
+          docker push "${DOCKER_IMAGE}:${GITHUB_REF##*/}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
