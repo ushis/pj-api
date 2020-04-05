@@ -6,13 +6,13 @@ class V1::CancelationsController < V1::ApplicationController
 
   # GET /v1/cars/:car_id/reservations/:reservation_id/cancelation
   def show
-    render json: @cancelation
+    render json: @cancelation, serializer: CancelationSerializer
   end
 
   # POST /v1/cars/:car_id/reservations/:reservation_id/cancelation
   def create
     @cancelation.update!(user: current_user)
-    render json: @cancelation, status: :created
+    render json: @cancelation, serializer: CancelationSerializer, status: :created
   end
 
   # DELETE /v1/cars/:car_id/reservations/:reservation_id/cancelation

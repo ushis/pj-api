@@ -11,12 +11,12 @@ class V1::OwnershipsController < V1::ApplicationController
       .page(params[:page])
       .per(params[:per_page])
 
-    render json: @ownerships, meta: index_meta_data
+    render json: @ownerships, each_serializer: OwnershipSerializer, meta: index_meta_data
   end
 
   # GET /v1/cars/:car_id/ownerships/:id
   def show
-    render json: @ownership
+    render json: @ownership, serializer: OwnershipSerializer
   end
 
   # POST /v1/cars/:car_id/ownerships
@@ -26,7 +26,7 @@ class V1::OwnershipsController < V1::ApplicationController
 
     if @ownership.save
       OwnershipCreatedMailJob.perform_later(@ownership, current_user)
-      render json: @ownership, status: :created
+      render json: @ownership, serializer: OwnershipSerializer, status: :created
     else
       render_error :unprocessable_entity, @ownership.errors
     end

@@ -10,12 +10,12 @@ class V1::CarsController < V1::ApplicationController
       .page(params[:page])
       .per(params[:per_page])
 
-    render json: @cars, meta: index_meta_data
+    render json: @cars, each_serializer: CarSerializer, meta: index_meta_data
   end
 
   # GET /v1/cars/:id
   def show
-    render json: @car
+    render json: @car, serializer: CarSerializer
   end
 
   # POST /v1/cars
@@ -24,7 +24,7 @@ class V1::CarsController < V1::ApplicationController
     authorize @car
 
     if @car.save
-      render json: @car, status: :created
+      render json: @car, serializer: CarSerializer, status: :created
     else
       render_error :unprocessable_entity, @car.errors
     end
@@ -33,7 +33,7 @@ class V1::CarsController < V1::ApplicationController
   # PATCH /v1/cars/:id
   def update
     if @car.update(car_params)
-      render json: @car
+      render json: @car, serializer: CarSerializer
     else
       render_error :unprocessable_entity, @car.errors
     end

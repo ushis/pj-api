@@ -11,12 +11,12 @@ class V1::BorrowershipsController < V1::ApplicationController
       .page(params[:page])
       .per(params[:per_page])
 
-    render json: @borrowerships, meta: index_meta_data
+    render json: @borrowerships, each_serializer: BorrowershipSerializer, meta: index_meta_data
   end
 
   # GET /v1/cars/:car_id/borrowerships/:id
   def show
-    render json: @borrowership
+    render json: @borrowership, serializer: BorrowershipSerializer
   end
 
   # POST /v1/cars/:car_id/borrowerships
@@ -26,7 +26,7 @@ class V1::BorrowershipsController < V1::ApplicationController
 
     if @borrowership.save
       BorrowershipCreatedMailJob.perform_later(@borrowership, current_user)
-      render json: @borrowership, status: :created
+      render json: @borrowership, serializer: BorrowershipSerializer, status: :created
     else
       render_error :unprocessable_entity, @borrowership.errors
     end

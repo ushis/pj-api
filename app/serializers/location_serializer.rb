@@ -1,7 +1,7 @@
 class LocationSerializer < ApplicationSerializer
   attributes :latitude, :longitude, :created_at, :updated_at
 
-  has_one :user
+  has_one :user, serializer: UserSerializer
 
   def latitude
     object.latitude.to_f

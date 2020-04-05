@@ -5,14 +5,14 @@ class V1::LocationsController < V1::ApplicationController
 
   # GET /v1/cars/:car_id/location
   def show
-    render json: @location
+    render json: @location, serializer: LocationSerializer
   end
 
   # POST /v1/cars/:car_id/location
   def create
     if @location.update(location_params.merge(user: current_user))
       LocationUpdatedMailJob.perform_later(@location)
-      render json: @location, status: :created
+      render json: @location, serializer: LocationSerializer, status: :created
     else
       render_error :unprocessable_entity, @location.errors
     end
@@ -22,7 +22,7 @@ class V1::LocationsController < V1::ApplicationController
   def update
     if @location.update(location_params.merge(user: current_user))
       LocationUpdatedMailJob.perform_later(@location)
-      render json: @location
+      render json: @location, serializer: LocationSerializer
     else
       render_error :unprocessable_entity, @location.errors
     end

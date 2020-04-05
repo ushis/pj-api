@@ -13,14 +13,14 @@ class V1::CommentsController < V1::ApplicationController
       .page(params[:page])
       .per(params[:per_page])
 
-    render json: @comments, meta: index_meta_data
+    render json: @comments, each_serializer: CommentSerializer, meta: index_meta_data
   end
 
   # GET /v1/cars/:car_id/comments/:id
   # GET /v1/cars/:car_id/rides/:ride_id/comments/:id
   # GET /v1/cars/:car_id/reservations/:reservation_id/comments/:id
   def show
-    render json: @comment
+    render json: @comment, serializer: CommentSerializer
   end
 
   # POST /v1/cars/:car_id/comments
@@ -32,7 +32,7 @@ class V1::CommentsController < V1::ApplicationController
 
     if @comment.save
       CommentCreatedMailJob.perform_later(@comment)
-      render json: @comment, status: :created
+      render json: @comment, serializer: CommentSerializer, status: :created
     else
       render_error :unprocessable_entity, @comment.errors
     end
@@ -43,7 +43,7 @@ class V1::CommentsController < V1::ApplicationController
   # PATCH /v1/cars/:car_id/reservations/:reservation_id/comments/:id
   def update
     if @comment.update(comment_params)
-      render json: @comment
+      render json: @comment, serializer: CommentSerializer
     else
       render_error :unprocessable_entity, @comment.errors
     end

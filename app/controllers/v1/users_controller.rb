@@ -9,12 +9,12 @@ class V1::UsersController < V1::ApplicationController
       .page(params[:page])
       .per(params[:per_page])
 
-    render json: @users, meta: index_meta_data
+    render json: @users, each_serializer: UserSerializer, meta: index_meta_data
   end
 
   # GET /v1/users/:id
   def show
-    render json: @user
+    render json: @user, serializer: UserSerializer
   end
 
   private

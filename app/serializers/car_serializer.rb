@@ -10,7 +10,7 @@ class CarSerializer < ApplicationSerializer
     :updated_at,
     :current_user
 
-  has_one :location
+  has_one :location, serializer: LocationSerializer
 
   def current_user
     {owner: object.owned_by?(scope)}

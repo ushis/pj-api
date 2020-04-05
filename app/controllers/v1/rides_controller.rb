@@ -12,12 +12,12 @@ class V1::RidesController < V1::ApplicationController
       .page(params[:page])
       .per(params[:per_page])
 
-    render json: @rides, meta: index_meta_data
+    render json: @rides, each_serializer: RideSerializer, meta: index_meta_data
   end
 
   # GET /v1/cars/:car_id/rides/:id
   def show
-    render json: @ride
+    render json: @ride, serializer: RideSerializer
   end
 
   # POST /v1/cars/:car_id/rides
@@ -27,7 +27,7 @@ class V1::RidesController < V1::ApplicationController
 
     if @ride.save
       RideCreatedMailJob.perform_later(@ride)
-      render json: @ride, status: :created
+      render json: @ride, serializer: RideSerializer, status: :created
     else
       render_error :unprocessable_entity, @ride.errors
     end
@@ -36,7 +36,7 @@ class V1::RidesController < V1::ApplicationController
   # PATCH /v1/cars/:car_id/rides/:id
   def update
     if @ride.update(ride_params)
-      render json: @ride
+      render json: @ride, serializer: RideSerializer
     else
       render_error :unprocessable_entity, @ride.errors
     end

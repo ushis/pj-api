@@ -12,12 +12,12 @@ class V1::ReservationsController < V1::ApplicationController
       .page(params[:page])
       .per(params[:per_page])
 
-    render json: @reservations, meta: index_meta_data
+    render json: @reservations, each_serializer: ReservationSerializer, meta: index_meta_data
   end
 
   # PATCH /v1/cars/:car_id/reservations/:id
   def show
-    render json: @reservation
+    render json: @reservation, serializer: ReservationSerializer
   end
 
   # PATCH /v1/cars/:car_id/reservations/:id
@@ -27,7 +27,7 @@ class V1::ReservationsController < V1::ApplicationController
 
     if @reservation.save
       ReservationCreatedMailJob.perform_later(@reservation)
-      render json: @reservation, status: :created
+      render json: @reservation, serializer: ReservationSerializer, status: :created
     else
       render_error :unprocessable_entity, @reservation.errors
     end
@@ -36,7 +36,7 @@ class V1::ReservationsController < V1::ApplicationController
   # PATCH /v1/cars/:car_id/reservations/:id
   def update
     if @reservation.update(reservation_params)
-      render json: @reservation
+      render json: @reservation, serializer: ReservationSerializer
     else
       render_error :unprocessable_entity, @reservation.errors
     end
