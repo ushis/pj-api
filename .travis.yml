@@ -1,4 +1,6 @@
 ---
+os: linux
+dist: bionic
 language: generic
 
 services:
@@ -26,13 +28,13 @@ before_deploy:
 
 deploy:
   - provider: script
-    skip_cleanup: true
+    cleanup: false
     script: docker push "ushi/pj-api:${TRAVIS_TAG}"
     on:
       tags: true
 
   - provider: script
-    skip_cleanup: true
+    cleanup: false
     script: docker push "ushi/pj-api:latest"
     on:
       branch: master
