@@ -114,7 +114,7 @@ GEM
     nokogiri (1.10.9)
       mini_portile2 (~> 2.4.0)
     pg (1.2.3)
-    puma (4.3.3)
+    puma (4.3.4)
       nio4r (~> 2.0)
     pundit (2.1.0)
       activesupport (>= 3.0.0)
