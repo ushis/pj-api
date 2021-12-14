@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '~> 6.0.3'
+gem 'rails', '~> 6.1.4'
 gem 'pg'
 gem 'bcrypt'
 gem 'active_model_serializers', '~> 0.9.5'
